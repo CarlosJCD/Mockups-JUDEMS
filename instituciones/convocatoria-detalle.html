@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="es">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Disciplinas - Prototipo</title>
+        <style>
+            /* Reset básico */
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f8f9fa;
+                color: #333;
+                line-height: 1.4;
+            }
+
+            /* Contenedor principal */
+            .page-container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+
+            /* Breadcrumb */
+            .breadcrumb {
+                margin-bottom: 15px;
+                font-size: 14px;
+                color: #6c757d;
+            }
+
+            .breadcrumb a {
+                color: #4a90e2;
+                text-decoration: none;
+            }
+
+            .breadcrumb a:hover {
+                text-decoration: underline;
+            }
+
+            .breadcrumb span {
+                color: #495057;
+                font-weight: bold;
+            }
+
+            /* Header de página */
+            .page-header {
+                background: white;
+                padding: 25px 30px;
+                border-radius: 8px;
+                border: 1px solid #dee2e6;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            }
+
+            .page-header h1 {
+                font-size: 24px;
+                font-weight: bold;
+                color: #2c3e50;
+                margin-bottom: 5px;
+            }
+
+            .page-header p {
+                color: #6c757d;
+                font-size: 16px;
+                margin: 0;
+            }
+
+            /* Grid de disciplinas */
+            .disciplinas-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+                gap: 20px;
+                margin-bottom: 30px;
+            }
+
+            .disciplina-card {
+                background: white;
+                border: 1px solid #dee2e6;
+                border-radius: 8px;
+                padding: 25px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+                transition: all 0.2s;
+                position: relative;
+            }
+
+            .disciplina-card:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                border-color: #4a90e2;
+            }
+
+            /* Header de tarjeta */
+            .card-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                margin-bottom: 20px;
+                padding-bottom: 15px;
+                border-bottom: 1px solid #e9ecef;
+            }
+
+            .card-header h3 {
+                font-size: 18px;
+                font-weight: bold;
+                color: #2c3e50;
+                margin-right: 15px;
+                flex: 1;
+            }
+
+            .cupo-badge {
+                padding: 6px 12px;
+                border-radius: 20px;
+                font-size: 12px;
+                font-weight: bold;
+                white-space: nowrap;
+            }
+
+            .cupo-badge.high {
+                background: #d4edda;
+                color: #155724;
+                border: 1px solid #c3e6cb;
+            }
+
+            .cupo-badge.medium {
+                background: #fff3cd;
+                color: #856404;
+                border: 1px solid #ffeaa7;
+            }
+
+            .cupo-badge.low {
+                background: #f8d7da;
+                color: #721c24;
+                border: 1px solid #f1b0b7;
+            }
+
+            .cupo-badge.full {
+                background: #6c757d;
+                color: white;
+                border: 1px solid #545b62;
+            }
+
+            /* Contenido de tarjeta */
+            .card-content {
+                margin-bottom: 20px;
+            }
+
+            .card-content p {
+                margin-bottom: 10px;
+                font-size: 14px;
+                color: #495057;
+            }
+
+            .card-content strong {
+                color: #2c3e50;
+            }
+
+            /* Etiquetas de información */
+            .info-tags {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                margin-top: 15px;
+            }
+
+            .info-tag {
+                background: #e9ecef;
+                color: #495057;
+                padding: 4px 8px;
+                border-radius: 12px;
+                font-size: 11px;
+                font-weight: bold;
+            }
+
+            .info-tag.rama {
+                background: #d1ecf1;
+                color: #0c5460;
+            }
+
+            .info-tag.tipo {
+                background: #d4edda;
+                color: #155724;
+            }
+
+            /* Acciones de tarjeta */
+            .card-actions {
+                display: flex;
+                gap: 10px;
+                padding-top: 15px;
+                border-top: 1px solid #e9ecef;
+            }
+
+            .btn-primary {
+                background: #4a90e2;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 14px;
+                font-weight: bold;
+                transition: background-color 0.2s;
+                flex: 1;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+            }
+
+            .btn-primary:hover {
+                background: #357abd;
+                color: white;
+                text-decoration: none;
+            }
+
+            .btn-secondary {
+                background: #6c757d;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 14px;
+                font-weight: bold;
+                transition: background-color 0.2s;
+                flex: 1;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+            }
+
+            .btn-secondary:hover {
+                background: #545b62;
+                color: white;
+                text-decoration: none;
+            }
+
+            .btn-primary:disabled,
+            .btn-secondary:disabled {
+                background: #ced4da;
+                color: #6c757d;
+                cursor: not-allowed;
+            }
+
+            /* Indicador de subcategorías */
+            .subcategorias-indicator {
+                position: absolute;
+                top: 15px;
+                right: 15px;
+                background: #4a90e2;
+                color: white;
+                border-radius: 50%;
+                width: 24px;
+                height: 24px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 12px;
+                font-weight: bold;
+            }
+
+            /* Estados de disciplina */
+            .disciplina-disabled {
+                opacity: 0.6;
+                background: #f8f9fa;
+            }
+
+            .disciplina-disabled:hover {
+                transform: none;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+                border-color: #dee2e6;
+            }
+
+            /* Filtros y búsqueda */
+            .filters-section {
+                background: white;
+                padding: 20px;
+                border: 1px solid #dee2e6;
+                border-radius: 8px;
+                margin-bottom: 20px;
+            }
+
+            .filter-group {
+                display: flex;
+                gap: 15px;
+                flex-wrap: wrap;
+                align-items: end;
+            }
+
+            .filter-item {
+                flex: 1;
+                min-width: 200px;
+            }
+
+            .filter-item label {
+                display: block;
+                font-size: 14px;
+                font-weight: bold;
+                color: #495057;
+                margin-bottom: 5px;
+            }
+
+            .filter-item select {
+                width: 100%;
+                padding: 8px 12px;
+                border: 1px solid #ced4da;
+                border-radius: 4px;
+                font-size: 14px;
+            }
+
+            .search-box {
+                display: flex;
+                background: white;
+                border: 1px solid #dee2e6;
+                border-radius: 6px;
+                overflow: hidden;
+                min-width: 300px;
+            }
+
+            .search-box input {
+                flex: 1;
+                padding: 10px 15px;
+                border: none;
+                outline: none;
+                font-size: 14px;
+            }
+
+            .search-box button {
+                background: #f8f9fa;
+                border: none;
+                padding: 10px 15px;
+                cursor: pointer;
+                border-left: 1px solid #dee2e6;
+                transition: background-color 0.2s;
+            }
+
+            .search-box button:hover {
+                background: #e9ecef;
+            }
+
+            /* Información de convocatoria */
+            .convocatoria-info {
+                background: #e7f3ff;
+                border: 1px solid #b3d7ff;
+                border-radius: 8px;
+                padding: 20px;
+                margin-bottom: 25px;
+            }
+
+            .convocatoria-info h4 {
+                color: #2c3e50;
+                margin-bottom: 10px;
+                font-size: 16px;
+            }
+
+            .info-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 15px;
+            }
+
+            .info-item {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .info-label {
+                font-size: 12px;
+                color: #6c757d;
+                font-weight: bold;
+                margin-bottom: 4px;
+            }
+
+            .info-value {
+                font-size: 14px;
+                color: #2c3e50;
+                font-weight: bold;
+            }
+
+            /* Estados vacíos */
+            .empty-state {
+                text-align: center;
+                padding: 60px 20px;
+                background: white;
+                border: 2px dashed #dee2e6;
+                border-radius: 8px;
+                color: #6c757d;
+                grid-column: 1 / -1;
+            }
+
+            .empty-state .icon {
+                font-size: 48px;
+                margin-bottom: 20px;
+                opacity: 0.5;
+            }
+
+            .empty-state h3 {
+                font-size: 18px;
+                margin-bottom: 10px;
+                color: #495057;
+            }
+
+            .empty-state p {
+                font-size: 14px;
+                margin-bottom: 20px;
+            }
+
+            /* Responsive */
+            @media (max-width: 768px) {
+                .page-container {
+                    padding: 15px;
+                }
+
+                .page-header {
+                    padding: 20px;
+                }
+
+                .disciplinas-grid {
+                    grid-template-columns: 1fr;
+                    gap: 15px;
+                }
+
+                .disciplina-card {
+                    padding: 20px;
+                }
+
+                .card-header {
+                    flex-direction: column;
+                    gap: 10px;
+                }
+
+                .card-actions {
+                    flex-direction: column;
+                }
+
+                .filter-group {
+                    flex-direction: column;
+                }
+
+                .filter-item {
+                    min-width: auto;
+                }
+
+                .search-box {
+                    min-width: auto;
+                }
+
+                .info-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            @media (max-width: 480px) {
+                .page-header h1 {
+                    font-size: 20px;
+                }
+
+                .disciplina-card {
+                    padding: 15px;
+                }
+
+                .breadcrumb {
+                    font-size: 12px;
+                }
+            }
+
+            /* Indicadores visuales */
+            .cupo-indicator {
+                height: 4px;
+                background: #e9ecef;
+                border-radius: 2px;
+                margin-top: 8px;
+                overflow: hidden;
+            }
+
+            .cupo-fill {
+                height: 100%;
+                border-radius: 2px;
+                transition: width 0.3s ease;
+            }
+
+            .cupo-fill.high {
+                background: #28a745;
+                width: 80%;
+            }
+
+            .cupo-fill.medium {
+                background: #ffc107;
+                width: 50%;
+            }
+
+            .cupo-fill.low {
+                background: #dc3545;
+                width: 20%;
+            }
+
+            .cupo-fill.full {
+                background: #6c757d;
+                width: 100%;
+            }
+
+            /* Estados de carga */
+            .loading-skeleton {
+                animation: pulse 1.5s ease-in-out infinite;
+            }
+
+            @keyframes pulse {
+                0% {
+                    opacity: 1;
+                }
+
+                50% {
+                    opacity: 0.5;
+                }
+
+                100% {
+                    opacity: 1;
+                }
+            }
+
+            .skeleton-card {
+                background: white;
+                border: 1px solid #dee2e6;
+                border-radius: 8px;
+                padding: 25px;
+            }
+
+            .skeleton-line {
+                height: 15px;
+                background: #e9ecef;
+                border-radius: 4px;
+                margin-bottom: 10px;
+            }
+
+            .skeleton-line.short {
+                width: 60%;
+            }
+
+            .skeleton-line.medium {
+                width: 80%;
+            }
+
+            /* Badge para disciplina destacada */
+            .featured-badge {
+                position: absolute;
+                top: -8px;
+                left: 20px;
+                background: #ff6b6b;
+                color: white;
+                padding: 4px 12px;
+                border-radius: 12px;
+                font-size: 10px;
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+
+            /* Tooltips */
+            .tooltip {
+                position: relative;
+                display: inline-block;
+                margin-left: 5px;
+            }
+
+            .tooltip .tooltip-text {
+                visibility: hidden;
+                width: 200px;
+                background: #333;
+                color: white;
+                text-align: center;
+                border-radius: 6px;
+                padding: 8px;
+                position: absolute;
+                z-index: 1;
+                bottom: 125%;
+                left: 50%;
+                transform: translateX(-50%);
+                opacity: 0;
+                transition: opacity 0.3s;
+                font-size: 12px;
+            }
+
+            .tooltip:hover .tooltip-text {
+                visibility: visible;
+                opacity: 1;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="page-container">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <a href="convocatorias.html">Convocatorias</a> >
+                <span>Juegos Deportivos 2024</span>
+            </div>
+
+            <!-- Header -->
+            <div class="page-header">
+                <h1>Disciplinas Disponibles</h1>
+                <p>Convocatoria: Juegos Deportivos Interpreparatorias 2024</p>
+            </div>
+
+            <!-- Información de la convocatoria -->
+            <div class="convocatoria-info">
+                <h4>📋 Información de la Convocatoria</h4>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">Periodo de Registro</span>
+                        <span class="info-value">01 Nov - 15 Dic 2024</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Total de Disciplinas</span>
+                        <span class="info-value">8 disciplinas</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Cupo General</span>
+                        <span class="info-value">120/150 participantes</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Estado</span>
+                        <span class="info-value" style="color: #28a745;">● Activa</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filtros y búsqueda -->
+            <div class="filters-section">
+                <div class="filter-group">
+                    <div class="filter-item">
+                        <label for="filterTipo">Tipo de Disciplina</label>
+                        <select id="filterTipo">
+                            <option value="">Todas las disciplinas</option>
+                            <option value="con-subcategorias">Con subcategorías</option>
+                            <option value="sin-subcategorias">Sin subcategorías</option>
+                        </select>
+                    </div>
+                    <div class="filter-item">
+                        <label for="filterCupo">Disponibilidad</label>
+                        <select id="filterCupo">
+                            <option value="">Todas</option>
+                            <option value="disponible">Con cupo disponible</option>
+                            <option value="lleno">Cupo lleno</option>
+                        </select>
+                    </div>
+                    <div class="search-box">
+                        <input type="text" placeholder="Buscar disciplina..." id="searchDisciplina">
+                        <button>🔍</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grid de disciplinas -->
+            <div class="disciplinas-grid">
+                <!-- Disciplina 1 - Con subcategorías -->
+                <div class="disciplina-card">
+                    <div class="subcategorias-indicator" title="Tiene subcategorías">3</div>
+                    <div class="card-header">
+                        <h3>⚽ Fútbol</h3>
+                        <span class="cupo-badge high">Cupo: 15/20</span>
+                    </div>
+
+                    <div class="card-content">
+                        <p><strong>Ramas:</strong> Masculino, Femenino, Mixto</p>
+                        <p><strong>Tipo:</strong> Disciplina con subcategorías</p>
+                        <p><strong>Descripción:</strong> Incluye fútbol 7, fútbol rápido y fútbol sala.</p>
+
+                        <div class="info-tags">
+                            <span class="info-tag rama">Masculino</span>
+                            <span class="info-tag rama">Femenino</span>
+                            <span class="info-tag rama">Mixto</span>
+                            <span class="info-tag tipo">Con subcategorías</span>
+                        </div>
+
+                        <div class="cupo-indicator">
+                            <div class="cupo-fill high"></div>
+                        </div>
+                    </div>
+
+                    <div class="card-actions">
+                        <button class="btn-primary" onclick="viewSubcategorias('futbol')">
+                            Ver Subcategorías
+                        </button>
+                        <button class="btn-secondary" onclick="inscribirEstudiante('futbol')">
+                            Inscribir Estudiante
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Disciplina 2 - Sin subcategorías -->
+                <div class="disciplina-card">
+                    <div class="card-header">
+                        <h3>🏀 Basquetbol</h3>
+                        <span class="cupo-badge medium">Cupo: 10/12</span>
+                    </div>
+
+                    <div class="card-content">
+                        <p><strong>Ramas:</strong> Masculino, Femenino</p>
+                        <p><strong>Tipo:</strong> Disciplina sin subcategorías</p>
+                        <p><strong>Descripción:</strong> Basquetbol 5x5 tradicional.</p>
+
+                        <div class="info-tags">
+                            <span class="info-tag rama">Masculino</span>
+                            <span class="info-tag rama">Femenino</span>
+                            <span class="info-tag tipo">Sin subcategorías</span>
+                        </div>
+
+                        <div class="cupo-indicator">
+                            <div class="cupo-fill medium"></div>
+                        </div>
+                    </div>
+
+                    <div class="card-actions">
+                        <button class="btn-primary" onclick="inscribirEstudiante('basquetbol')">
+                            Inscribir Estudiante
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Disciplina 3 - Atletismo -->
+                <div class="disciplina-card">
+                    <div class="subcategorias-indicator" title="Tiene subcategorías">5</div>
+                    <div class="card-header">
+                        <h3>🏃 Atletismo</h3>
+                        <span class="cupo-badge low">Cupo: 3/15</span>
+                    </div>
+
+                    <div class="card-content">
+                        <p><strong>Ramas:</strong> Masculino, Femenino</p>
+                        <p><strong>Tipo:</strong> Disciplina con subcategorías</p>
+                        <p><strong>Descripción:</strong> Carreras, saltos y lanzamientos.</p>
+
+                        <div class="info-tags">
+                            <span class="info-tag rama">Masculino</span>
+                            <span class="info-tag rama">Femenino</span>
+                            <span class="info-tag tipo">Con subcategorías</span>
+                        </div>
+
+                        <div class="cupo-indicator">
+                            <div class="cupo-fill low"></div>
+                        </div>
+                    </div>
+
+                    <div class="card-actions">
+                        <button class="btn-primary" onclick="viewSubcategorias('atletismo')">
+                            Ver Subcategorías
+                        </button>
+                        <button class="btn-secondary" onclick="inscribirEstudiante('atletismo')">
+                            Inscribir Estudiante
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Disciplina 4 - Cupo lleno -->
+                <div class="disciplina-card disciplina-disabled">
+                    <div class="card-header">
+                        <h3>🎾 Tenis</h3>
+                        <span class="cupo-badge full">Cupo: 8/8</span>
+                    </div>
+
+                    <div class="card-content">
+                        <p><strong>Ramas:</strong> Masculino, Femenino</p>
+                        <p><strong>Tipo:</strong> Disciplina sin subcategorías</p>
+                        <p><strong>Descripción:</strong> Tenis individual y dobles.</p>
+
+                        <div class="info-tags">
+                            <span class="info-tag rama">Masculino</span>
+                            <span class="info-tag rama">Femenino</span>
+                            <span class="info-tag tipo">Sin subcategorías</span>
+                        </div>
+
+                        <div class="cupo-indicator">
+                            <div class="cupo-fill full"></div>
+                        </div>
+                    </div>
+
+                    <div class="card-actions">
+                        <button class="btn-primary" disabled>
+                            Cupo Lleno
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Estado vacío (ejemplo comentado) -->
+            <!--
+        <div class="empty-state">
+            <div class="icon">⚽</div>
+            <h3>No hay disciplinas disponibles</h3>
+            <p>No se encontraron disciplinas para esta convocatoria.</p>
+        </div>
+        -->
+        </div>
+
+        <script>
+            // Funciones de ejemplo para el prototipo
+            function viewSubcategorias(disciplina) {
+
+                window.location.href = "subcategorias.html"
+                // En un sistema real, redirigiría a la página de subcategorías
+            }
+
+            function inscribirEstudiante(disciplina) {
+                window.location.href = "inscripcion.html"
+                // En un sistema real, abriría el modal de inscripción
+            }
+
+            // Filtrado de disciplinas
+            document.getElementById('filterTipo').addEventListener('change', function () {
+                aplicarFiltros();
+            });
+
+            document.getElementById('filterCupo').addEventListener('change', function () {
+                aplicarFiltros();
+            });
+
+            document.getElementById('searchDisciplina').addEventListener('input', function () {
+                aplicarFiltros();
+            });
+
+            function aplicarFiltros() {
+                const tipoFiltro = document.getElementById('filterTipo').value;
+                const cupoFiltro = document.getElementById('filterCupo').value;
+                const busqueda = document.getElementById('searchDisciplina').value.toLowerCase();
+
+                console.log('Aplicando filtros:', { tipoFiltro, cupoFiltro, busqueda });
+                alert('Filtros aplicados - Prototipo');
+            }
+
+            // Ejemplo de interacción con tarjetas
+            document.querySelectorAll('.disciplina-card:not(.disciplina-disabled)').forEach(card => {
+                card.addEventListener('click', function (e) {
+                    // Solo si no se hizo clic en un botón
+                    if (!e.target.closest('button')) {
+                        const titulo = this.querySelector('h3').textContent;
+                        alert(`Mostrando detalles de ${titulo} - Prototipo`);
+                    }
+                });
+            });
+        </script>
+    </body>
+
+</html>

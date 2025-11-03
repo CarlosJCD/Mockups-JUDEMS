@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizar Disciplinas - Prototipo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        .page-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .page-header {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .page-header h1 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+            color: white;
+            text-decoration: none;
+        }
+
+        .search-box {
+            display: flex;
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            overflow: hidden;
+            min-width: 300px;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 10px 15px;
+            border: none;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .search-box button {
+            background: #f8f9fa;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-left: 1px solid #dee2e6;
+            transition: background-color 0.2s;
+        }
+
+        .search-box button:hover {
+            background: #e9ecef;
+        }
+
+        .filters-section {
+            background: white;
+            padding: 20px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: end;
+        }
+
+        .filter-item {
+            flex: 1;
+            min-width: 180px;
+        }
+
+        .filter-item label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 5px;
+        }
+
+        .filter-item select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        /* Grid de Disciplinas */
+        .disciplinas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .disciplina-card {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .disciplina-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-color: #4a90e2;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .disciplina-icon {
+            font-size: 32px;
+            background: #4a90e2;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+
+        .disciplina-info {
+            flex: 1;
+        }
+
+        .disciplina-info h3 {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .disciplina-meta {
+            font-size: 13px;
+            color: #6c757d;
+        }
+
+        .subcategorias-indicator {
+            background: #4a90e2;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .card-content {
+            margin-bottom: 20px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-label {
+            font-size: 11px;
+            color: #6c757d;
+            font-weight: bold;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        .info-value {
+            font-size: 14px;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        /* Etiquetas de Ramas */
+        .ramas-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .rama-tag {
+            background: #e7f3ff;
+            color: #0c5460;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+            border: 1px solid #b3d7ff;
+        }
+
+        /* Subcategorías */
+        .subcategorias-preview {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .subcategorias-preview h4 {
+            font-size: 14px;
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .subcategoria-mini {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #e9ecef;
+            font-size: 12px;
+        }
+
+        .subcategoria-mini:last-child {
+            border-bottom: none;
+        }
+
+        .subcategoria-name {
+            color: #495057;
+            font-weight: 500;
+        }
+
+        .subcategoria-details {
+            color: #6c757d;
+            font-size: 11px;
+        }
+
+        /* Acciones */
+        .card-actions {
+            display: flex;
+            gap: 10px;
+            padding-top: 15px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .btn-primary {
+            background: #4a90e2;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            transition: background-color 0.2s;
+            flex: 1;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .btn-primary:hover {
+            background: #357abd;
+            color: white;
+            text-decoration: none;
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: #212529;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            transition: background-color 0.2s;
+            flex: 1;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .btn-warning:hover {
+            background: #e0a800;
+            color: #212529;
+            text-decoration: none;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            transition: background-color 0.2s;
+            flex: 1;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Estados vacíos */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border: 2px dashed #dee2e6;
+            border-radius: 8px;
+            color: #6c757d;
+            grid-column: 1 / -1;
+        }
+
+        .empty-state .icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #495057;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-container {
+                padding: 15px;
+            }
+            
+            .page-header {
+                padding: 20px;
+            }
+            
+            .header-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-box {
+                min-width: auto;
+            }
+            
+            .disciplinas-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .disciplina-card {
+                padding: 20px;
+            }
+            
+            .card-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .card-actions {
+                flex-direction: column;
+            }
+            
+            .filter-group {
+                flex-direction: column;
+            }
+            
+            .filter-item {
+                min-width: auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-header h1 {
+                font-size: 20px;
+            }
+            
+            .disciplina-card {
+                padding: 15px;
+            }
+        }
+
+        /* Indicadores */
+        .sin-subcategorias {
+            background: #6c757d;
+        }
+
+        .con-subcategorias {
+            background: #28a745;
+        }
+
+        .stats-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #6c757d;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <!-- Header -->
+        <div class="page-header">
+            <h1>Disciplinas Registradas</h1>
+            <p>Visualice y gestione todas las disciplinas deportivas del sistema</p>
+            
+            <div class="header-actions">
+                <a href="crear-disciplina.html" class="btn-success">
+                    ➕ Nueva Disciplina
+                </a>
+                <div class="search-box">
+                    <input type="text" placeholder="Buscar disciplina..." id="searchInput">
+                    <button>🔍</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filtros -->
+        <div class="filters-section">
+            <div class="filter-group">
+                <div class="filter-item">
+                    <label for="filterTipo">Tipo de Disciplina</label>
+                    <select id="filterTipo">
+                        <option value="">Todas las disciplinas</option>
+                        <option value="con-subcategorias">Con subcategorías</option>
+                        <option value="sin-subcategorias">Sin subcategorías</option>
+                    </select>
+                </div>
+                <div class="filter-item">
+                    <label for="filterRama">Rama</label>
+                    <select id="filterRama">
+                        <option value="">Todas las ramas</option>
+                        <option value="masculino">Masculino</option>
+                        <option value="femenino">Femenino</option>
+                        <option value="mixto">Mixto</option>
+                    </select>
+                </div>
+                <div class="filter-item">
+                    <label for="filterEstado">Estado</label>
+                    <select id="filterEstado">
+                        <option value="">Todos los estados</option>
+                        <option value="activa">Activa</option>
+                        <option value="inactiva">Inactiva</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grid de Disciplinas -->
+        <div class="disciplinas-grid">
+            <!-- Disciplina 1: Con Subcategorías -->
+            <div class="disciplina-card">
+                <span class="stats-badge">5 subcategorías</span>
+                
+                <div class="card-header">
+                    <div style="display: flex; align-items: flex-start;">
+                        <div class="disciplina-icon">⚽</div>
+                        <div class="disciplina-info">
+                            <h3>Fútbol</h3>
+                            <div class="disciplina-meta">Creado: 15/Nov/2024</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-content">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">Participantes Mín</span>
+                            <span class="info-value">1</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Participantes Máx</span>
+                            <span class="info-value">20</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Tipo</span>
+                            <span class="info-value">Con subcategorías</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Estado</span>
+                            <span class="info-value" style="color: #28a745;">● Activa</span>
+                        </div>
+                    </div>
+
+                    <div class="ramas-list">
+                        <span class="rama-tag">Masculino</span>
+                        <span class="rama-tag">Femenino</span>
+                        <span class="rama-tag">Mixto</span>
+                    </div>
+
+                    <div class="subcategorias-preview">
+                        <h4>📋 Subcategorías</h4>
+                        <div class="subcategoria-mini">
+                            <span class="subcategoria-name">Fútbol 7</span>
+                            <span class="subcategoria-details">Mixto • Grupal</span>
+                        </div>
+                        <div class="subcategoria-mini">
+                            <span class="subcategoria-name">Fútbol Rápido</span>
+                            <span class="subcategoria-details">Femenino • Individual</span>
+                        </div>
+                        <div class="subcategoria-mini">
+                            <span class="subcategoria-name">Fútbol Sala</span>
+                            <span class="subcategoria-details">Masculino • Grupal</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-actions">
+                    <a href="editar-disciplina.html?id=1" class="btn-warning">
+                        ✏️ Editar
+                    </a>
+                    <a href="gestion-subcategorias.html?id=1" class="btn-primary">
+                        🎯 Subcategorías
+                    </a>
+                    <button class="btn-danger" onclick="eliminarDisciplina(1)">
+                        🗑️ Eliminar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Disciplina 2: Sin Subcategorías -->
+            <div class="disciplina-card">
+                <div class="card-header">
+                    <div style="display: flex; align-items: flex-start;">
+                        <div class="disciplina-icon">🏀</div>
+                        <div class="disciplina-info">
+                            <h3>Basquetbol</h3>
+                            <div class="disciplina-meta">Creado: 10/Nov/2024</div>
+                        </div>
+                    </div>
+                    <div class="subcategorias-indicator sin-subcategorias" title="Sin subcategorías">0</div>
+                </div>
+
+                <div class="card-content">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">Participantes Mín</span>
+                            <span class="info-value">5</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Participantes Máx</span>
+                            <span class="info-value">12</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Tipo</span>
+                            <span class="info-value">Sin subcategorías</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Estado</span>
+                            <span class="info-value" style="color: #28a745;">● Activa</span>
+                        </div>
+                    </div>
+
+                    <div class="ramas-list">
+                        <span class="rama-tag">Masculino</span>
+                        <span class="rama-tag">Femenino</span>
+                    </div>
+
+                    <div class="subcategorias-preview">
+                        <h4>📋 Subcategorías</h4>
+                        <div style="text-align: center; color: #6c757d; font-size: 12px; padding: 10px;">
+                            Esta disciplina no tiene subcategorías configuradas
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-actions">
+                    <a href="editar-disciplina.html?id=2" class="btn-warning">
+                        ✏️ Editar
+                    </a>
+                    <a href="crear-subcategoria.html?disciplina=2" class="btn-primary">
+                        ➕ Agregar Subcategoría
+                    </a>
+                    <button class="btn-danger" onclick="eliminarDisciplina(2)">
+                        🗑️ Eliminar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Disciplina 3: Atletismo -->
+            <div class="disciplina-card">
+                <span class="stats-badge">8 subcategorías</span>
+                
+                <div class="card-header">
+                    <div style="display: flex; align-items: flex-start;">
+                        <div class="disciplina-icon">🏃</div>
+                        <div class="disciplina-info">
+                            <h3>Atletismo</h3>
+                            <div class="disciplina-meta">Creado: 05/Nov/2024</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-content">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">Participantes Mín</span>
+                            <span class="info-value">1</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Participantes Máx</span>
+                            <span class="info-value">15</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Tipo</span>
+                            <span class="info-value">Con subcategorías</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Estado</span>
+                            <span class="info-value" style="color: #6c757d;">● Inactiva</span>
+                        </div>
+                    </div>
+
+                    <div class="ramas-list">
+                        <span class="rama-tag">Masculino</span>
+                        <span class="rama-tag">Femenino</span>
+                    </div>
+
+                    <div class="subcategorias-preview">
+                        <h4>📋 Subcategorías (8)</h4>
+                        <div class="subcategoria-mini">
+                            <span class="subcategoria-name">100m planos</span>
+                            <span class="subcategoria-details">Individual</span>
+                        </div>
+                        <div class="subcategoria-mini">
+                            <span class="subcategoria-name">Salto de longitud</span>
+                            <span class="subcategoria-details">Individual</span>
+                        </div>
+                        <div class="subcategoria-mini">
+                            <span class="subcategoria-name">Relevos 4x100</span>
+                            <span class="subcategoria-details">Grupal</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-actions">
+                    <a href="editar-disciplina.html?id=3" class="btn-warning">
+                        ✏️ Editar
+                    </a>
+                    <a href="gestion-subcategorias.html?id=3" class="btn-primary">
+                        🎯 Subcategorías
+                    </a>
+                    <button class="btn-danger" onclick="eliminarDisciplina(3)">
+                        🗑️ Eliminar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Estado vacío (ejemplo comentado) -->
+        <!--
+        <div class="empty-state">
+            <div class="icon">⚽</div>
+            <h3>No hay disciplinas registradas</h3>
+            <p>Comience creando la primera disciplina deportiva del sistema.</p>
+            <a href="crear-disciplina.html" class="btn-success" style="display: inline-flex; width: auto;">
+                ➕ Crear Primera Disciplina
+            </a>
+        </div>
+        -->
+    </div>
+
+    <script>
+        // Funciones de interacción
+        function eliminarDisciplina(id) {
+            if (confirm('¿Está seguro de que desea eliminar esta disciplina? Esta acción eliminará también todas sus subcategorías y no se puede deshacer.')) {
+                alert(`Disciplina ${id} eliminada - Prototipo`);
+                // Aquí iría la lógica para eliminar la disciplina
+            }
+        }
+
+        // Búsqueda en tiempo real
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            console.log('Buscando:', searchTerm);
+            // Aquí iría la lógica de filtrado
+        });
+
+        // Filtrado
+        document.querySelectorAll('select').forEach(select => {
+            select.addEventListener('change', function() {
+                aplicarFiltros();
+            });
+        });
+
+        function aplicarFiltros() {
+            const tipo = document.getElementById('filterTipo').value;
+            const rama = document.getElementById('filterRama').value;
+            const estado = document.getElementById('filterEstado').value;
+            
+            console.log('Aplicando filtros:', { tipo, rama, estado });
+            // Aquí iría la lógica de filtrado real
+        }
+
+        // Ejemplo de interacción con tarjetas
+        document.querySelectorAll('.disciplina-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                // Solo si no se hizo clic en un botón o enlace
+                if (!e.target.closest('button') && !e.target.closest('a')) {
+                    const titulo = this.querySelector('h3').textContent;
+                    alert(`Mostrando detalles de: ${titulo} - Prototipo`);
+                }
+            });
+        });
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Pantalla de visualización de disciplinas cargada - Prototipo');
+        });
+    </script>
+</body>
+</html>

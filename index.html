@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JUDEMS - Sistema de Gestión Deportiva</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            color: white;
+        }
+
+        .logo {
+            font-size: 48px;
+            margin-bottom: 20px;
+            background: white;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: #1e3c72;
+            font-weight: bold;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Cards Section */
+        .cards-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .access-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .access-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #28a745, #20c997);
+        }
+
+        .access-card.admin::before {
+            background: linear-gradient(90deg, #dc3545, #e83e8c);
+        }
+
+        .access-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .card-icon {
+            font-size: 64px;
+            margin-bottom: 25px;
+            display: block;
+        }
+
+        .access-card h2 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .access-card p {
+            color: #6c757d;
+            margin-bottom: 25px;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            min-width: 200px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #dc3545, #e83e8c);
+            color: white;
+            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(220, 53, 69, 0.4);
+        }
+
+        /* Features Section */
+        .features-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 40px;
+            margin-top: 30px;
+            color: white;
+        }
+
+        .features-section h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .feature-icon {
+            font-size: 40px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .feature-item h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .feature-item p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(0, 0, 0, 0.2);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: auto;
+        }
+
+        .footer p {
+            opacity: 0.8;
+        }
+
+        /* Modal de Login */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #6c757d;
+        }
+
+        .modal-close:hover {
+            color: #495057;
+        }
+
+        .modal h3 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #495057;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #4a90e2;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(30, 60, 114, 0.4);
+        }
+
+        .modal-footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.2rem;
+            }
+
+            .cards-section {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .access-card {
+                padding: 30px 20px;
+            }
+
+            .features-section {
+                padding: 30px 20px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .card-icon {
+                font-size: 48px;
+            }
+
+            .access-card h2 {
+                font-size: 1.5rem;
+            }
+
+            .btn {
+                min-width: 150px;
+                padding: 12px 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">JD</div>
+            <h1>JUDEMS</h1>
+            <p>Sistema Integral de Gestión Deportiva para Instituciones Educativas</p>
+        </div>
+
+        <!-- Cards de Acceso -->
+        <div class="cards-section">
+            <!-- Card Instituciones -->
+            <div class="access-card">
+                <span class="card-icon">🏫</span>
+                <h2>Módulo Instituciones</h2>
+                <p>Acceso para instituciones educativas registradas. Gestione alumnos, inscripciones y consulte convocatorias activas.</p>
+                <button class="btn btn-primary" onclick="abrirLogin('instituciones')">
+                    🔐 Acceder como Institución
+                </button>
+            </div>
+
+            <!-- Card Administración -->
+            <div class="access-card admin">
+                <span class="card-icon">⚙️</span>
+                <h2>Módulo Administración</h2>
+                <p>Acceso exclusivo para administradores del sistema. Gestione convocatorias, disciplinas y supervise el sistema.</p>
+                <button class="btn btn-danger" onclick="abrirLogin('admin')">
+                    🔐 Acceder como Administrador
+                </button>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="features-section">
+            <h2>¿Qué puedes hacer con JUDEMS?</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <span class="feature-icon">📋</span>
+                    <h3>Gestión de Convocatorias</h3>
+                    <p>Crea y administra convocatorias deportivas de manera eficiente</p>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">👥</span>
+                    <h3>Control de Alumnos</h3>
+                    <p>Gestiona inscripciones y seguimiento de participantes</p>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">⚽</span>
+                    <h3>Múltiples Disciplinas</h3>
+                    <p>Administra diversas disciplinas deportivas y sus categorías</p>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">📊</span>
+                    <h3>Reportes y Estadísticas</h3>
+                    <p>Genera reportes detallados y análisis de participación</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>JUDEMS - Sistema de Gestión Deportiva &copy; 2024 | Versión Prototipo</p>
+    </div>
+
+    <!-- Modal de Login para Instituciones -->
+    <div class="modal" id="loginInstituciones">
+        <div class="modal-content">
+            <button class="modal-close" onclick="cerrarModal('instituciones')">&times;</button>
+            <h3>Acceso Instituciones</h3>
+            <form id="loginFormInstituciones">
+                <div class="form-group">
+                    <label for="usuarioInstitucion">Usuario</label>
+                    <input type="text" id="usuarioInstitucion" placeholder="Ingrese su usuario" required>
+                </div>
+                <div class="form-group">
+                    <label for="passwordInstitucion">Contraseña</label>
+                    <input type="password" id="passwordInstitucion" placeholder="Ingrese su contraseña" required>
+                </div>
+                <button type="submit" class="login-btn">Ingresar al Sistema</button>
+            </form>
+            <div class="modal-footer">
+                <p>¿Problemas para acceder? Contacte al administrador</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Login para Admin -->
+    <div class="modal" id="loginAdmin">
+        <div class="modal-content">
+            <button class="modal-close" onclick="cerrarModal('admin')">&times;</button>
+            <h3>Acceso Administración</h3>
+            <form id="loginFormAdmin">
+                <div class="form-group">
+                    <label for="usuarioAdmin">Usuario Administrador</label>
+                    <input type="text" id="usuarioAdmin" placeholder="Usuario admin" required>
+                </div>
+                <div class="form-group">
+                    <label for="passwordAdmin">Contraseña</label>
+                    <input type="password" id="passwordAdmin" placeholder="Contraseña de administrador" required>
+                </div>
+                <button type="submit" class="login-btn">Acceder al Panel</button>
+            </form>
+            <div class="modal-footer">
+                <p>Acceso restringido al personal autorizado</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Función para abrir modal de login
+        function abrirLogin(tipo) {
+            if (tipo === 'instituciones') {
+                document.location.href="instituciones/index.html"
+            } else if (tipo === 'admin') {
+                document.location.href="admin/index.html"
+            }
+        }
+
+        // Función para cerrar modal
+        function cerrarModal(tipo) {
+            if (tipo === 'instituciones') {
+                document.getElementById('loginInstituciones').classList.remove('active');
+            } else if (tipo === 'admin') {
+                document.getElementById('loginAdmin').classList.remove('active');
+            }
+        }
+
+        // Manejar login de instituciones
+        document.getElementById('loginFormInstituciones').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const usuario = document.getElementById('usuarioInstitucion').value;
+            const password = document.getElementById('passwordInstitucion').value;
+            
+            // Simulación de login exitoso
+            if (usuario && password) {
+                alert('✅ Acceso concedido. Redirigiendo al módulo de instituciones...');
+                // En un entorno real, aquí se redirigiría a instituciones/index.html
+                window.location.href = 'instituciones/index.html';
+            } else {
+                alert('❌ Por favor ingrese usuario y contraseña válidos');
+            }
+        });
+
+        // Manejar login de administración
+        document.getElementById('loginFormAdmin').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const usuario = document.getElementById('usuarioAdmin').value;
+            const password = document.getElementById('passwordAdmin').value;
+            
+            // Simulación de login exitoso
+            if (usuario && password) {
+                alert('✅ Acceso de administrador concedido. Redirigiendo al panel...');
+                // En un entorno real, aquí se redirigiría a admin/index.html
+                window.location.href = 'admin/index.html';
+            } else {
+                alert('❌ Credenciales de administrador requeridas');
+            }
+        });
+
+        // Cerrar modal al hacer clic fuera
+        window.addEventListener('click', function(event) {
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                if (event.target === modal) {
+                    modal.classList.remove('active');
+                }
+            });
+        });
+
+        // Demo: Acceso rápido para testing (solo en prototipo)
+        console.log('🔧 Modo Prototipo Activado');
+        console.log('Para testing rápido:');
+        console.log('- Cualquier usuario/contraseña funciona en los modales');
+        console.log('- Los botones redirigen a las páginas correspondientes');
+        
+        // Agregar acceso rápido desde la consola (solo para desarrollo)
+        window.accesoRapido = function(tipo) {
+            if (tipo === 'instituciones') {
+                window.location.href = 'instituciones/index.html';
+            } else if (tipo === 'admin') {
+                window.location.href = 'admin/index.html';
+            }
+        };
+    </script>
+</body>
+</html>

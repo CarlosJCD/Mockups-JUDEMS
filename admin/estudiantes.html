@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Inscripciones - Prototipo</title>
+    <style>
+        .filters-section {
+            background: white;
+            padding: 20px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: end;
+        }
+
+        .filter-item {
+            flex: 1;
+            min-width: 180px;
+        }
+
+        .filter-item label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 5px;
+        }
+
+        .filter-item select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .estudiantes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .estudiante-card {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .estudiante-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .estudiante-info h4 {
+            font-size: 16px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .estudiante-meta {
+            font-size: 13px;
+            color: #6c757d;
+        }
+
+        .inscripcion-details {
+            margin-bottom: 15px;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        .detail-label {
+            color: #6c757d;
+            font-weight: bold;
+        }
+
+        .detail-value {
+            color: #2c3e50;
+            text-align: right;
+        }
+
+        .documentos {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+
+        .documento-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
+
+        .doc-status {
+            padding: 2px 6px;
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .doc-status.completo {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .doc-status.pendiente {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .inscripcion-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 11px;
+            flex: 1;
+        }
+
+        .breadcrumb {
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        .breadcrumb a {
+            color: #4a90e2;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb span {
+            color: #495057;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="page-container">
+         <div class="breadcrumb">
+            <a href="dashboard.html">Dashboard</a> > 
+            <span>Esudiantes</span>
+        </div>
+
+        <div class="page-header">
+            <h1>Gestión de Inscripciones</h1>
+            <p>Administre las inscripciones de estudiantes a convocatorias</p>
+        </div>
+
+        <div class="filters-section">
+            <div class="filter-group">
+                <div class="filter-item">
+                    <label for="filterConvocatoria">Convocatoria</label>
+                    <select id="filterConvocatoria">
+                        <option value="">Todas las convocatorias</option>
+                        <option value="1">Juegos Deportivos 2024</option>
+                        <option value="2">Torneo de Verano</option>
+                    </select>
+                </div>
+                <div class="filter-item">
+                    <label for="filterEstado">Estado</label>
+                    <select id="filterEstado">
+                        <option value="">Todos los estados</option>
+                        <option value="pendiente">Pendientes</option>
+                        <option value="aprobada">Aprobadas</option>
+                        <option value="rechazada">Rechazadas</option>
+                    </select>
+                </div>
+                <div class="filter-item">
+                    <label for="filterInstitucion">Institución</label>
+                    <select id="filterInstitucion">
+                        <option value="">Todas las instituciones</option>
+                        <option value="1">Instituto Juárez</option>
+                        <option value="2">Colegio Benito Juárez</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="estudiantes-grid">
+            <!-- Inscripción Pendiente -->
+            <div class="estudiante-card">
+                <div class="estudiante-header">
+                    <div class="estudiante-info">
+                        <h4>María González López</h4>
+                        <div class="estudiante-meta">Matrícula: 2024001 | Instituto Juárez</div>
+                    </div>
+                    <span class="status-badge pendiente">Pendiente</span>
+                </div>
+                
+                <div class="inscripcion-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Convocatoria:</span>
+                        <span class="detail-value">Juegos Deportivos 2024</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Disciplina:</span>
+                        <span class="detail-value">Fútbol Rápido</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Subcategoría:</span>
+                        <span class="detail-value">Individual Femenino</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Fecha:</span>
+                        <span class="detail-value">20/Nov/2024</span>
+                    </div>
+                </div>
+
+                <div class="documentos">
+                    <div class="documento-item">
+                        <span>Constancia de Estudios</span>
+                        <span class="doc-status completo">Completo</span>
+                    </div>
+                    <div class="documento-item">
+                        <span>Comprobante de Pago</span>
+                        <span class="doc-status completo">Completo</span>
+                    </div>
+                </div>
+
+                <div class="inscripcion-actions">
+                    <button class="btn-primary btn-sm" onclick="aprobarInscripcion(1)">✅ Aprobar</button>
+                    <button class="btn-secondary btn-sm" onclick="verDetallesInscripcion(1)">👁️ Ver</button>
+                    <button class="btn-danger btn-sm" onclick="rechazarInscripcion(1)">❌ Rechazar</button>
+                </div>
+            </div>
+
+            <!-- Inscripción Aprobada -->
+            <div class="estudiante-card">
+                <div class="estudiante-header">
+                    <div class="estudiante-info">
+                        <h4>Carlos Rodríguez Méndez</h4>
+                        <div class="estudiante-meta">Matrícula: 2024002 | Instituto Juárez</div>
+                    </div>
+                    <span class="status-badge activa">Aprobada</span>
+                </div>
+                
+                <div class="inscripcion-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Convocatoria:</span>
+                        <span class="detail-value">Juegos Deportivos 2024</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Disciplina:</span>
+                        <span class="detail-value">Basquetbol</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Subcategoría:</span>
+                        <span class="detail-value">5x5 Masculino</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Fecha Aprobación:</span>
+                        <span class="detail-value">18/Nov/2024</span>
+                    </div>
+                </div>
+
+                <div class="inscripcion-actions">
+                    <button class="btn-secondary btn-sm" onclick="verDetallesInscripcion(2)">👁️ Ver</button>
+                    <button class="btn-danger btn-sm" onclick="eliminarInscripcion(2)">🗑️ Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function aprobarInscripcion(id) {
+            if (confirm('¿Está seguro de que desea aprobar esta inscripción?')) {
+                alert(`Inscripción ${id} aprobada - Prototipo`);
+                // Aquí iría la lógica para aprobar la inscripción
+            }
+        }
+
+        function rechazarInscripcion(id) {
+            if (confirm('¿Está seguro de que desea rechazar esta inscripción?')) {
+                alert(`Inscripción ${id} rechazada - Prototipo`);
+                // Aquí iría la lógica para rechazar la inscripción
+            }
+        }
+
+        function eliminarInscripcion(id) {
+            if (confirm('¿Está seguro de que desea eliminar esta inscripción? Esta acción no se puede deshacer.')) {
+                alert(`Inscripción ${id} eliminada - Prototipo`);
+                // Aquí iría la lógica para eliminar la inscripción
+            }
+        }
+
+        function verDetallesInscripcion(id) {
+            alert(`Mostrando detalles de inscripción ${id} - Prototipo`);
+            // Aquí iría la lógica para mostrar detalles completos
+        }
+
+        // Filtrado
+        document.querySelectorAll('select').forEach(select => {
+            select.addEventListener('change', function() {
+                alert('Aplicando filtros - Prototipo');
+                // Aquí iría la lógica de filtrado
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="es">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Inscripción de Estudiante - Prototipo</title>
+        <style>
+            /* Reset básico */
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f8f9fa;
+                color: #333;
+                line-height: 1.4;
+            }
+
+            /* Contenedor principal */
+            .page-container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+
+            /* Breadcrumb */
+            .breadcrumb {
+                margin-bottom: 15px;
+                font-size: 14px;
+                color: #6c757d;
+            }
+
+            .breadcrumb a {
+                color: #4a90e2;
+                text-decoration: none;
+            }
+
+            .breadcrumb a:hover {
+                text-decoration: underline;
+            }
+
+            .breadcrumb span {
+                color: #495057;
+                font-weight: bold;
+            }
+
+            /* Header de página */
+            .page-header {
+                background: white;
+                padding: 25px 30px;
+                border-radius: 8px;
+                border: 1px solid #dee2e6;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            }
+
+            .page-header h1 {
+                font-size: 24px;
+                font-weight: bold;
+                color: #2c3e50;
+                margin-bottom: 5px;
+            }
+
+            .page-header p {
+                color: #6c757d;
+                font-size: 16px;
+                margin: 0;
+            }
+
+            /* Información de la convocatoria */
+            .convocatoria-info {
+                background: white;
+                border: 1px solid #dee2e6;
+                border-radius: 8px;
+                padding: 20px;
+                margin-bottom: 25px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            }
+
+            .info-header {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                margin-bottom: 15px;
+                padding-bottom: 15px;
+                border-bottom: 1px solid #e9ecef;
+            }
+
+            .info-icon {
+                font-size: 24px;
+                background: #4a90e2;
+                color: white;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .info-title h3 {
+                font-size: 18px;
+                font-weight: bold;
+                color: #2c3e50;
+                margin: 0 0 5px 0;
+            }
+
+            .info-title p {
+                color: #6c757d;
+                margin: 0;
+                font-size: 14px;
+            }
+
+            .info-details {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 15px;
+            }
+
+            .info-item {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .info-label {
+                font-size: 12px;
+                color: #6c757d;
+                font-weight: bold;
+                margin-bottom: 4px;
+            }
+
+            .info-value {
+                font-size: 14px;
+                color: #2c3e50;
+                font-weight: 500;
+            }
+
+            /* Formulario de inscripción */
+            .inscripcion-form {
+                background: white;
+                border: 1px solid #dee2e6;
+                border-radius: 8px;
+                padding: 30px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            }
+
+            .form-section {
+                margin-bottom: 35px;
+                padding-bottom: 25px;
+                border-bottom: 1px solid #e9ecef;
+            }
+
+            .form-section:last-child {
+                border-bottom: none;
+                margin-bottom: 0;
+                padding-bottom: 0;
+            }
+
+            .form-section h3 {
+                font-size: 18px;
+                font-weight: bold;
+                color: #2c3e50;
+                margin-bottom: 20px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .section-number {
+                background: #4a90e2;
+                color: white;
+                width: 24px;
+                height: 24px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 12px;
+                font-weight: bold;
+            }
+
+            /* Grupos de formulario */
+            .form-group {
+                margin-bottom: 20px;
+            }
+
+            .form-group label {
+                display: block;
+                font-size: 14px;
+                font-weight: bold;
+                color: #495057;
+                margin-bottom: 8px;
+            }
+
+            .form-group input,
+            .form-group select {
+                width: 100%;
+                padding: 12px 15px;
+                border: 2px solid #e9ecef;
+                border-radius: 6px;
+                font-size: 14px;
+                color: #495057;
+                background: white;
+                transition: all 0.2s;
+            }
+
+            .form-group input:focus,
+            .form-group select:focus {
+                outline: none;
+                border-color: #4a90e2;
+                box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+            }
+
+            .form-group input::placeholder {
+                color: #adb5bd;
+            }
+
+            /* Upload de documentos */
+            .document-upload {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .upload-item {
+                border: 2px dashed #dee2e6;
+                border-radius: 8px;
+                padding: 20px;
+                transition: all 0.2s;
+                background: #f8f9fa;
+            }
+
+            .upload-item:hover {
+                border-color: #4a90e2;
+                background: #f1f7ff;
+            }
+
+            .upload-item label {
+                display: block;
+                font-size: 14px;
+                font-weight: bold;
+                color: #495057;
+                margin-bottom: 10px;
+            }
+
+            .upload-area {
+                position: relative;
+                cursor: pointer;
+            }
+
+            .upload-area input[type="file"] {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                opacity: 0;
+                cursor: pointer;
+            }
+
+            .upload-placeholder {
+                text-align: center;
+                padding: 30px 20px;
+                border-radius: 6px;
+                background: white;
+                border: 1px solid #dee2e6;
+                transition: all 0.2s;
+            }
+
+            .upload-area:hover .upload-placeholder {
+                border-color: #4a90e2;
+                background: #f8f9fa;
+            }
+
+            .upload-placeholder span {
+                display: block;
+                font-size: 16px;
+                color: #495057;
+                margin-bottom: 5px;
+            }
+
+            .upload-placeholder small {
+                color: #6c757d;
+                font-size: 12px;
+            }
+
+            .file-preview {
+                display: none;
+                align-items: center;
+                gap: 10px;
+                padding: 15px;
+                background: #d4edda;
+                border: 1px solid #c3e6cb;
+                border-radius: 6px;
+                margin-top: 10px;
+            }
+
+            .file-preview.show {
+                display: flex;
+            }
+
+            .file-info {
+                flex: 1;
+            }
+
+            .file-name {
+                font-size: 14px;
+                font-weight: bold;
+                color: #155724;
+                margin-bottom: 2px;
+            }
+
+            .file-size {
+                font-size: 12px;
+                color: #28a745;
+            }
+
+            .remove-file {
+                background: none;
+                border: none;
+                color: #dc3545;
+                cursor: pointer;
+                font-size: 16px;
+                padding: 5px;
+            }
+
+            /* Información de requisitos */
+            .requisitos-info {
+                background: #e7f3ff;
+                border: 1px solid #b3d7ff;
+                border-radius: 6px;
+                padding: 15px;
+                margin-top: 15px;
+            }
+
+            .requisitos-info h4 {
+                font-size: 14px;
+                font-weight: bold;
+                color: #0c5460;
+                margin-bottom: 8px;
+            }
+
+            .requisitos-list {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            .requisitos-list li {
+                font-size: 13px;
+                color: #0c5460;
+                margin-bottom: 5px;
+                display: flex;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .requisitos-list li:before {
+                content: "•";
+                color: #4a90e2;
+                font-weight: bold;
+            }
+
+            /* Acciones del formulario */
+            .form-actions {
+                display: flex;
+                gap: 15px;
+                justify-content: flex-end;
+                padding-top: 25px;
+                border-top: 1px solid #e9ecef;
+                margin-top: 30px;
+            }
+
+            .btn-primary {
+                background: #28a745;
+                color: white;
+                border: none;
+                padding: 12px 30px;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 16px;
+                font-weight: bold;
+                transition: background-color 0.2s;
+                min-width: 140px;
+            }
+
+            .btn-primary:hover {
+                background: #218838;
+            }
+
+            .btn-secondary {
+                background: #6c757d;
+                color: white;
+                border: none;
+                padding: 12px 30px;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 16px;
+                font-weight: bold;
+                transition: background-color 0.2s;
+                min-width: 140px;
+            }
+
+            .btn-secondary:hover {
+                background: #545b62;
+            }
+
+            .btn-primary:disabled {
+                background: #ced4da;
+                color: #6c757d;
+                cursor: not-allowed;
+            }
+
+            /* Estados de validación */
+            .form-group.error input,
+            .form-group.error select {
+                border-color: #dc3545;
+                background: #fdf2f2;
+            }
+
+            .error-message {
+                color: #dc3545;
+                font-size: 12px;
+                margin-top: 5px;
+                display: none;
+            }
+
+            .form-group.error .error-message {
+                display: block;
+            }
+
+            .form-group.success input,
+            .form-group.success select {
+                border-color: #28a745;
+                background: #f2fdf6;
+            }
+
+            /* Información de estudiante seleccionado */
+            .estudiante-selected {
+                background: #e8f5e8;
+                border: 1px solid #c3e6cb;
+                border-radius: 6px;
+                padding: 15px;
+                margin-bottom: 15px;
+                display: none;
+            }
+
+            .estudiante-selected.show {
+                display: block;
+            }
+
+            .estudiante-info {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .estudiante-details {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .estudiante-name {
+                font-size: 16px;
+                font-weight: bold;
+                color: #155724;
+            }
+
+            .estudiante-meta {
+                font-size: 13px;
+                color: #28a745;
+            }
+
+            .change-estudiante {
+                background: none;
+                border: 1px solid #28a745;
+                color: #28a745;
+                padding: 6px 12px;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 12px;
+                transition: all 0.2s;
+            }
+
+            .change-estudiante:hover {
+                background: #28a745;
+                color: white;
+            }
+
+            /* Responsive */
+            @media (max-width: 768px) {
+                .page-container {
+                    padding: 15px;
+                }
+
+                .page-header {
+                    padding: 20px;
+                }
+
+                .inscripcion-form {
+                    padding: 20px;
+                }
+
+                .form-section {
+                    margin-bottom: 25px;
+                    padding-bottom: 20px;
+                }
+
+                .info-details {
+                    grid-template-columns: 1fr;
+                    gap: 10px;
+                }
+
+                .form-actions {
+                    flex-direction: column;
+                }
+
+                .btn-primary,
+                .btn-secondary {
+                    min-width: auto;
+                    width: 100%;
+                }
+
+                .estudiante-info {
+                    flex-direction: column;
+                    gap: 10px;
+                    align-items: flex-start;
+                }
+
+                .change-estudiante {
+                    align-self: flex-end;
+                }
+            }
+
+            @media (max-width: 480px) {
+                .page-header h1 {
+                    font-size: 20px;
+                }
+
+                .form-section h3 {
+                    font-size: 16px;
+                }
+
+                .upload-placeholder {
+                    padding: 20px 15px;
+                }
+
+                .upload-placeholder span {
+                    font-size: 14px;
+                }
+
+                .info-header {
+                    flex-direction: column;
+                    text-align: center;
+                    gap: 10px;
+                }
+            }
+
+            /* Estados de carga */
+            .loading {
+                opacity: 0.7;
+                pointer-events: none;
+                position: relative;
+            }
+
+            .loading::after {
+                content: "";
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 20px;
+                height: 20px;
+                border: 2px solid transparent;
+                border-top: 2px solid white;
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+            }
+
+            @keyframes spin {
+                0% {
+                    transform: translate(-50%, -50%) rotate(0deg);
+                }
+
+                100% {
+                    transform: translate(-50%, -50%) rotate(360deg);
+                }
+            }
+
+            /* Alertas de éxito/error */
+            .alert {
+                padding: 15px 20px;
+                border-radius: 6px;
+                margin-bottom: 20px;
+                display: none;
+            }
+
+            .alert.success {
+                background: #d4edda;
+                border: 1px solid #c3e6cb;
+                color: #155724;
+                display: block;
+            }
+
+            .alert.error {
+                background: #f8d7da;
+                border: 1px solid #f1b0b7;
+                color: #721c24;
+                display: block;
+            }
+
+            /* Información de costo */
+            .costo-info {
+                background: #fff3cd;
+                border: 1px solid #ffeaa7;
+                border-radius: 6px;
+                padding: 15px;
+                margin-top: 15px;
+            }
+
+            .costo-info strong {
+                color: #856404;
+                font-size: 14px;
+            }
+
+            .costo-monto {
+                font-size: 18px;
+                font-weight: bold;
+                color: #856404;
+                margin-top: 5px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="page-container">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <a href="convocatorias.html">Convocatorias</a> >
+                <a href="disciplinas.html">Juegos Deportivos 2024</a> >
+                <a href="subcategorias.html">Fútbol - Subcategorías</a> >
+                <span>Inscribir Estudiante</span>
+            </div>
+
+            <!-- Header -->
+            <div class="page-header">
+                <h1>Inscribir Estudiante</h1>
+                <p>Complete el formulario para inscribir un estudiante en la subcategoría seleccionada</p>
+            </div>
+
+            <!-- Información de la convocatoria -->
+            <div class="convocatoria-info">
+                <div class="info-header">
+                    <div class="info-icon">⚽</div>
+                    <div class="info-title">
+                        <h3>Fútbol Rápido - Rama Femenino</h3>
+                        <p>Subcategoría: Competencia individual de habilidades</p>
+                    </div>
+                </div>
+                <div class="info-details">
+                    <div class="info-item">
+                        <span class="info-label">Convocatoria</span>
+                        <span class="info-value">Juegos Deportivos 2024</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Disciplina</span>
+                        <span class="info-value">Fútbol</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Cupo Disponible</span>
+                        <span class="info-value" style="color: #28a745;">12/15 participantes</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Tipo de Prueba</span>
+                        <span class="info-value">Individual</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulario de inscripción -->
+            <form class="inscripcion-form" id="inscripcionForm">
+                <!-- Sección 1: Selección de Estudiante -->
+                <div class="form-section">
+                    <h3>
+                        <span class="section-number">1</span>
+                        Selección de Estudiante
+                    </h3>
+
+                    <div class="form-group">
+                        <label for="selectStudent">Estudiante *</label>
+                        <select id="selectStudent" name="selectStudent" required>
+                            <option value="">Seleccionar estudiante</option>
+                            <option value="2024001">María González López (2024001)</option>
+                            <option value="2024002">Carlos Rodríguez Méndez (2024002)</option>
+                            <option value="2024003">Ana Martínez Sánchez (2024003)</option>
+                            <option value="2024004">José Hernández García (2024004)</option>
+                        </select>
+                        <div class="error-message" id="studentError">
+                            Debe seleccionar un estudiante
+                        </div>
+                    </div>
+
+                    <!-- Información del estudiante seleccionado -->
+                    <div class="estudiante-selected" id="estudianteSelected">
+                        <div class="estudiante-info">
+                            <div class="estudiante-details">
+                                <span class="estudiante-name" id="selectedName">María González López</span>
+                                <span class="estudiante-meta" id="selectedMeta">Matrícula: 2024001 | Femenino | 15
+                                    años</span>
+                            </div>
+                            <button type="button" class="change-estudiante" onclick="cambiarEstudiante()">
+                                Cambiar Estudiante
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección 2: Datos de Participación -->
+                <div class="form-section">
+                    <h3>
+                        <span class="section-number">2</span>
+                        Datos de Participación
+                    </h3>
+
+                    <div class="form-group">
+                        <label for="participacionRama">Rama a Participar *</label>
+                        <select id="participacionRama" name="participacionRama" required disabled>
+                            <option value="F">Femenino</option>
+                        </select>
+                        <div class="error-message" id="ramaError">
+                            Debe seleccionar una rama
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tipoPrueba">Tipo de Prueba *</label>
+                        <select id="tipoPrueba" name="tipoPrueba" required disabled>
+                            <option value="individual">Individual</option>
+                        </select>
+                        <div class="error-message" id="tipoError">
+                            Debe seleccionar el tipo de prueba
+                        </div>
+                    </div>
+
+                    <div class="requisitos-info">
+                        <h4>📋 Información Importante</h4>
+                        <ul class="requisitos-list">
+                            <li>Esta subcategoría es exclusiva para participantes femeninas</li>
+                            <li>La prueba es individual y consta de 5 ejercicios de habilidad</li>
+                            <li>Cada institución puede inscribir máximo 3 participantes</li>
+                            <li>El horario de competencia será asignado posteriormente</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Sección 3: Documentación Requerida -->
+                <div class="form-section">
+                    <h3>
+                        <span class="section-number">3</span>
+                        Documentación Requerida
+                    </h3>
+
+                    <div class="document-upload">
+                        <div class="upload-item">
+                            <label for="constanciaEstudios">Constancia de Estudios *</label>
+                            <div class="upload-area">
+                                <input type="file" id="constanciaEstudios" name="constanciaEstudios"
+                                    accept=".pdf,.jpg,.png" required>
+                                <div class="upload-placeholder">
+                                    <span>📄 Arrastra o selecciona el archivo</span>
+                                    <small>Formatos aceptados: PDF, JPG, PNG (Máx. 5MB)</small>
+                                </div>
+                            </div>
+                            <div class="file-preview" id="constanciaPreview">
+                                <div class="file-info">
+                                    <div class="file-name" id="constanciaName">constancia_estudios.pdf</div>
+                                    <div class="file-size" id="constanciaSize">2.1 MB</div>
+                                </div>
+                                <button type="button" class="remove-file"
+                                    onclick="removerArchivo('constancia')">×</button>
+                            </div>
+                            <div class="error-message" id="constanciaError">
+                                Debe subir la constancia de estudios
+                            </div>
+                        </div>
+
+                        <div class="upload-item">
+                            <label for="comprobantePago">Comprobante de Pago *</label>
+                            <div class="upload-area">
+                                <input type="file" id="comprobantePago" name="comprobantePago" accept=".pdf,.jpg,.png"
+                                    required>
+                                <div class="upload-placeholder">
+                                    <span>💰 Arrastra o selecciona el comprobante</span>
+                                    <small>Formatos aceptados: PDF, JPG, PNG (Máx. 5MB)</small>
+                                </div>
+                            </div>
+                            <div class="file-preview" id="comprobantePreview">
+                                <div class="file-info">
+                                    <div class="file-name" id="comprobanteName">comprobante_pago.jpg</div>
+                                    <div class="file-size" id="comprobanteSize">1.5 MB</div>
+                                </div>
+                                <button type="button" class="remove-file"
+                                    onclick="removerArchivo('comprobante')">×</button>
+                            </div>
+                            <div class="error-message" id="comprobanteError">
+                                Debe subir el comprobante de pago
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="costo-info">
+                        <strong>💵 Costo de Inscripción</strong>
+                        <div class="costo-monto">$250.00 MXN</div>
+                        <small>El pago debe realizarse en la cuenta bancaria de la institución organizadora</small>
+                    </div>
+                </div>
+
+                <!-- Alertas -->
+                <div class="alert success" id="successAlert" style="display: none;">
+                    ✅ Inscripción realizada exitosamente
+                </div>
+
+                <div class="alert error" id="errorAlert" style="display: none;">
+                    ❌ Error al procesar la inscripción
+                </div>
+
+                <!-- Acciones del formulario -->
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="cancelarInscripcion()">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn-primary" id="submitButton">
+                        Enviar Inscripción
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <script>
+            // Variables globales
+            let estudianteSeleccionado = null;
+
+            // Mostrar información del estudiante seleccionado
+            document.getElementById('selectStudent').addEventListener('change', function () {
+                const selectedOption = this.options[this.selectedIndex];
+                if (selectedOption.value) {
+                    estudianteSeleccionado = selectedOption.value;
+                    document.getElementById('selectedName').textContent = selectedOption.text.split(' (')[0];
+                    document.getElementById('selectedMeta').textContent = `Matrícula: ${selectedOption.value} | Femenino | 15 años`;
+                    document.getElementById('estudianteSelected').classList.add('show');
+                } else {
+                    document.getElementById('estudianteSelected').classList.remove('show');
+                    estudianteSeleccionado = null;
+                }
+            });
+
+            // Cambiar estudiante
+            function cambiarEstudiante() {
+                document.getElementById('selectStudent').value = '';
+                document.getElementById('estudianteSelected').classList.remove('show');
+                estudianteSeleccionado = null;
+            }
+
+            // Manejo de archivos
+            document.getElementById('constanciaEstudios').addEventListener('change', function (e) {
+                manejarArchivo(e.target, 'constancia');
+            });
+
+            document.getElementById('comprobantePago').addEventListener('change', function (e) {
+                manejarArchivo(e.target, 'comprobante');
+            });
+
+            function manejarArchivo(input, tipo) {
+                const file = input.files[0];
+                if (file) {
+                    const preview = document.getElementById(tipo + 'Preview');
+                    const name = document.getElementById(tipo + 'Name');
+                    const size = document.getElementById(tipo + 'Size');
+
+                    name.textContent = file.name;
+                    size.textContent = (file.size / (1024 * 1024)).toFixed(1) + ' MB';
+                    preview.classList.add('show');
+
+                    // Limpiar error
+                    document.getElementById(tipo + 'Error').style.display = 'none';
+                }
+            }
+
+            function removerArchivo(tipo) {
+                const input = document.getElementById(tipo + 'Estudios') || document.getElementById(tipo + 'Pago');
+                const preview = document.getElementById(tipo + 'Preview');
+
+                input.value = '';
+                preview.classList.remove('show');
+            }
+
+            // Validación del formulario
+            document.getElementById('inscripcionForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                let isValid = true;
+
+                // Validar estudiante
+                if (!estudianteSeleccionado) {
+                    document.getElementById('studentError').style.display = 'block';
+                    isValid = false;
+                } else {
+                    document.getElementById('studentError').style.display = 'none';
+                }
+
+                // Validar archivos
+                const constancia = document.getElementById('constanciaEstudios').files[0];
+                const comprobante = document.getElementById('comprobantePago').files[0];
+
+                if (!constancia) {
+                    document.getElementById('constanciaError').style.display = 'block';
+                    isValid = false;
+                } else {
+                    document.getElementById('constanciaError').style.display = 'none';
+                }
+
+                if (!comprobante) {
+                    document.getElementById('comprobanteError').style.display = 'block';
+                    isValid = false;
+                } else {
+                    document.getElementById('comprobanteError').style.display = 'none';
+                }
+
+                if (!isValid) {
+                    document.getElementById('errorAlert').style.display = 'block';
+                    setTimeout(() => {
+                        document.getElementById('errorAlert').style.display = 'none';
+                    }, 5000);
+                    return;
+                }
+
+                // Simular envío
+                const submitButton = document.getElementById('submitButton');
+                submitButton.classList.add('loading');
+                submitButton.disabled = true;
+
+                setTimeout(() => {
+                    submitButton.classList.remove('loading');
+                    submitButton.disabled = false;
+                    document.getElementById('successAlert').style.display = 'block';
+
+                    // Limpiar formulario después de éxito
+                    setTimeout(() => {
+                        document.getElementById('inscripcionForm').reset();
+                        document.getElementById('estudianteSelected').classList.remove('show');
+                        estudianteSeleccionado = null;
+                        document.querySelectorAll('.file-preview').forEach(preview => {
+                            preview.classList.remove('show');
+                        });
+                        document.getElementById('successAlert').style.display = 'none';
+                        alert('Inscripción completada exitosamente - Prototipo');
+                    }, 2000);
+                }, 2000);
+            });
+
+            // Cancelar inscripción
+            function cancelarInscripcion() {
+                if (confirm('¿Está seguro de que desea cancelar la inscripción? Los datos no guardados se perderán.')) {
+                    window.history.back();
+                }
+            }
+
+            // Inicialización
+            document.addEventListener('DOMContentLoaded', function () {
+                console.log('Formulario de inscripción cargado - Prototipo');
+            });
+        </script>
+    </body>
+
+</html>

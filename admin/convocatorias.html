@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard JUDEMS - Convocatorias</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        .page-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .breadcrumb {
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        .breadcrumb a {
+            color: #4a90e2;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb span {
+            color: #495057;
+            font-weight: bold;
+        }
+
+        .page-header {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .header-info h1 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .header-info p {
+            color: #6c757d;
+            font-size: 16px;
+            margin: 0;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.2s;
+            min-width: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn-primary:hover {
+            background: #218838;
+            color: white;
+            text-decoration: none;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.2s;
+            min-width: 140px;
+        }
+
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+
+        .convocatoria-form {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+
+        .form-section {
+            margin-bottom: 35px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .form-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .form-section h3 {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-icon {
+            background: #4a90e2;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 8px;
+        }
+
+        .form-group label::after {
+            content: " *";
+            color: #dc3545;
+        }
+
+        .form-group.optional label::after {
+            content: "";
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #495057;
+            background: white;
+            transition: all 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #4a90e2;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #adb5bd;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 15px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .checkbox-item:hover {
+            border-color: #4a90e2;
+            background: #f1f7ff;
+        }
+
+        .checkbox-item.selected {
+            border-color: #4a90e2;
+            background: #e7f3ff;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: auto;
+            transform: scale(1.2);
+        }
+
+        .checkbox-item label {
+            margin: 0;
+            font-weight: normal;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .subcategorias-container {
+            margin-top: 10px;
+            padding-left: 20px;
+            border-left: 2px solid #e9ecef;
+        }
+
+        .subcategoria-item {
+            margin-bottom: 10px;
+        }
+
+        .info-box {
+            background: #e7f3ff;
+            border: 1px solid #b3d7ff;
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 10px;
+            font-size: 13px;
+            color: #0c5460;
+        }
+
+        .info-box.warning {
+            background: #fff3cd;
+            border-color: #ffeaa7;
+            color: #856404;
+        }
+
+        .info-icon {
+            margin-right: 8px;
+            font-size: 14px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            padding-top: 25px;
+            border-top: 1px solid #e9ecef;
+            margin-top: 30px;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .form-group.error .error-message {
+            display: block;
+        }
+
+        .form-group.error input,
+        .form-group.error select,
+        .form-group.error textarea {
+            border-color: #dc3545;
+            background: #fdf2f2;
+        }
+
+        .alert {
+            padding: 15px 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .alert.success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .alert.error {
+            background: #f8d7da;
+            border: 1px solid #f1b0b7;
+            color: #721c24;
+        }
+
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+            position: relative;
+        }
+
+        .loading::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            border: 2px solid transparent;
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* Tabla de Convocatorias */
+        .convocatorias-table {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+
+        .table-header {
+            padding: 20px 25px;
+            border-bottom: 1px solid #dee2e6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-header h3 {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #f8f9fa;
+        }
+
+        th {
+            padding: 15px 20px;
+            text-align: left;
+            font-weight: bold;
+            color: #495057;
+            font-size: 14px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        td {
+            padding: 15px 20px;
+            border-bottom: 1px solid #e9ecef;
+            font-size: 14px;
+        }
+
+        tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .estado-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .estado-badge.activa {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .estado-badge.finalizada {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .estado-badge.proxima {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .disciplinas-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 5px;
+        }
+
+        .disciplina-tag {
+            background: #e7f3ff;
+            color: #0c5460;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: #212529;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+        }
+
+        .btn-warning:hover {
+            background: #e0a800;
+            color: #212529;
+            text-decoration: none;
+        }
+
+        .btn-info {
+            background: #17a2b8;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+        }
+
+        .btn-info:hover {
+            background: #138496;
+            color: white;
+            text-decoration: none;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            background: #f8f9fa;
+            border: 2px dashed #dee2e6;
+            border-radius: 8px;
+            color: #6c757d;
+        }
+
+        .empty-state .icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        .empty-state h4 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #495057;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        /* Navegación entre pantallas */
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .page-container {
+                padding: 15px;
+            }
+            
+            .page-header {
+                padding: 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .convocatoria-form {
+                padding: 20px;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .btn-primary,
+            .btn-secondary {
+                min-width: auto;
+                width: 100%;
+            }
+            
+            .checkbox-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .table-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 15px;
+            }
+            
+            .table-actions {
+                justify-content: stretch;
+            }
+            
+            .table-actions a,
+            .table-actions button {
+                flex: 1;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <!-- Pantalla de Lista de Convocatorias -->
+        <div id="lista-convocatorias" class="screen active">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <a href="dashboard.html">Dashboard</a> > 
+                <span>Convocatorias</span>
+            </div>
+
+            <!-- Header -->
+            <div class="page-header">
+                <div class="header-info">
+                    <h1>Convocatorias JUDEMS</h1>
+                    <p>Gestión de convocatorias del sistema</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn-primary" onclick="mostrarCrearConvocatoria()">
+                        ➕ Nueva Convocatoria
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tabla de Convocatorias -->
+            <div class="convocatorias-table">
+                <div class="table-header">
+                    <h3>
+                        <div class="section-icon">📋</div>
+                        Convocatorias Registradas
+                    </h3>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Fecha Inicio</th>
+                                <th>Fecha Fin</th>
+                                <th>Disciplinas</th>
+                                <th>Cuota</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Juegos Deportivos 2024</td>
+                                <td>15/03/2024 08:00</td>
+                                <td>30/04/2024 23:59</td>
+                                <td>
+                                    <div>Fútbol, Baloncesto, Atletismo</div>
+                                    <div class="disciplinas-list">
+                                        <span class="disciplina-tag">Fútbol 7</span>
+                                        <span class="disciplina-tag">Baloncesto 3x3</span>
+                                        <span class="disciplina-tag">100m planos</span>
+                                    </div>
+                                </td>
+                                <td>$150.00</td>
+                                <td>
+                                    <span class="estado-badge activa">Activa</span>
+                                </td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="btn-info" onclick="verConvocatoria(1)">
+                                            👁️ Ver
+                                        </button>
+                                        <button class="btn-warning" onclick="editarConvocatoria(1)">
+                                            ✏️ Editar
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Torneo Interescolar 2024</td>
+                                <td>01/05/2024 09:00</td>
+                                <td>15/06/2024 18:00</td>
+                                <td>
+                                    <div>Voleibol, Natación</div>
+                                    <div class="disciplinas-list">
+                                        <span class="disciplina-tag">Voleibol playa</span>
+                                        <span class="disciplina-tag">25m libre</span>
+                                    </div>
+                                </td>
+                                <td>$200.00</td>
+                                <td>
+                                    <span class="estado-badge proxima">Próxima</span>
+                                </td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="btn-info" onclick="verConvocatoria(2)">
+                                            👁️ Ver
+                                        </button>
+                                        <button class="btn-warning" onclick="editarConvocatoria(2)">
+                                            ✏️ Editar
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Campeonato Regional 2023</td>
+                                <td>10/09/2023 10:00</td>
+                                <td>30/10/2023 20:00</td>
+                                <td>
+                                    <div>Fútbol, Atletismo, Béisbol</div>
+                                    <div class="disciplinas-list">
+                                        <span class="disciplina-tag">Fútbol 11</span>
+                                        <span class="disciplina-tag">Salto largo</span>
+                                        <span class="disciplina-tag">Béisbol rápido</span>
+                                    </div>
+                                </td>
+                                <td>$180.00</td>
+                                <td>
+                                    <span class="estado-badge finalizada">Finalizada</span>
+                                </td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="btn-info" onclick="verConvocatoria(3)">
+                                            👁️ Ver
+                                        </button>
+                                        <button class="btn-warning" onclick="editarConvocatoria(3)">
+                                            ✏️ Editar
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Estado vacío (ejemplo comentado) -->
+            <!--
+            <div class="empty-state">
+                <div class="icon">📋</div>
+                <h4>No hay convocatorias registradas</h4>
+                <p>No se han creado convocatorias en el sistema.</p>
+                <button class="btn-primary" onclick="mostrarCrearConvocatoria()">
+                    ➕ Crear Primera Convocatoria
+                </button>
+            </div>
+            -->
+        </div>
+
+        <!-- Pantalla de Crear Convocatoria -->
+        <div id="crear-convocatoria" class="screen">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <a href="dashboard.html">Dashboard</a> > 
+                <a href="#" onclick="mostrarListaConvocatorias()">Convocatorias</a> > 
+                <span>Nueva Convocatoria</span>
+            </div>
+
+            <!-- Header -->
+            <div class="page-header">
+                <div class="header-info">
+                    <h1>Crear Nueva Convocatoria</h1>
+                    <p>Complete la información para registrar una nueva convocatoria</p>
+                </div>
+            </div>
+
+            <!-- Formulario de Convocatoria -->
+            <form class="convocatoria-form" id="crearConvocatoriaForm">
+                <!-- Sección 1: Información Básica -->
+                <div class="form-section">
+                    <h3>
+                        <div class="section-icon">📝</div>
+                        Información Básica
+                    </h3>
+                    
+                    <div class="form-group">
+                        <label for="nombreConvocatoria">Nombre de la Convocatoria</label>
+                        <input type="text" id="nombreConvocatoria" name="nombreConvocatoria" 
+                               placeholder="Ej: Juegos Deportivos 2024" required>
+                        <div class="error-message" id="nombreError">
+                            El nombre de la convocatoria es requerido
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fechaInicio">Fecha de Inicio de Registro</label>
+                            <input type="datetime-local" id="fechaInicio" name="fechaInicio" required>
+                            <div class="error-message" id="fechaInicioError">
+                                La fecha de inicio es requerida
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="fechaFin">Fecha de Fin de Registro</label>
+                            <input type="datetime-local" id="fechaFin" name="fechaFin" required>
+                            <div class="error-message" id="fechaFinError">
+                                La fecha de fin es requerida
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cuotaParticipante">Cuota por Participante ($)</label>
+                        <input type="number" id="cuotaParticipante" name="cuotaParticipante" 
+                               min="0" step="0.01" placeholder="0.00" required>
+                        <div class="error-message" id="cuotaError">
+                            Ingrese una cuota válida
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección 2: Disciplinas -->
+                <div class="form-section">
+                    <h3>
+                        <div class="section-icon">⚽</div>
+                        Disciplinas y Subcategorías
+                    </h3>
+                    
+                    <div class="form-group">
+                        <label>Seleccione las Disciplinas</label>
+                        <div class="checkbox-group" id="disciplinasContainer">
+                            <!-- Las disciplinas se cargarán dinámicamente -->
+                        </div>
+                        <div class="error-message" id="disciplinasError">
+                            Debe seleccionar al menos una disciplina
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <span class="info-icon">💡</span>
+                        <strong>Información importante:</strong> Las disciplinas marcadas con subcategorías permiten seleccionar específicamente qué subcategorías estarán disponibles en esta convocatoria.
+                    </div>
+                </div>
+
+                <!-- Alertas -->
+                <div class="alert success" id="successAlert">
+                    ✅ Convocatoria creada exitosamente
+                </div>
+
+                <div class="alert error" id="errorAlert">
+                    ❌ Error al crear la convocatoria. Verifique los datos e intente nuevamente.
+                </div>
+
+                <!-- Acciones del Formulario -->
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="mostrarListaConvocatorias()">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn-primary" id="submitButton">
+                        <span>💾</span>
+                        Crear Convocatoria
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Datos de ejemplo para disciplinas y subcategorías
+        const disciplinas = [
+            {
+                id: 1,
+                nombre: "Fútbol",
+                icono: "⚽",
+                subcategorias: [
+                    { id: 1, nombre: "Fútbol 11" },
+                    { id: 2, nombre: "Fútbol 7" },
+                    { id: 3, nombre: "Fútbol Rápido" }
+                ]
+            },
+            {
+                id: 2,
+                nombre: "Baloncesto",
+                icono: "🏀",
+                subcategorias: [
+                    { id: 4, nombre: "Baloncesto 5x5" },
+                    { id: 5, nombre: "Baloncesto 3x3" }
+                ]
+            },
+            {
+                id: 3,
+                nombre: "Atletismo",
+                icono: "🏃",
+                subcategorias: [
+                    { id: 6, nombre: "100m planos" },
+                    { id: 7, nombre: "Salto largo" },
+                    { id: 8, nombre: "Lanzamiento de bala" }
+                ]
+            },
+            {
+                id: 4,
+                nombre: "Voleibol",
+                icono: "🏐",
+                subcategorias: [
+                    { id: 9, nombre: "Voleibol sala" },
+                    { id: 10, nombre: "Voleibol playa" }
+                ]
+            },
+            {
+                id: 5,
+                nombre: "Natación",
+                icono: "🏊",
+                subcategorias: [
+                    { id: 11, nombre: "25m libre" },
+                    { id: 12, nombre: "50m pecho" }
+                ]
+            }
+        ];
+
+        // Variables globales
+        let disciplinasSeleccionadas = [];
+
+        // Inicializar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            cargarDisciplinas();
+            establecerFechasPorDefecto();
+        });
+
+        // Cargar disciplinas en el formulario
+        function cargarDisciplinas() {
+            const container = document.getElementById('disciplinasContainer');
+            container.innerHTML = '';
+
+            disciplinas.forEach(disciplina => {
+                const checkboxId = `disciplina-${disciplina.id}`;
+                
+                const checkboxItem = document.createElement('div');
+                checkboxItem.className = 'checkbox-item';
+                checkboxItem.innerHTML = `
+                    <input type="checkbox" id="${checkboxId}" name="disciplinas" value="${disciplina.id}">
+                    <label for="${checkboxId}">${disciplina.icono} ${disciplina.nombre}</label>
+                `;
+
+                // Agregar subcategorías si existen
+                if (disciplina.subcategorias && disciplina.subcategorias.length > 0) {
+                    const subcategoriasContainer = document.createElement('div');
+                    subcategoriasContainer.className = 'subcategorias-container';
+                    subcategoriasContainer.style.display = 'none';
+                    
+                    disciplina.subcategorias.forEach(subcategoria => {
+                        const subcategoriaId = `subcategoria-${subcategoria.id}`;
+                        const subcategoriaItem = document.createElement('div');
+                        subcategoriaItem.className = 'subcategoria-item';
+                        subcategoriaItem.innerHTML = `
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="${subcategoriaId}" name="subcategorias-${disciplina.id}" value="${subcategoria.id}">
+                                <label for="${subcategoriaId}">${subcategoria.nombre}</label>
+                            </div>
+                        `;
+                        subcategoriasContainer.appendChild(subcategoriaItem);
+                    });
+                    
+                    checkboxItem.appendChild(subcategoriasContainer);
+                }
+
+                // Evento para mostrar/ocultar subcategorías
+                const checkbox = checkboxItem.querySelector('input[type="checkbox"]');
+                checkbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        checkboxItem.classList.add('selected');
+                        const subContainer = checkboxItem.querySelector('.subcategorias-container');
+                        if (subContainer) {
+                            subContainer.style.display = 'block';
+                        }
+                    } else {
+                        checkboxItem.classList.remove('selected');
+                        const subContainer = checkboxItem.querySelector('.subcategorias-container');
+                        if (subContainer) {
+                            subContainer.style.display = 'none';
+                            // Desmarcar todas las subcategorías
+                            subContainer.querySelectorAll('input[type="checkbox"]').forEach(subCheckbox => {
+                                subCheckbox.checked = false;
+                                subCheckbox.closest('.checkbox-item').classList.remove('selected');
+                            });
+                        }
+                    }
+                });
+
+                // Evento para subcategorías
+                checkboxItem.querySelectorAll('input[name^="subcategorias"]').forEach(subCheckbox => {
+                    subCheckbox.addEventListener('change', function() {
+                        if (this.checked) {
+                            this.closest('.checkbox-item').classList.add('selected');
+                        } else {
+                            this.closest('.checkbox-item').classList.remove('selected');
+                        }
+                    });
+                });
+
+                container.appendChild(checkboxItem);
+            });
+        }
+
+        // Establecer fechas por defecto
+        function establecerFechasPorDefecto() {
+            const ahora = new Date();
+            const fechaInicio = new Date(ahora.getTime() + 24 * 60 * 60 * 1000); // Mañana
+            const fechaFin = new Date(ahora.getTime() + 30 * 24 * 60 * 60 * 1000); // En 30 días
+            
+            document.getElementById('fechaInicio').value = formatearFechaParaInput(fechaInicio);
+            document.getElementById('fechaFin').value = formatearFechaParaInput(fechaFin);
+        }
+
+        // Formatear fecha para input datetime-local
+        function formatearFechaParaInput(fecha) {
+            const año = fecha.getFullYear();
+            const mes = String(fecha.getMonth() + 1).padStart(2, '0');
+            const dia = String(fecha.getDate()).padStart(2, '0');
+            const horas = String(fecha.getHours()).padStart(2, '0');
+            const minutos = String(fecha.getMinutes()).padStart(2, '0');
+            
+            return `${año}-${mes}-${dia}T${horas}:${minutos}`;
+        }
+
+        // Navegación entre pantallas
+        function mostrarListaConvocatorias() {
+            document.getElementById('lista-convocatorias').classList.add('active');
+            document.getElementById('crear-convocatoria').classList.remove('active');
+        }
+
+        function mostrarCrearConvocatoria() {
+            document.getElementById('lista-convocatorias').classList.remove('active');
+            document.getElementById('crear-convocatoria').classList.add('active');
+        }
+
+        // Validación del formulario
+        document.getElementById('crearConvocatoriaForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            let isValid = true;
+
+            // Validar nombre
+            const nombre = document.getElementById('nombreConvocatoria').value.trim();
+            if (!nombre) {
+                document.getElementById('nombreError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('nombreError').style.display = 'none';
+            }
+
+            // Validar fechas
+            const fechaInicio = new Date(document.getElementById('fechaInicio').value);
+            const fechaFin = new Date(document.getElementById('fechaFin').value);
+            
+            if (!fechaInicio || isNaN(fechaInicio.getTime())) {
+                document.getElementById('fechaInicioError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('fechaInicioError').style.display = 'none';
+            }
+
+            if (!fechaFin || isNaN(fechaFin.getTime())) {
+                document.getElementById('fechaFinError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('fechaFinError').style.display = 'none';
+            }
+
+            // Validar que fecha fin sea posterior a fecha inicio
+            if (fechaInicio && fechaFin && fechaFin <= fechaInicio) {
+                document.getElementById('fechaFinError').textContent = 'La fecha de fin debe ser posterior a la fecha de inicio';
+                document.getElementById('fechaFinError').style.display = 'block';
+                isValid = false;
+            }
+
+            // Validar cuota
+            const cuota = parseFloat(document.getElementById('cuotaParticipante').value);
+            if (isNaN(cuota) || cuota < 0) {
+                document.getElementById('cuotaError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('cuotaError').style.display = 'none';
+            }
+
+            // Validar disciplinas
+            const disciplinasSeleccionadas = document.querySelectorAll('input[name="disciplinas"]:checked').length;
+            if (disciplinasSeleccionadas === 0) {
+                document.getElementById('disciplinasError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('disciplinasError').style.display = 'none';
+            }
+
+            if (!isValid) {
+                document.getElementById('errorAlert').style.display = 'block';
+                document.getElementById('successAlert').style.display = 'none';
+                
+                // Scroll al primer error
+                const firstError = document.querySelector('.form-group.error');
+                if (firstError) {
+                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+                
+                setTimeout(() => {
+                    document.getElementById('errorAlert').style.display = 'none';
+                }, 5000);
+                return;
+            }
+
+            // Simular envío
+            const submitButton = document.getElementById('submitButton');
+            submitButton.classList.add('loading');
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<span class="loading"></span> Creando...';
+
+            // Ocultar alertas anteriores
+            document.getElementById('errorAlert').style.display = 'none';
+
+            setTimeout(() => {
+                submitButton.classList.remove('loading');
+                submitButton.disabled = false;
+                submitButton.innerHTML = '<span>💾</span> Crear Convocatoria';
+                
+                // Mostrar éxito
+                document.getElementById('successAlert').style.display = 'block';
+                
+                // Recopilar datos del formulario
+                const convocatoriaData = {
+                    nombre: nombre,
+                    fechaInicio: fechaInicio,
+                    fechaFin: fechaFin,
+                    cuota: cuota,
+                    disciplinas: recopilarDisciplinasSeleccionadas()
+                };
+                
+                console.log('Convocatoria creada:', convocatoriaData);
+                
+                setTimeout(() => {
+                    alert('✅ Convocatoria "' + nombre + '" creada exitosamente - Prototipo');
+                    mostrarListaConvocatorias();
+                    // Aquí iría la lógica para agregar la convocatoria a la tabla
+                }, 1000);
+            }, 2000);
+        });
+
+        // Recopilar disciplinas y subcategorías seleccionadas
+        function recopilarDisciplinasSeleccionadas() {
+            const disciplinasData = [];
+            
+            document.querySelectorAll('input[name="disciplinas"]:checked').forEach(checkbox => {
+                const disciplinaId = parseInt(checkbox.value);
+                const disciplina = disciplinas.find(d => d.id === disciplinaId);
+                
+                if (disciplina) {
+                    const disciplinaData = {
+                        id: disciplina.id,
+                        nombre: disciplina.nombre,
+                        subcategorias: []
+                    };
+                    
+                    // Recopilar subcategorías seleccionadas para esta disciplina
+                    const subcategoriasCheckboxes = document.querySelectorAll(`input[name="subcategorias-${disciplinaId}"]:checked`);
+                    subcategoriasCheckboxes.forEach(subCheckbox => {
+                        const subcategoriaId = parseInt(subCheckbox.value);
+                        const subcategoria = disciplina.subcategorias.find(s => s.id === subcategoriaId);
+                        
+                        if (subcategoria) {
+                            disciplinaData.subcategorias.push({
+                                id: subcategoria.id,
+                                nombre: subcategoria.nombre
+                            });
+                        }
+                    });
+                    
+                    disciplinasData.push(disciplinaData);
+                }
+            });
+            
+            return disciplinasData;
+        }
+
+        // Funciones para acciones de la tabla
+        function verConvocatoria(id) {
+            alert(`Mostrando detalles de convocatoria ${id} - Prototipo`);
+        }
+
+        function editarConvocatoria(id) {
+            alert(`Editando convocatoria ${id} - Prototipo`);
+        }
+
+        // Limpiar errores al escribir
+        document.querySelectorAll('input, select, textarea').forEach(element => {
+            element.addEventListener('input', function() {
+                this.closest('.form-group').classList.remove('error');
+                document.getElementById('errorAlert').style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>

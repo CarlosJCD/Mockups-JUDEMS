@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Administrador - Prototipo</title>
+    <style>
+        /* Estilos del Dashboard Administrativo */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .admin-header {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-info h1 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .header-info p {
+            color: #6c757d;
+            font-size: 16px;
+            margin: 0;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn-notifications, .btn-profile {
+            background: none;
+            border: 1px solid #dee2e6;
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.2s;
+        }
+
+        .btn-notifications:hover, .btn-profile:hover {
+            background: #f8f9fa;
+        }
+
+        .badge {
+            background: #e74c3c;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: -5px;
+            right: -5px;
+        }
+
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: all 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .stat-icon {
+            font-size: 32px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .stat-info h3 {
+            font-size: 32px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .stat-info p {
+            color: #6c757d;
+            font-size: 14px;
+        }
+
+        .admin-nav {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .nav-card {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 30px 20px;
+            text-decoration: none;
+            color: #333;
+            text-align: center;
+            transition: all 0.2s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .nav-card:hover {
+            border-color: #4a90e2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(74, 144, 226, 0.15);
+            text-decoration: none;
+            color: #333;
+        }
+
+        .nav-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .nav-card span {
+            font-size: 16px;
+            font-weight: bold;
+            display: block;
+        }
+
+        .recent-activity {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .recent-activity h3 {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .activity-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border-left: 4px solid #4a90e2;
+        }
+
+        .activity-title {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .activity-date {
+            color: #6c757d;
+            font-size: 14px;
+        }
+
+        .activity-status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .activity-status.pendiente {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        @media (max-width: 768px) {
+            .admin-container {
+                padding: 15px;
+            }
+            
+            .admin-header {
+                padding: 20px;
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .stats-cards {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .admin-nav {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .activity-item {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <header class="admin-header">
+            <div class="header-info">
+                <h1>Panel de Administración</h1>
+                <p>Bienvenido, Administrador del Sistema</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn-notifications" style="position: relative;">
+                    🔔 <span class="badge">5</span>
+                </button>
+                <button class="btn-profile">👤 Mi Cuenta</button>
+            </div>
+        </header>
+        
+        <div class="stats-cards">
+            <div class="stat-card">
+                <div class="stat-icon">🏫</div>
+                <div class="stat-info">
+                    <h3>8</h3>
+                    <p>Instituciones Registradas</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📢</div>
+                <div class="stat-info">
+                    <h3>5</h3>
+                    <p>Convocatorias Activas</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⏳</div>
+                <div class="stat-info">
+                    <h3>12</h3>
+                    <p>Pendientes de Revisión</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <div class="stat-info">
+                    <h3>156</h3>
+                    <p>Estudiantes Inscritos</p>
+                </div>
+            </div>
+        </div>
+        
+        <nav class="admin-nav">
+            <a href="instituciones.html" class="nav-card">
+                <div class="nav-icon">🏫</div>
+                <span>Gestión de Instituciones</span>
+            </a>
+            <a href="convocatorias.html" class="nav-card">
+                <div class="nav-icon">📢</div>
+                <span>Convocatorias</span>
+            </a>
+            <a href="disciplinas.html" class="nav-card">
+                <div class="nav-icon">⚽</div>
+                <span>Disciplinas</span>
+            </a>
+            <a href="estudiantes.html" class="nav-card">
+                <div class="nav-icon">👥</div>
+                <span>Estudiantes</span>
+            </a>
+        </nav>
+        
+        <div class="recent-activity">
+            <h3>Actividad Reciente</h3>
+            <div class="activity-list">
+                <div class="activity-item">
+                    <span class="activity-title">3 nuevas solicitudes de instituciones</span>
+                    <span class="activity-date">Hace 2 horas</span>
+                    <span class="activity-status pendiente">Pendiente</span>
+                </div>
+                <div class="activity-item">
+                    <span class="activity-title">15 inscripciones pendientes de aprobación</span>
+                    <span class="activity-date">Hace 4 horas</span>
+                    <span class="activity-status pendiente">Pendiente</span>
+                </div>
+                <div class="activity-item">
+                    <span class="activity-title">Convocatoria "Torneo de Verano" por finalizar</span>
+                    <span class="activity-date">Hace 1 día</span>
+                    <span class="activity-status pendiente">Pendiente</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Interacciones básicas del dashboard
+        document.querySelector('.btn-notifications').addEventListener('click', function() {
+            alert('Tiene 5 notificaciones pendientes - Prototipo');
+        });
+
+        document.querySelector('.btn-profile').addEventListener('click', function() {
+            alert('Accediendo a configuración de cuenta - Prototipo');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="es">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Registro de Institución - Prototipo</title>
+        <style>
+            /* Reset básico */
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f5f5f5;
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 20px;
+                line-height: 1.4;
+            }
+
+            /* Contenedor principal */
+            .container {
+                width: 100%;
+                max-width: 600px;
+                background: white;
+                border-radius: 8px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                padding: 30px;
+                border: 1px solid #ddd;
+            }
+
+            /* Encabezado */
+            .header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding-bottom: 20px;
+                border-bottom: 1px solid #eee;
+            }
+
+            .header h1 {
+                color: #333;
+                font-size: 24px;
+                margin-bottom: 10px;
+                font-weight: bold;
+            }
+
+            .header p {
+                color: #666;
+                font-size: 14px;
+                max-width: 500px;
+                margin: 0 auto;
+            }
+
+            /* Formulario */
+            .registration-form {
+                margin-bottom: 20px;
+            }
+
+            .form-group {
+                margin-bottom: 20px;
+            }
+
+            .form-group label {
+                display: block;
+                color: #333;
+                font-size: 14px;
+                font-weight: bold;
+                margin-bottom: 6px;
+            }
+
+            .form-group input,
+            .form-group select {
+                width: 100%;
+                padding: 12px 15px;
+                border: 2px solid #ccc;
+                border-radius: 6px;
+                font-size: 16px;
+                color: #333;
+                background: #fafafa;
+                transition: border-color 0.2s;
+            }
+
+            .form-group input:focus,
+            .form-group select:focus {
+                outline: none;
+                border-color: #4a90e2;
+                background: white;
+            }
+
+            .form-group input::placeholder {
+                color: #999;
+            }
+
+            /* Botones */
+            .form-actions {
+                display: flex;
+                gap: 15px;
+                margin-top: 30px;
+                padding-top: 20px;
+                border-top: 1px solid #eee;
+            }
+
+            .btn-primary {
+                flex: 1;
+                background: #4a90e2;
+                color: white;
+                border: none;
+                padding: 14px 20px;
+                border-radius: 6px;
+                font-size: 16px;
+                font-weight: bold;
+                cursor: pointer;
+                transition: background-color 0.2s;
+            }
+
+            .btn-primary:hover {
+                background: #357abd;
+            }
+
+            .btn-secondary {
+                flex: 1;
+                background: #6c757d;
+                color: white;
+                border: none;
+                padding: 14px 20px;
+                border-radius: 6px;
+                font-size: 16px;
+                font-weight: bold;
+                cursor: pointer;
+                transition: background-color 0.2s;
+            }
+
+            .btn-secondary:hover {
+                background: #545b62;
+            }
+
+            /* Pie del formulario */
+            .form-footer {
+                text-align: center;
+                margin-top: 20px;
+                padding: 15px;
+                background: #f8f9fa;
+                border-radius: 6px;
+                border: 1px solid #e9ecef;
+            }
+
+            .form-footer p {
+                color: #666;
+                font-size: 13px;
+                margin: 0;
+            }
+
+            /* Estados de validación */
+            .form-group.error input,
+            .form-group.error select {
+                border-color: #e74c3c;
+                background: #fdf2f2;
+            }
+
+            .error-message {
+                color: #e74c3c;
+                font-size: 12px;
+                margin-top: 5px;
+                display: none;
+            }
+
+            .form-group.error .error-message {
+                display: block;
+            }
+
+            .form-group.success input,
+            .form-group.success select {
+                border-color: #27ae60;
+                background: #f2fdf6;
+            }
+
+            /* Loading state */
+            .btn-primary.loading {
+                position: relative;
+                color: transparent;
+            }
+
+            .btn-primary.loading::after {
+                content: "";
+                position: absolute;
+                width: 16px;
+                height: 16px;
+                top: 50%;
+                left: 50%;
+                margin: -8px 0 0 -8px;
+                border: 2px solid transparent;
+                border-top: 2px solid white;
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+            }
+
+            @keyframes spin {
+                0% {
+                    transform: rotate(0deg);
+                }
+
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+
+            /* Responsive para móviles */
+            @media (max-width: 768px) {
+                .container {
+                    padding: 20px;
+                    margin: 10px;
+                }
+
+                .header h1 {
+                    font-size: 20px;
+                }
+
+                .header p {
+                    font-size: 13px;
+                }
+
+                .form-actions {
+                    flex-direction: column;
+                }
+
+                .btn-primary,
+                .btn-secondary {
+                    flex: none;
+                }
+            }
+
+            @media (max-width: 480px) {
+                body {
+                    padding: 10px;
+                }
+
+                .container {
+                    padding: 15px;
+                }
+
+                .form-group input,
+                .form-group select {
+                    padding: 10px 12px;
+                    font-size: 15px;
+                }
+
+                .btn-primary,
+                .btn-secondary {
+                    padding: 12px 16px;
+                    font-size: 15px;
+                }
+            }
+
+            /* Estados deshabilitados */
+            .btn-primary:disabled,
+            .btn-secondary:disabled {
+                background: #ccc;
+                cursor: not-allowed;
+            }
+
+            /* Estilos para selects */
+            .form-group select {
+                cursor: pointer;
+            }
+
+            .form-group select option {
+                padding: 10px;
+            }
+
+            /* Grupo de campos relacionados */
+            .field-group {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+            }
+
+            @media (max-width: 480px) {
+                .field-group {
+                    grid-template-columns: 1fr;
+                    gap: 0;
+                }
+            }
+
+            /* Indicador de campo requerido */
+            .form-group label::after {
+                content: " *";
+                color: #e74c3c;
+            }
+
+            /* Versión de impresión */
+            @media print {
+                .container {
+                    box-shadow: none;
+                    border: 1px solid #000;
+                }
+
+                .btn-primary,
+                .btn-secondary {
+                    display: none;
+                }
+
+                .form-footer {
+                    background: none;
+                    border: 1px solid #000;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>Registro de Institución</h1>
+                <p>Complete los datos de su institución para solicitar acceso al sistema</p>
+            </div>
+
+            <form class="registration-form" id="registrationForm">
+                <div class="form-group">
+                    <label for="schoolName">Nombre de la Escuela</label>
+                    <input type="text" id="schoolName" name="schoolName"
+                        placeholder="Ingrese el nombre completo de la institución" required>
+                    <div class="error-message" id="schoolNameError">
+                        El nombre de la escuela es requerido
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="educationSystem">Sistema al que pertenece</label>
+                    <select id="educationSystem" name="educationSystem" required>
+                        <option value="">Seleccione una opción</option>
+                        <option value="UADY">UADY</option>
+                        <option value="SEGEY">SEGEY</option>
+                    </select>
+                    <div class="error-message" id="educationSystemError">
+                        Debe seleccionar un sistema educativo
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="responsibleName">Nombre del Encargado</label>
+                    <input type="text" id="responsibleName" name="responsibleName"
+                        placeholder="Nombre completo del responsable" required>
+                    <div class="error-message" id="responsibleNameError">
+                        El nombre del encargado es requerido
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="responsiblePhone">Número del Encargado</label>
+                    <input type="tel" id="responsiblePhone" name="responsiblePhone" placeholder="Ej: 9991234567"
+                        required>
+                    <div class="error-message" id="responsiblePhoneError">
+                        Ingrese un número de teléfono válido
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="responsibleEmail">Correo Electrónico del Encargado</label>
+                    <input type="email" id="responsibleEmail" name="responsibleEmail"
+                        placeholder="ejemplo@institucion.edu.mx" required>
+                    <div class="error-message" id="responsibleEmailError">
+                        Ingrese un correo electrónico válido
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary" id="submitButton">
+                        Solicitar Registro
+                    </button>
+                    <button type="button" class="btn-secondary" id="cancelButton">
+                        Cancelar
+                    </button>
+                </div>
+
+                <div class="form-footer">
+                    <p>Una vez enviado el registro, recibirá un código de acceso por correo electrónico después de ser
+                        aprobado.</p>
+                </div>
+            </form>
+        </div>
+
+        <script>
+            // Validación del formulario
+            document.getElementById('registrationForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const formData = {
+                    schoolName: document.getElementById('schoolName').value,
+                    educationSystem: document.getElementById('educationSystem').value,
+                    responsibleName: document.getElementById('responsibleName').value,
+                    responsiblePhone: document.getElementById('responsiblePhone').value,
+                    responsibleEmail: document.getElementById('responsibleEmail').value
+                };
+
+                const submitButton = document.getElementById('submitButton');
+                let isValid = true;
+
+                // Validar campos requeridos
+                Object.keys(formData).forEach(field => {
+                    const input = document.getElementById(field);
+                    const errorElement = document.getElementById(field + 'Error');
+                    const formGroup = input.closest('.form-group');
+
+                    if (!formData[field].trim()) {
+                        formGroup.classList.add('error');
+                        isValid = false;
+                    } else {
+                        formGroup.classList.remove('error');
+
+                        // Validaciones específicas
+                        if (field === 'responsibleEmail' && !isValidEmail(formData[field])) {
+                            formGroup.classList.add('error');
+                            errorElement.textContent = 'Ingrese un correo electrónico válido';
+                            isValid = false;
+                        }
+
+                        if (field === 'responsiblePhone' && !isValidPhone(formData[field])) {
+                            formGroup.classList.add('error');
+                            errorElement.textContent = 'Ingrese un número de teléfono válido';
+                            isValid = false;
+                        }
+                    }
+                });
+
+                if (!isValid) {
+                    return;
+                }
+
+                // Simular envío del formulario
+                submitButton.classList.add('loading');
+                submitButton.disabled = true;
+
+                setTimeout(() => {
+                    submitButton.classList.remove('loading');
+                    submitButton.disabled = false;
+                    alert('Registro enviado exitosamente - Prototipo\n\nSe le notificará por correo cuando su solicitud sea procesada.');
+                    document.getElementById('registrationForm').reset();
+                }, 2000);
+            });
+
+            // Función para validar email
+            function isValidEmail(email) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            }
+
+            // Función para validar teléfono (solo números, mínimo 10 dígitos)
+            function isValidPhone(phone) {
+                const phoneRegex = /^\d{10,}$/;
+                return phoneRegex.test(phone.replace(/\D/g, ''));
+            }
+
+            // Limpiar errores al escribir
+            document.querySelectorAll('input, select').forEach(element => {
+                element.addEventListener('input', function () {
+                    this.closest('.form-group').classList.remove('error');
+                });
+            });
+
+            // Botón cancelar
+            document.getElementById('cancelButton').addEventListener('click', function () {
+                if (confirm('¿Está seguro de que desea cancelar el registro? Los datos no guardados se perderán.')) {
+                    window.location.href = 'index.html';
+                }
+            });
+        </script>
+    </body>
+
+</html>

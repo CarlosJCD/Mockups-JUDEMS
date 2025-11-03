@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Subcategoría - Prototipo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        .page-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .breadcrumb {
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        .breadcrumb a {
+            color: #4a90e2;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb span {
+            color: #495057;
+            font-weight: bold;
+        }
+
+        .page-header {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .header-info h1 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .header-info p {
+            color: #6c757d;
+            font-size: 16px;
+            margin: 0;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .disciplina-info {
+            background: #e7f3ff;
+            border: 1px solid #b3d7ff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .disciplina-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .disciplina-icon {
+            font-size: 32px;
+            background: #4a90e2;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .disciplina-title h3 {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 0 0 5px 0;
+        }
+
+        .disciplina-title p {
+            color: #6c757d;
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .subcategoria-form {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+
+        .form-section {
+            margin-bottom: 35px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .form-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .form-section h3 {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-icon {
+            background: #4a90e2;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 8px;
+        }
+
+        .form-group label::after {
+            content: " *";
+            color: #dc3545;
+        }
+
+        .form-group.optional label::after {
+            content: "";
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #495057;
+            background: white;
+            transition: all 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #4a90e2;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #adb5bd;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 15px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .checkbox-item:hover {
+            border-color: #4a90e2;
+            background: #f1f7ff;
+        }
+
+        .checkbox-item.selected {
+            border-color: #4a90e2;
+            background: #e7f3ff;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: auto;
+            transform: scale(1.2);
+        }
+
+        .checkbox-item label {
+            margin: 0;
+            font-weight: normal;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 20px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            transition: all 0.2s;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .radio-item:hover {
+            border-color: #4a90e2;
+            background: #f1f7ff;
+        }
+
+        .radio-item.selected {
+            border-color: #4a90e2;
+            background: #e7f3ff;
+        }
+
+        .radio-item input[type="radio"] {
+            width: auto;
+            transform: scale(1.2);
+        }
+
+        .radio-item .radio-content {
+            flex: 1;
+        }
+
+        .radio-item label {
+            margin: 0;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .radio-description {
+            font-size: 12px;
+            color: #6c757d;
+            line-height: 1.4;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .condiciones-group {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        .condicion-item {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .condicion-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .condicion-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .condicion-icon {
+            color: #4a90e2;
+            font-size: 18px;
+        }
+
+        .condicion-title {
+            font-weight: bold;
+            color: #495057;
+            font-size: 15px;
+        }
+
+        .condicion-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .participantes-config {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .info-box {
+            background: #e7f3ff;
+            border: 1px solid #b3d7ff;
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 10px;
+            font-size: 13px;
+            color: #0c5460;
+        }
+
+        .info-box.warning {
+            background: #fff3cd;
+            border-color: #ffeaa7;
+            color: #856404;
+        }
+
+        .info-icon {
+            margin-right: 8px;
+            font-size: 14px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            padding-top: 25px;
+            border-top: 1px solid #e9ecef;
+            margin-top: 30px;
+        }
+
+        .btn-primary {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.2s;
+            min-width: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover {
+            background: #218838;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.2s;
+            min-width: 140px;
+        }
+
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .form-group.error .error-message {
+            display: block;
+        }
+
+        .form-group.error input,
+        .form-group.error select,
+        .form-group.error textarea {
+            border-color: #dc3545;
+            background: #fdf2f2;
+        }
+
+        .alert {
+            padding: 15px 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .alert.success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .alert.error {
+            background: #f8d7da;
+            border: 1px solid #f1b0b7;
+            color: #721c24;
+        }
+
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+            position: relative;
+        }
+
+        .loading::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            border: 2px solid transparent;
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .page-container {
+                padding: 15px;
+            }
+            
+            .page-header {
+                padding: 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .subcategoria-form {
+                padding: 20px;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+            
+            .participantes-config {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .btn-primary,
+            .btn-secondary {
+                min-width: auto;
+                width: 100%;
+            }
+            
+            .checkbox-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .radio-group {
+                flex-direction: column;
+            }
+            
+            .condicion-options {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .tipo-prueba-details {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border-left: 4px solid #4a90e2;
+        }
+
+        .tipo-prueba-details h5 {
+            font-size: 14px;
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 8px;
+        }
+
+        .tipo-prueba-details ul {
+            font-size: 13px;
+            color: #6c757d;
+            padding-left: 20px;
+        }
+
+        .tipo-prueba-details li {
+            margin-bottom: 4px;
+        }
+
+        .stats-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .stat-item {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+            border: 1px solid #e9ecef;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: #4a90e2;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: #6c757d;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="dashboard.html">Dashboard</a> > 
+            <a href="disciplinas.html">Disciplinas</a> > 
+            <a href="editar-disciplina.html">Fútbol</a> > 
+            <span>Editar Fútbol 7</span>
+        </div>
+
+        <!-- Header -->
+        <div class="page-header">
+            <div class="header-info">
+                <h1>Editar Subcategoría: Fútbol 7</h1>
+                <p>Modifique la información de la subcategoría existente</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn-danger" onclick="eliminarSubcategoria()">
+                    🗑️ Eliminar Subcategoría
+                </button>
+            </div>
+        </div>
+
+        <!-- Información de la disciplina -->
+        <div class="disciplina-info">
+            <div class="disciplina-header">
+                <div class="disciplina-icon">⚽</div>
+                <div class="disciplina-title">
+                    <h3>Fútbol</h3>
+                    <p>Disciplina padre - Rama: Masculino, Femenino, Mixto</p>
+                </div>
+            </div>
+            
+            <!-- Estadísticas de la subcategoría -->
+            <div class="stats-info">
+                <div class="stat-item">
+                    <span class="stat-value">3</span>
+                    <span class="stat-label">Instituciones</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">24</span>
+                    <span class="stat-label">Participantes</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">6</span>
+                    <span class="stat-label">Equipos</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">85%</span>
+                    <span class="stat-label">Cupo Ocupado</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Formulario de Edición -->
+        <form class="subcategoria-form" id="editarSubcategoriaForm">
+            <!-- Sección 1: Información Básica -->
+            <div class="form-section">
+                <h3>
+                    <div class="section-icon">✏️</div>
+                    Información Básica
+                </h3>
+                
+                <div class="form-group">
+                    <label for="editNombreSubcategoria">Nombre de la Subcategoría</label>
+                    <input type="text" id="editNombreSubcategoria" name="editNombreSubcategoria" 
+                           value="Fútbol 7" required>
+                    <div class="error-message" id="nombreError">
+                        El nombre de la subcategoría es requerido
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Ramas de la Subcategoría</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item" onclick="toggleCheckbox(this)">
+                            <input type="checkbox" id="editSubRamaMasculino" name="editSubRamas" value="masculino">
+                            <label for="editSubRamaMasculino">👨 Masculino</label>
+                        </div>
+                        <div class="checkbox-item" onclick="toggleCheckbox(this)">
+                            <input type="checkbox" id="editSubRamaFemenino" name="editSubRamas" value="femenino">
+                            <label for="editSubRamaFemenino">👩 Femenino</label>
+                        </div>
+                        <div class="checkbox-item selected" onclick="toggleCheckbox(this)">
+                            <input type="checkbox" id="editSubRamaMixto" name="editSubRamas" value="mixto" checked>
+                            <label for="editSubRamaMixto">👥 Mixto</label>
+                        </div>
+                    </div>
+                    <div class="error-message" id="ramasError">
+                        Debe seleccionar al menos una rama
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="editTipoPrueba">Tipo de Prueba</label>
+                    <div class="radio-group">
+                        <div class="radio-item" onclick="seleccionarRadio(this, 'individual')">
+                            <input type="radio" id="editTipoIndividual" name="editTipoPrueba" value="individual">
+                            <div class="radio-content">
+                                <label for="editTipoIndividual">🏃 Individual</label>
+                                <div class="radio-description">
+                                    Cada participante compite de forma individual
+                                </div>
+                            </div>
+                        </div>
+                        <div class="radio-item selected" onclick="seleccionarRadio(this, 'grupal')">
+                            <input type="radio" id="editTipoGrupal" name="editTipoPrueba" value="grupal" checked>
+                            <div class="radio-content">
+                                <label for="editTipoGrupal">👥 Grupal</label>
+                                <div class="radio-description">
+                                    Los participantes forman equipos o grupos
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="error-message" id="tipoError">
+                        Debe seleccionar el tipo de prueba
+                    </div>
+                </div>
+
+                <!-- Detalles según tipo de prueba -->
+                <div class="tipo-prueba-details" id="detallesGrupal">
+                    <h5>📋 Configuración para Prueba Grupal</h5>
+                    <ul>
+                        <li>Los estudiantes participan en equipos</li>
+                        <li>Se evalúa el trabajo en conjunto y la estrategia</li>
+                        <li>Requiere coordinación entre participantes</li>
+                        <li>Ideal para deportes de conjunto</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Sección 2: Condiciones de Inscripción -->
+            <div class="form-section">
+                <h3>
+                    <div class="section-icon">📋</div>
+                    Condiciones de Inscripción
+                </h3>
+                
+                <div class="condiciones-group">
+                    <!-- Condición 1: Configuración de Participantes -->
+                    <div class="condicion-item">
+                        <div class="condicion-header">
+                            <div class="condicion-icon">👥</div>
+                            <div class="condicion-title">Configuración de Participantes</div>
+                        </div>
+                        <div class="participantes-config">
+                            <div class="form-group">
+                                <label for="editMinParticipantes">Mínimo por institución</label>
+                                <input type="number" id="editMinParticipantes" name="editMinParticipantes" 
+                                       min="1" max="50" value="7" required>
+                                <div class="error-message" id="minError">
+                                    Ingrese un número válido entre 1 y 50
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="editMaxParticipantes">Máximo por institución</label>
+                                <input type="number" id="editMaxParticipantes" name="editMaxParticipantes" 
+                                       min="1" max="100" value="14" required>
+                                <div class="error-message" id="maxError">
+                                    Ingrese un número válido entre 1 y 100
+                                </div>
+                            </div>
+                        </div>
+                        <div class="info-box">
+                            <span class="info-icon">💡</span>
+                            Estos límites definen cuántos participantes puede inscribir cada institución en esta subcategoría.
+                        </div>
+                    </div>
+
+                    <!-- Condición 2: Formación de Equipos -->
+                    <div class="condicion-item" id="condicionEquipos">
+                        <div class="condicion-header">
+                            <div class="condicion-icon">🏃</div>
+                            <div class="condicion-title">Configuración de Equipos</div>
+                        </div>
+                        <div class="condicion-options">
+                            <div class="form-group">
+                                <label for="editTamanioEquipo">Tamaño del equipo</label>
+                                <input type="number" id="editTamanioEquipo" name="editTamanioEquipo" 
+                                       min="2" max="20" value="7" required>
+                                <div class="info-box">
+                                    <small>Número de participantes por equipo (incluyendo suplentes)</small>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="editMaxEquipos">Máximo de equipos por institución</label>
+                                <input type="number" id="editMaxEquipos" name="editMaxEquipos" 
+                                       min="1" max="10" value="2" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Condición 3: Requisitos Específicos -->
+                    <div class="condicion-item">
+                        <div class="condicion-header">
+                            <div class="condicion-icon">📋</div>
+                            <div class="condicion-title">Requisitos Específicos</div>
+                        </div>
+                        <div class="form-group optional">
+                            <label for="editRequisitosEspecificos">Requisitos adicionales</label>
+                            <textarea id="editRequisitosEspecificos" name="editRequisitosEspecificos">Equipo completo (uniforme), espinilleras obligatorias, balón reglamentario, máximo 5 suplentes por equipo.</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección 3: Configuración Adicional -->
+            <div class="form-section">
+                <h3>
+                    <div class="section-icon">⚙️</div>
+                    Configuración Adicional
+                </h3>
+                
+                <div class="form-group optional">
+                    <label for="editDescripcionSubcategoria">Descripción</label>
+                    <textarea id="editDescripcionSubcategoria" name="editDescripcionSubcategoria">Modalidad de fútbol jugada con 7 jugadores por equipo en campo reducido. Dos tiempos de 25 minutos cada uno.</textarea>
+                    <div class="info-box">
+                        <small>Esta descripción será visible para las instituciones al momento de la inscripción.</small>
+                    </div>
+                </div>
+
+                <div class="form-group optional">
+                    <label for="editReglasEspeciales">Reglas Especiales</label>
+                    <textarea id="editReglasEspeciales" name="editReglasEspeciales">Cambios ilimitados, fuera de juego aplica desde la mitad del campo, saques de banda con las manos.</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="editEstadoSubcategoria">Estado</label>
+                    <select id="editEstadoSubcategoria" name="editEstadoSubcategoria">
+                        <option value="activa" selected>Activa - Disponible para inscripciones</option>
+                        <option value="inactiva">Inactiva - No disponible temporalmente</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Alertas -->
+            <div class="alert success" id="successAlert">
+                ✅ Subcategoría actualizada exitosamente
+            </div>
+
+            <div class="alert error" id="errorAlert">
+                ❌ Error al actualizar la subcategoría. Verifique los datos e intente nuevamente.
+            </div>
+
+            <!-- Acciones del Formulario -->
+            <div class="form-actions">
+                <button type="button" class="btn-secondary" onclick="cancelarEdicion()">
+                    Cancelar
+                </button>
+                <button type="submit" class="btn-primary" id="submitButton">
+                    <span>💾</span>
+                    Guardar Cambios
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Variables globales
+        let tipoPruebaActual = 'grupal';
+
+        // Toggle checkbox con estilo
+        function toggleCheckbox(elemento) {
+            const checkbox = elemento.querySelector('input[type="checkbox"]');
+            checkbox.checked = !checkbox.checked;
+            
+            if (checkbox.checked) {
+                elemento.classList.add('selected');
+            } else {
+                elemento.classList.remove('selected');
+            }
+            
+            // Limpiar error de ramas
+            document.getElementById('ramasError').style.display = 'none';
+        }
+
+        // Seleccionar radio button con estilo y mostrar detalles
+        function seleccionarRadio(elemento, tipo) {
+            document.querySelectorAll('.radio-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            elemento.classList.add('selected');
+            const radio = elemento.querySelector('input[type="radio"]');
+            radio.checked = true;
+            
+            tipoPruebaActual = tipo;
+            
+            // Mostrar/ocultar detalles según tipo
+            document.getElementById('detallesIndividual').style.display = tipo === 'individual' ? 'block' : 'none';
+            document.getElementById('detallesGrupal').style.display = tipo === 'grupal' ? 'block' : 'none';
+            
+            // Habilitar/deshabilitar campos de equipos
+            const camposEquipo = ['editTamanioEquipo', 'editMaxEquipos'];
+            camposEquipo.forEach(campo => {
+                const input = document.getElementById(campo);
+                if (tipo === 'grupal') {
+                    input.disabled = false;
+                    input.required = true;
+                } else {
+                    input.disabled = true;
+                    input.required = false;
+                    input.value = '';
+                }
+            });
+        }
+
+        // Validación del formulario
+        document.getElementById('editarSubcategoriaForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            let isValid = true;
+
+            // Validar nombre
+            const nombre = document.getElementById('editNombreSubcategoria').value.trim();
+            if (!nombre) {
+                document.getElementById('nombreError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('nombreError').style.display = 'none';
+            }
+
+            // Validar ramas
+            const ramasSeleccionadas = document.querySelectorAll('input[name="editSubRamas"]:checked').length;
+            if (ramasSeleccionadas === 0) {
+                document.getElementById('ramasError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('ramasError').style.display = 'none';
+            }
+
+            // Validar participantes
+            const minPart = parseInt(document.getElementById('editMinParticipantes').value);
+            const maxPart = parseInt(document.getElementById('editMaxParticipantes').value);
+            
+            if (!minPart || minPart < 1 || minPart > 50) {
+                document.getElementById('minError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('minError').style.display = 'none';
+            }
+
+            if (!maxPart || maxPart < 1 || maxPart > 100) {
+                document.getElementById('maxError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('maxError').style.display = 'none';
+            }
+
+            // Validar que máximo sea mayor o igual que mínimo
+            if (minPart && maxPart && maxPart < minPart) {
+                document.getElementById('maxError').textContent = 'El máximo debe ser mayor o igual al mínimo';
+                document.getElementById('maxError').style.display = 'block';
+                isValid = false;
+            }
+
+            // Validar campos de equipo si es prueba grupal
+            if (tipoPruebaActual === 'grupal') {
+                const tamanioEquipo = parseInt(document.getElementById('editTamanioEquipo').value);
+                const maxEquipos = parseInt(document.getElementById('editMaxEquipos').value);
+                
+                if (!tamanioEquipo || tamanioEquipo < 2 || tamanioEquipo > 20) {
+                    alert('Por favor ingrese un tamaño de equipo válido (2-20)');
+                    isValid = false;
+                }
+                
+                if (!maxEquipos || maxEquipos < 1 || maxEquipos > 10) {
+                    alert('Por favor ingrese un número válido de equipos máximos (1-10)');
+                    isValid = false;
+                }
+            }
+
+            if (!isValid) {
+                document.getElementById('errorAlert').style.display = 'block';
+                document.getElementById('successAlert').style.display = 'none';
+                
+                // Scroll al primer error
+                const firstError = document.querySelector('.form-group.error');
+                if (firstError) {
+                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+                
+                setTimeout(() => {
+                    document.getElementById('errorAlert').style.display = 'none';
+                }, 5000);
+                return;
+            }
+
+            // Simular envío
+            const submitButton = document.getElementById('submitButton');
+            submitButton.classList.add('loading');
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<span class="loading"></span> Guardando...';
+
+            // Ocultar alertas anteriores
+            document.getElementById('errorAlert').style.display = 'none';
+
+            setTimeout(() => {
+                submitButton.classList.remove('loading');
+                submitButton.disabled = false;
+                submitButton.innerHTML = '<span>💾</span> Guardar Cambios';
+                
+                // Mostrar éxito
+                document.getElementById('successAlert').style.display = 'block';
+                
+                // Simular datos guardados
+                const subcategoriaData = {
+                    nombre: nombre,
+                    ramas: Array.from(document.querySelectorAll('input[name="editSubRamas"]:checked')).map(cb => cb.value),
+                    tipoPrueba: tipoPruebaActual,
+                    minParticipantes: minPart,
+                    maxParticipantes: maxPart,
+                    descripcion: document.getElementById('editDescripcionSubcategoria').value,
+                    reglas: document.getElementById('editReglasEspeciales').value,
+                    requisitos: document.getElementById('editRequisitosEspecificos').value,
+                    estado: document.getElementById('editEstadoSubcategoria').value
+                };
+                
+                if (tipoPruebaActual === 'grupal') {
+                    subcategoriaData.tamanioEquipo = parseInt(document.getElementById('editTamanioEquipo').value);
+                    subcategoriaData.maxEquipos = parseInt(document.getElementById('editMaxEquipos').value);
+                }
+                
+                console.log('Subcategoría actualizada:', subcategoriaData);
+                
+                setTimeout(() => {
+                    alert('✅ Subcategoría "' + nombre + '" actualizada exitosamente - Prototipo');
+                }, 1000);
+            }, 2000);
+        });
+
+        // Cancelar edición
+        function cancelarEdicion() {
+            if (confirm('¿Está seguro de que desea cancelar? Los cambios no guardados se perderán.')) {
+                window.history.back();
+            }
+        }
+
+        // Eliminar subcategoría
+        function eliminarSubcategoria() {
+            if (confirm('¿Está seguro de que desea eliminar esta subcategoría? Esta acción no se puede deshacer y afectará a todas las inscripciones relacionadas.')) {
+                if (confirm('⚠️ ¡ADVERTENCIA! Se eliminarán todas las inscripciones asociadas a esta subcategoría. ¿Continuar con la eliminación?')) {
+                    // Simular eliminación
+                    alert('🗑️ Subcategoría "Fútbol 7" eliminada - Prototipo');
+                    window.location.href = 'editar-disciplina.html';
+                }
+            }
+        }
+
+        // Validación en tiempo real para participantes
+        document.getElementById('editMinParticipantes').addEventListener('input', function() {
+            const min = parseInt(this.value);
+            const maxInput = document.getElementById('editMaxParticipantes');
+            const max = parseInt(maxInput.value);
+            
+            if (min && max && min > max) {
+                maxInput.value = min;
+            }
+            
+            // Limpiar error
+            this.closest('.form-group').classList.remove('error');
+        });
+
+        document.getElementById('editMaxParticipantes').addEventListener('input', function() {
+            const max = parseInt(this.value);
+            const minInput = document.getElementById('editMinParticipantes');
+            const min = parseInt(minInput.value);
+            
+            if (min && max && max <script min) {
+                minInput.value = max;
+            }
+            
+            // Limpiar error
+            this.closest('.form-group').classList.remove('error');
+        });
+    </script>

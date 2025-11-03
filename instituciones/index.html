@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="es">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Acceso al Sistema - Prototipo</title>
+        <style>
+            /* Reset básico */
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f5f5f5;
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 20px;
+            }
+
+            /* Contenedor principal */
+            .login-container {
+                width: 100%;
+                max-width: 400px;
+            }
+
+            /* Tarjeta de login */
+            .login-card {
+                background: white;
+                border-radius: 8px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                padding: 30px;
+                border: 1px solid #ddd;
+            }
+
+            /* Encabezado */
+            .login-header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding-bottom: 20px;
+                border-bottom: 1px solid #eee;
+            }
+
+            .login-header img {
+                width: 60px;
+                height: 60px;
+                margin-bottom: 15px;
+                background-color: #e0e0e0;
+                border-radius: 8px;
+                padding: 10px;
+            }
+
+            .login-header h2 {
+                color: #333;
+                font-size: 24px;
+                margin-bottom: 8px;
+                font-weight: bold;
+            }
+
+            .login-header p {
+                color: #666;
+                font-size: 14px;
+                line-height: 1.4;
+            }
+
+            /* Formulario */
+            .login-form {
+                margin-bottom: 25px;
+            }
+
+            .form-group {
+                margin-bottom: 20px;
+            }
+
+            .form-group label {
+                display: block;
+                color: #333;
+                font-size: 14px;
+                font-weight: bold;
+                margin-bottom: 6px;
+            }
+
+            .access-code-input {
+                position: relative;
+            }
+
+            .access-code-input input {
+                width: 100%;
+                padding: 12px 15px;
+                border: 2px solid #ccc;
+                border-radius: 6px;
+                font-size: 16px;
+                color: #333;
+                background: #fafafa;
+                transition: border-color 0.2s;
+            }
+
+            .access-code-input input:focus {
+                outline: none;
+                border-color: #4a90e2;
+                background: white;
+            }
+
+            .access-code-input input::placeholder {
+                color: #999;
+            }
+
+            /* Botón de login */
+            .btn-login {
+                width: 100%;
+                background: #4a90e2;
+                color: white;
+                border: none;
+                padding: 14px 20px;
+                border-radius: 6px;
+                font-size: 16px;
+                font-weight: bold;
+                cursor: pointer;
+                transition: background-color 0.2s;
+                margin-top: 10px;
+            }
+
+            .btn-login:hover {
+                background: #357abd;
+            }
+
+            .btn-login:active {
+                background: #2c6aa3;
+            }
+
+            .btn-login:disabled {
+                background: #ccc;
+                cursor: not-allowed;
+            }
+
+            /* Enlaces */
+            .login-links {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+
+            .login-links a {
+                color: #4a90e2;
+                text-decoration: none;
+                font-size: 14px;
+                padding: 8px 0;
+                transition: color 0.2s;
+            }
+
+            .login-links a:hover {
+                color: #357abd;
+                text-decoration: underline;
+            }
+
+            /* Estados de error */
+            .form-group.error input {
+                border-color: #e74c3c;
+                background: #fdf2f2;
+            }
+
+            .error-message {
+                color: #e74c3c;
+                font-size: 12px;
+                margin-top: 5px;
+                display: none;
+            }
+
+            .form-group.error .error-message {
+                display: block;
+            }
+
+            /* Loading state simple */
+            .btn-login.loading {
+                position: relative;
+                color: transparent;
+            }
+
+            .btn-login.loading::after {
+                content: "";
+                position: absolute;
+                width: 16px;
+                height: 16px;
+                top: 50%;
+                left: 50%;
+                margin: -8px 0 0 -8px;
+                border: 2px solid transparent;
+                border-top: 2px solid white;
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+            }
+
+            @keyframes spin {
+                0% {
+                    transform: rotate(0deg);
+                }
+
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+
+            /* Responsive para móviles */
+            @media (max-width: 480px) {
+                .login-container {
+                    max-width: 100%;
+                    padding: 10px;
+                }
+
+                .login-card {
+                    padding: 20px;
+                }
+
+                .login-header h2 {
+                    font-size: 20px;
+                }
+
+                .login-header p {
+                    font-size: 13px;
+                }
+
+                .form-group input {
+                    padding: 10px 12px;
+                    font-size: 15px;
+                }
+
+                .btn-login {
+                    padding: 12px 16px;
+                    font-size: 15px;
+                }
+            }
+
+            /* Estados de éxito */
+            .form-group.success input {
+                border-color: #27ae60;
+                background: #f2fdf6;
+            }
+
+            /* Tooltip simple */
+            .access-code-tooltip {
+                display: inline-block;
+                margin-left: 5px;
+                cursor: help;
+                color: #666;
+                font-size: 12px;
+            }
+
+            /* Versión de impresión */
+            @media print {
+                .login-card {
+                    box-shadow: none;
+                    border: 1px solid #000;
+                }
+
+                .btn-login {
+                    background: #000 !important;
+                    color: #fff !important;
+                }
+
+                .login-links {
+                    display: none;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="login-container">
+            <div class="login-card">
+                <div class="login-header">
+                    <!-- Placeholder para logo -->
+                    <div
+                        style="width: 60px; height: 60px; background: #e0e0e0; margin: 0 auto 15px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #666; font-size: 12px;">
+                        LOGO
+                    </div>
+                    <h2>Acceso a la Plataforma</h2>
+                    <p>Ingrese su código de acceso institucional</p>
+                </div>
+
+                <form class="login-form" id="loginForm">
+                    <div class="form-group">
+                        <label for="accessCode">
+                            Código de Acceso *
+                        </label>
+                        <div class="access-code-input">
+                            <input type="text" id="accessCode" name="accessCode" placeholder="Ej: INST-2024-ABC123"
+                                required>
+                        </div>
+                        <div class="error-message" id="accessCodeError">
+                            Código de acceso inválido
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-login" id="loginButton">
+                        Acceder al Sistema
+                    </button>
+                </form>
+
+                <div class="login-links">
+                    <a href="solicitar-registro.html">¿No tiene código? Solicitar registro</a>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Validación básica del formulario
+            document.getElementById('loginForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const accessCode = document.getElementById('accessCode').value;
+                const formGroup = document.querySelector('.form-group');
+                const loginButton = document.getElementById('loginButton');
+
+                // Validación simple
+                if (accessCode.length < 5) {
+                    formGroup.classList.add('error');
+                    return;
+                }
+
+                // Simular proceso de login
+                formGroup.classList.remove('error');
+                loginButton.classList.add('loading');
+                loginButton.disabled = true;
+
+                setTimeout(() => {
+                    loginButton.classList.remove('loading');
+                    loginButton.disabled = false;
+                    window.location.href = "dashboard.html"
+                }, 1500);
+            });
+
+            // Limpiar errores al escribir
+            document.getElementById('accessCode').addEventListener('input', function () {
+                this.closest('.form-group').classList.remove('error');
+            });
+        </script>
+    </body>
+
+</html>
