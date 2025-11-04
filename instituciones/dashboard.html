@@ -55,6 +55,7 @@
                 align-items: center;
             }
 
+            /* Estilos de botones (se mantienen por si se añaden otros) */
             .btn-notifications {
                 background: none;
                 border: 1px solid #dee2e6;
@@ -185,71 +186,6 @@
                 display: block;
             }
 
-            /* Actividad reciente */
-            .recent-activity {
-                background: white;
-                border: 1px solid #dee2e6;
-                border-radius: 8px;
-                padding: 25px;
-                margin: 0 30px 30px;
-                max-width: 1200px;
-                margin-left: auto;
-                margin-right: auto;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            }
-
-            .recent-activity h3 {
-                font-size: 18px;
-                font-weight: bold;
-                color: #2c3e50;
-                margin-bottom: 20px;
-                padding-bottom: 15px;
-                border-bottom: 1px solid #dee2e6;
-            }
-
-            .activity-list {
-                display: flex;
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .activity-item {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 15px;
-                background: #f8f9fa;
-                border-radius: 6px;
-                border-left: 4px solid #4a90e2;
-            }
-
-            .activity-title {
-                font-weight: bold;
-                color: #2c3e50;
-            }
-
-            .activity-date {
-                color: #6c757d;
-                font-size: 14px;
-            }
-
-            .activity-status {
-                padding: 4px 12px;
-                border-radius: 20px;
-                font-size: 12px;
-                font-weight: bold;
-            }
-
-            .activity-status.active {
-                background: #d4edda;
-                color: #155724;
-            }
-
-            .activity-status.pending {
-                background: #fff3cd;
-                color: #856404;
-            }
-
             /* Responsive */
             @media (max-width: 768px) {
                 .dashboard-header {
@@ -274,17 +210,6 @@
                     grid-template-columns: 1fr;
                     padding: 0 20px 20px;
                     gap: 15px;
-                }
-
-                .recent-activity {
-                    margin: 0 20px 20px;
-                    padding: 20px;
-                }
-
-                .activity-item {
-                    flex-direction: column;
-                    gap: 10px;
-                    text-align: center;
                 }
             }
 
@@ -332,8 +257,7 @@
                 }
 
                 .stat-card,
-                .nav-card,
-                .recent-activity {
+                .nav-card {
                     border: 1px solid #000;
                     box-shadow: none;
                 }
@@ -385,13 +309,8 @@
                     <h1>Bienvenido, Instituto Juárez</h1>
                     <p>Sistema: UADY | Código: INST-2024-ABC123</p>
                 </div>
-                <div class="header-actions">
-                    <button class="btn-notifications">
-                        🔔 <span class="badge">3</span>
-                    </button>
-                    <button class="btn-profile">👤 Mi Cuenta</button>
-                </div>
-            </header>
+                
+                </header>
 
             <div class="stats-cards">
                 <div class="stat-card">
@@ -408,13 +327,7 @@
                         <p>Estudiantes Registrados</p>
                     </div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-icon">✅</div>
-                    <div class="stat-info">
-                        <h3>23</h3>
-                        <p>Inscripciones Activas</p>
-                    </div>
-                </div>
+                
                 <div class="stat-card">
                     <div class="stat-icon">⏳</div>
                     <div class="stat-info">
@@ -435,48 +348,16 @@
                 </a>
                 <a href="facturacion.html" class="nav-card">
                     <div class="nav-icon">🧾</div>
-                    <span>Facturación</span>
+                    <span>Pagos y Facturación</span>
                 </a>
             </nav>
 
-            <div class="recent-activity">
-                <h3>Convocatorias Recientes</h3>
-                <div class="activity-list">
-                    <div class="activity-item">
-                        <span class="activity-title">Juegos Deportivos 2024</span>
-                        <span class="activity-date">Vence: 15 Dic 2024</span>
-                        <span class="activity-status active">Activa</span>
-                    </div>
-                    <div class="activity-item">
-                        <span class="activity-title">Torneo de Fútbol Rapidez</span>
-                        <span class="activity-date">Vence: 20 Dic 2024</span>
-                        <span class="activity-status active">Activa</span>
-                    </div>
-                    <div class="activity-item">
-                        <span class="activity-title">Competencia de Atletismo</span>
-                        <span class="activity-date">Finalizada: 30 Nov 2024</span>
-                        <span class="activity-status pending">En revisión</span>
-                    </div>
-                </div>
             </div>
-        </div>
 
         <script>
-            // Simular carga de datos
             document.addEventListener('DOMContentLoaded', function () {
                 console.log('Dashboard cargado - Prototipo');
 
-                // Ejemplo de interacción con las notificaciones
-                document.querySelector('.btn-notifications').addEventListener('click', function () {
-                    alert('Tiene 3 notificaciones pendientes - Prototipo');
-                });
-
-                // Ejemplo de interacción con el perfil
-                document.querySelector('.btn-profile').addEventListener('click', function () {
-                    alert('Accediendo a configuración de cuenta - Prototipo');
-                });
-
-                // Efecto hover en tarjetas de navegación
                 const navCards = document.querySelectorAll('.nav-card');
                 navCards.forEach(card => {
                     card.addEventListener('mouseenter', function () {

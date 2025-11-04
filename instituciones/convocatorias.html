@@ -2,7 +2,7 @@
 <html lang="es">
 
     <head>
-        <meta charset="UTF-8">
+        <meta charset="UTF-M">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Convocatorias - Prototipo</title>
         <style>
@@ -522,7 +522,6 @@
                 </div>
             </div>
 
-            <!-- Sección de Filtros -->
             <div class="filters-section" id="filtersSection">
                 <div class="filter-group">
                     <div class="filter-item">
@@ -545,9 +544,7 @@
                 </div>
             </div>
 
-            <!-- Grid de Convocatorias -->
             <div class="convocatorias-grid">
-                <!-- Convocatoria 1 -->
                 <div class="convocatoria-card">
                     <div class="card-header">
                         <h3>🏆 Juegos Deportivos Interpreparatorias 2024</h3>
@@ -564,8 +561,8 @@
                             <span class="value">15 Dic 2024 18:00 hrs</span>
                         </div>
                         <div class="info-row">
-                            <span class="label">Cupo Disponible:</span>
-                            <span class="value highlight">45/50 participantes</span>
+                            <span class="label">Alumnos inscritos:</span>
+                            <span class="value highlight">45</span>
                         </div>
                         <div class="info-row">
                             <span class="label">Disciplinas:</span>
@@ -575,11 +572,10 @@
 
                     <div class="card-actions">
                         <a href="convocatoria-detalle.html" class="btn-primary">Ver Disciplinas</a>
-                        <button class="btn-secondary">Ver Inscritos</button>
+                        <button href="inscritos.html" class="btn-secondary">Ver Inscritos</button>
                     </div>
                 </div>
 
-                <!-- Convocatoria 2 -->
                 <div class="convocatoria-card">
                     <div class="card-header">
                         <h3>⚽ Torneo de Fútbol Rapidez 2024</h3>
@@ -596,8 +592,8 @@
                             <span class="value">20 Dic 2024 20:00 hrs</span>
                         </div>
                         <div class="info-row">
-                            <span class="label">Cupo Disponible:</span>
-                            <span class="value warning">28/30 participantes</span>
+                            <span class="label">Alumnos inscritos:</span>
+                            <span class="value highlight">28</span>
                         </div>
                         <div class="info-row">
                             <span class="label">Disciplinas:</span>
@@ -607,11 +603,10 @@
 
                     <div class="card-actions">
                         <a href="convocatoria-detalle.html" class="btn-primary">Ver Disciplinas</a>
-                        <button class="btn-secondary">Ver Inscritos</button>
+                        <button href="inscritos.html" class="btn-secondary">Ver Inscritos</button>
                     </div>
                 </div>
 
-                <!-- Convocatoria 3 -->
                 <div class="convocatoria-card">
                     <div class="card-header">
                         <h3>🏀 Campeonato de Basquetbol Estudiantil</h3>
@@ -628,8 +623,8 @@
                             <span class="value">15 Feb 2025 18:00 hrs</span>
                         </div>
                         <div class="info-row">
-                            <span class="label">Cupo Disponible:</span>
-                            <span class="value">0/24 participantes</span>
+                            <span class="label">Alumnos inscritos:</span>
+                            <span class="value danger">0</span>
                         </div>
                         <div class="info-row">
                             <span class="label">Disciplinas:</span>
@@ -639,19 +634,11 @@
 
                     <div class="card-actions">
                         <button class="btn-primary" disabled>Próximamente</button>
-                        <button class="btn-secondary" disabled>Ver Inscritos</button>
+                        <button href="inscritos.html" class="btn-secondary" disabled>Ver Inscritos</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Estado vacío (ejemplo) -->
-            <!-- <div class="empty-state">
-            <div class="icon">📭</div>
-            <h3>No hay convocatorias disponibles</h3>
-            <p>Actualmente no hay convocatorias activas o próximas.</p>
-        </div> -->
-
-            <!-- Paginación -->
             <div class="pagination">
                 <button disabled>Anterior</button>
                 <span class="pagination-info">Página 1 de 1</span>
@@ -676,24 +663,25 @@
             document.getElementById('clearFilters').addEventListener('click', function () {
                 document.getElementById('filterStatus').value = '';
                 document.getElementById('filterDate').value = '';
-                document.getElementById('filterDiscipline').value = '';
+                // Corregido: 'filterDiscipline' no existe en el HTML, lo comento o elimino
+                // document.getElementById('filterDiscipline').value = ''; 
                 alert('Filtros limpiados - Prototipo');
             });
 
             // Búsqueda en tiempo real
             document.getElementById('searchInput').addEventListener('input', function (e) {
                 console.log('Buscando:', e.target.value);
-                // En un sistema real, aquí iría la lógica de filtrado
             });
 
-            // Ejemplo de interacción con botones
             document.querySelectorAll('.btn-secondary').forEach(button => {
                 button.addEventListener('click', function () {
                     if (!this.disabled) {
-                        document.location.href="inscritos.html"
+                        window.location.href = 'inscritos.html';
                     }
                 });
             });
+            // --- FIN DE LA CORRECCIÓN ---
+            
         </script>
     </body>
 

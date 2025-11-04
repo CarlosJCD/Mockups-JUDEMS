@@ -219,113 +219,6 @@
                 color: #adb5bd;
             }
 
-            /* Upload de documentos */
-            .document-upload {
-                display: flex;
-                flex-direction: column;
-                gap: 20px;
-            }
-
-            .upload-item {
-                border: 2px dashed #dee2e6;
-                border-radius: 8px;
-                padding: 20px;
-                transition: all 0.2s;
-                background: #f8f9fa;
-            }
-
-            .upload-item:hover {
-                border-color: #4a90e2;
-                background: #f1f7ff;
-            }
-
-            .upload-item label {
-                display: block;
-                font-size: 14px;
-                font-weight: bold;
-                color: #495057;
-                margin-bottom: 10px;
-            }
-
-            .upload-area {
-                position: relative;
-                cursor: pointer;
-            }
-
-            .upload-area input[type="file"] {
-                position: absolute;
-                width: 100%;
-                height: 100%;
-                opacity: 0;
-                cursor: pointer;
-            }
-
-            .upload-placeholder {
-                text-align: center;
-                padding: 30px 20px;
-                border-radius: 6px;
-                background: white;
-                border: 1px solid #dee2e6;
-                transition: all 0.2s;
-            }
-
-            .upload-area:hover .upload-placeholder {
-                border-color: #4a90e2;
-                background: #f8f9fa;
-            }
-
-            .upload-placeholder span {
-                display: block;
-                font-size: 16px;
-                color: #495057;
-                margin-bottom: 5px;
-            }
-
-            .upload-placeholder small {
-                color: #6c757d;
-                font-size: 12px;
-            }
-
-            .file-preview {
-                display: none;
-                align-items: center;
-                gap: 10px;
-                padding: 15px;
-                background: #d4edda;
-                border: 1px solid #c3e6cb;
-                border-radius: 6px;
-                margin-top: 10px;
-            }
-
-            .file-preview.show {
-                display: flex;
-            }
-
-            .file-info {
-                flex: 1;
-            }
-
-            .file-name {
-                font-size: 14px;
-                font-weight: bold;
-                color: #155724;
-                margin-bottom: 2px;
-            }
-
-            .file-size {
-                font-size: 12px;
-                color: #28a745;
-            }
-
-            .remove-file {
-                background: none;
-                border: none;
-                color: #dc3545;
-                cursor: pointer;
-                font-size: 16px;
-                padding: 5px;
-            }
-
             /* Información de requisitos */
             .requisitos-info {
                 background: #e7f3ff;
@@ -544,14 +437,6 @@
                     font-size: 16px;
                 }
 
-                .upload-placeholder {
-                    padding: 20px 15px;
-                }
-
-                .upload-placeholder span {
-                    font-size: 14px;
-                }
-
                 .info-header {
                     flex-direction: column;
                     text-align: center;
@@ -611,33 +496,11 @@
                 color: #721c24;
                 display: block;
             }
-
-            /* Información de costo */
-            .costo-info {
-                background: #fff3cd;
-                border: 1px solid #ffeaa7;
-                border-radius: 6px;
-                padding: 15px;
-                margin-top: 15px;
-            }
-
-            .costo-info strong {
-                color: #856404;
-                font-size: 14px;
-            }
-
-            .costo-monto {
-                font-size: 18px;
-                font-weight: bold;
-                color: #856404;
-                margin-top: 5px;
-            }
         </style>
     </head>
 
     <body>
         <div class="page-container">
-            <!-- Breadcrumb -->
             <div class="breadcrumb">
                 <a href="convocatorias.html">Convocatorias</a> >
                 <a href="disciplinas.html">Juegos Deportivos 2024</a> >
@@ -645,13 +508,11 @@
                 <span>Inscribir Estudiante</span>
             </div>
 
-            <!-- Header -->
             <div class="page-header">
                 <h1>Inscribir Estudiante</h1>
                 <p>Complete el formulario para inscribir un estudiante en la subcategoría seleccionada</p>
             </div>
 
-            <!-- Información de la convocatoria -->
             <div class="convocatoria-info">
                 <div class="info-header">
                     <div class="info-icon">⚽</div>
@@ -670,8 +531,8 @@
                         <span class="info-value">Fútbol</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">Cupo Disponible</span>
-                        <span class="info-value" style="color: #28a745;">12/15 participantes</span>
+                        <span class="info-label">Alumnos Inscritos</span>
+                        <span class="info-value" style="color: #28a745;">12 participantes</span>
                     </div>
                     <div class="info-item">
                         <span class="info-label">Tipo de Prueba</span>
@@ -680,9 +541,7 @@
                 </div>
             </div>
 
-            <!-- Formulario de inscripción -->
             <form class="inscripcion-form" id="inscripcionForm">
-                <!-- Sección 1: Selección de Estudiante -->
                 <div class="form-section">
                     <h3>
                         <span class="section-number">1</span>
@@ -703,7 +562,6 @@
                         </div>
                     </div>
 
-                    <!-- Información del estudiante seleccionado -->
                     <div class="estudiante-selected" id="estudianteSelected">
                         <div class="estudiante-info">
                             <div class="estudiante-details">
@@ -718,7 +576,6 @@
                     </div>
                 </div>
 
-                <!-- Sección 2: Datos de Participación -->
                 <div class="form-section">
                     <h3>
                         <span class="section-number">2</span>
@@ -756,69 +613,6 @@
                     </div>
                 </div>
 
-                <!-- Sección 3: Documentación Requerida -->
-                <div class="form-section">
-                    <h3>
-                        <span class="section-number">3</span>
-                        Documentación Requerida
-                    </h3>
-
-                    <div class="document-upload">
-                        <div class="upload-item">
-                            <label for="constanciaEstudios">Constancia de Estudios *</label>
-                            <div class="upload-area">
-                                <input type="file" id="constanciaEstudios" name="constanciaEstudios"
-                                    accept=".pdf,.jpg,.png" required>
-                                <div class="upload-placeholder">
-                                    <span>📄 Arrastra o selecciona el archivo</span>
-                                    <small>Formatos aceptados: PDF, JPG, PNG (Máx. 5MB)</small>
-                                </div>
-                            </div>
-                            <div class="file-preview" id="constanciaPreview">
-                                <div class="file-info">
-                                    <div class="file-name" id="constanciaName">constancia_estudios.pdf</div>
-                                    <div class="file-size" id="constanciaSize">2.1 MB</div>
-                                </div>
-                                <button type="button" class="remove-file"
-                                    onclick="removerArchivo('constancia')">×</button>
-                            </div>
-                            <div class="error-message" id="constanciaError">
-                                Debe subir la constancia de estudios
-                            </div>
-                        </div>
-
-                        <div class="upload-item">
-                            <label for="comprobantePago">Comprobante de Pago *</label>
-                            <div class="upload-area">
-                                <input type="file" id="comprobantePago" name="comprobantePago" accept=".pdf,.jpg,.png"
-                                    required>
-                                <div class="upload-placeholder">
-                                    <span>💰 Arrastra o selecciona el comprobante</span>
-                                    <small>Formatos aceptados: PDF, JPG, PNG (Máx. 5MB)</small>
-                                </div>
-                            </div>
-                            <div class="file-preview" id="comprobantePreview">
-                                <div class="file-info">
-                                    <div class="file-name" id="comprobanteName">comprobante_pago.jpg</div>
-                                    <div class="file-size" id="comprobanteSize">1.5 MB</div>
-                                </div>
-                                <button type="button" class="remove-file"
-                                    onclick="removerArchivo('comprobante')">×</button>
-                            </div>
-                            <div class="error-message" id="comprobanteError">
-                                Debe subir el comprobante de pago
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="costo-info">
-                        <strong>💵 Costo de Inscripción</strong>
-                        <div class="costo-monto">$250.00 MXN</div>
-                        <small>El pago debe realizarse en la cuenta bancaria de la institución organizadora</small>
-                    </div>
-                </div>
-
-                <!-- Alertas -->
                 <div class="alert success" id="successAlert" style="display: none;">
                     ✅ Inscripción realizada exitosamente
                 </div>
@@ -827,7 +621,6 @@
                     ❌ Error al procesar la inscripción
                 </div>
 
-                <!-- Acciones del formulario -->
                 <div class="form-actions">
                     <button type="button" class="btn-secondary" onclick="cancelarInscripcion()">
                         Cancelar
@@ -864,38 +657,7 @@
                 estudianteSeleccionado = null;
             }
 
-            // Manejo de archivos
-            document.getElementById('constanciaEstudios').addEventListener('change', function (e) {
-                manejarArchivo(e.target, 'constancia');
-            });
-
-            document.getElementById('comprobantePago').addEventListener('change', function (e) {
-                manejarArchivo(e.target, 'comprobante');
-            });
-
-            function manejarArchivo(input, tipo) {
-                const file = input.files[0];
-                if (file) {
-                    const preview = document.getElementById(tipo + 'Preview');
-                    const name = document.getElementById(tipo + 'Name');
-                    const size = document.getElementById(tipo + 'Size');
-
-                    name.textContent = file.name;
-                    size.textContent = (file.size / (1024 * 1024)).toFixed(1) + ' MB';
-                    preview.classList.add('show');
-
-                    // Limpiar error
-                    document.getElementById(tipo + 'Error').style.display = 'none';
-                }
-            }
-
-            function removerArchivo(tipo) {
-                const input = document.getElementById(tipo + 'Estudios') || document.getElementById(tipo + 'Pago');
-                const preview = document.getElementById(tipo + 'Preview');
-
-                input.value = '';
-                preview.classList.remove('show');
-            }
+            // JAVASCRIPT DE MANEJO DE ARCHIVOS ELIMINADO
 
             // Validación del formulario
             document.getElementById('inscripcionForm').addEventListener('submit', function (e) {
@@ -911,23 +673,7 @@
                     document.getElementById('studentError').style.display = 'none';
                 }
 
-                // Validar archivos
-                const constancia = document.getElementById('constanciaEstudios').files[0];
-                const comprobante = document.getElementById('comprobantePago').files[0];
-
-                if (!constancia) {
-                    document.getElementById('constanciaError').style.display = 'block';
-                    isValid = false;
-                } else {
-                    document.getElementById('constanciaError').style.display = 'none';
-                }
-
-                if (!comprobante) {
-                    document.getElementById('comprobanteError').style.display = 'block';
-                    isValid = false;
-                } else {
-                    document.getElementById('comprobanteError').style.display = 'none';
-                }
+                // JAVASCRIPT DE VALIDACIÓN DE ARCHIVOS ELIMINADO
 
                 if (!isValid) {
                     document.getElementById('errorAlert').style.display = 'block';
@@ -952,9 +698,9 @@
                         document.getElementById('inscripcionForm').reset();
                         document.getElementById('estudianteSelected').classList.remove('show');
                         estudianteSeleccionado = null;
-                        document.querySelectorAll('.file-preview').forEach(preview => {
-                            preview.classList.remove('show');
-                        });
+                        
+                        // JAVASCRIPT DE LIMPIEZA DE PREVIEW DE ARCHIVOS ELIMINADO
+                        
                         document.getElementById('successAlert').style.display = 'none';
                         alert('Inscripción completada exitosamente - Prototipo');
                     }, 2000);

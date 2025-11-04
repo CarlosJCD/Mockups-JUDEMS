@@ -563,54 +563,6 @@
                 }
             }
 
-            /* Indicadores visuales */
-            .cupo-indicator {
-                display: flex;
-                align-items: center;
-                gap: 10px;
-                margin-top: 8px;
-            }
-
-            .cupo-text {
-                font-size: 12px;
-                color: #6c757d;
-                min-width: 80px;
-            }
-
-            .cupo-bar {
-                flex: 1;
-                height: 6px;
-                background: #e9ecef;
-                border-radius: 3px;
-                overflow: hidden;
-            }
-
-            .cupo-fill {
-                height: 100%;
-                border-radius: 3px;
-                transition: width 0.3s ease;
-            }
-
-            .cupo-fill.alto {
-                background: #28a745;
-                width: 80%;
-            }
-
-            .cupo-fill.medio {
-                background: #ffc107;
-                width: 50%;
-            }
-
-            .cupo-fill.bajo {
-                background: #dc3545;
-                width: 20%;
-            }
-
-            .cupo-fill.lleno {
-                background: #6c757d;
-                width: 100%;
-            }
-
             /* Tooltips */
             .tooltip {
                 position: relative;
@@ -695,25 +647,21 @@
 
     <body>
         <div class="page-container">
-            <!-- Botón de regreso -->
             <a href="convocatoria-detalle.html" class="btn-back">
                 ← Volver a Disciplinas
             </a>
 
-            <!-- Breadcrumb -->
             <div class="breadcrumb">
                 <a href="convocatorias.html">Convocatorias</a> >
                 <a href="convocatoria-detalle.html">Juegos Deportivos 2024</a> >
                 <span>Futbol</span>
             </div>
 
-            <!-- Header -->
             <div class="page-header">
                 <h1>Subcategorías - Fútbol</h1>
                 <p>Seleccione una subcategoría para inscribir estudiantes</p>
             </div>
 
-            <!-- Información de la disciplina -->
             <div class="disciplina-info">
                 <div class="disciplina-header">
                     <div class="disciplina-icon">⚽</div>
@@ -728,8 +676,8 @@
                         <span class="stat-label">Subcategorías</span>
                     </div>
                     <div class="stat-item">
-                        <span class="stat-value">32/50</span>
-                        <span class="stat-label">Cupo Total</span>
+                        <span class="stat-value">12</span>
+                        <span class="stat-label">Alumnos Inscritos</span>
                     </div>
                     <div class="stat-item">
                         <span class="stat-value">3</span>
@@ -742,7 +690,6 @@
                 </div>
             </div>
 
-            <!-- Filtros y búsqueda -->
             <div class="filters-section">
                 <div class="filter-group">
                     <div class="filter-item">
@@ -762,14 +709,7 @@
                             <option value="grupal">Grupal</option>
                         </select>
                     </div>
-                    <div class="filter-item">
-                        <label for="filterEstado">Filtrar por Estado</label>
-                        <select id="filterEstado">
-                            <option value="">Todos los estados</option>
-                            <option value="disponible">Con cupo disponible</option>
-                            <option value="lleno">Cupo lleno</option>
-                        </select>
-                    </div>
+
                     <div class="search-box">
                         <input type="text" placeholder="Buscar subcategoría..." id="searchSubcategoria">
                         <button>🔍 Buscar</button>
@@ -777,13 +717,11 @@
                 </div>
             </div>
 
-            <!-- Lista de subcategorías -->
             <div class="subcategorias-section">
                 <div class="section-header">
                     <h3>Subcategorías Disponibles</h3>
                 </div>
                 <div class="subcategorias-list">
-                    <!-- Subcategoría 1 -->
                     <div class="subcategoria-item">
                         <div class="subcategoria-info">
                             <h4>
@@ -793,18 +731,12 @@
                             <div class="subcategoria-details">
                                 <span class="detail-tag rama">Rama: Mixto</span>
                                 <span class="detail-tag tipo">Tipo: Grupal</span>
-                                <span class="detail-tag cupo">Cupo: 8/10 equipos</span>
+                                <span class="detail-tag cupo">Alumnos inscritos: 8</span>
                             </div>
                             <div class="subcategoria-meta">
                                 <span class="meta-item">👥 14 jugadores por equipo</span>
                                 <span class="meta-item">⏱️ 2 tiempos de 25 min</span>
                                 <span class="meta-item">📋 Máx. 2 equipos por institución</span>
-                            </div>
-                            <div class="cupo-indicator">
-                                <span class="cupo-text">80% disponible</span>
-                                <div class="cupo-bar">
-                                    <div class="cupo-fill alto"></div>
-                                </div>
                             </div>
                         </div>
                         <div class="subcategoria-actions">
@@ -814,7 +746,6 @@
                         </div>
                     </div>
 
-                    <!-- Subcategoría 2 -->
                     <div class="subcategoria-item">
                         <div class="subcategoria-info">
                             <h4>
@@ -824,24 +755,15 @@
                             <div class="subcategoria-details">
                                 <span class="detail-tag rama">Rama: Femenino</span>
                                 <span class="detail-tag tipo">Tipo: Individual</span>
-                                <span class="detail-tag cupo">Cupo: 12/15 participantes</span>
+                                <span class="detail-tag cupo">Alumnos inscritos: 12</span>
                             </div>
                             <div class="subcategoria-meta">
                                 <span class="meta-item">👤 Prueba individual</span>
                                 <span class="meta-item">⏱️ 5 pruebas de habilidad</span>
                                 <span class="meta-item">📋 Máx. 3 por institución</span>
                             </div>
-                            <div class="requisitos-info">
-                                <strong>⚠️ Requisitos específicos:</strong>
-                                Certificado médico vigente y equipo completo obligatorio
+                            
                             </div>
-                            <div class="cupo-indicator">
-                                <span class="cupo-text">60% disponible</span>
-                                <div class="cupo-bar">
-                                    <div class="cupo-fill medio"></div>
-                                </div>
-                            </div>
-                        </div>
                         <div class="subcategoria-actions">
                             <a href="inscripcion.html?subcategoria=futbol-rapido" class="btn-primary">
                                 Inscribir Estudiante
@@ -849,7 +771,6 @@
                         </div>
                     </div>
 
-                    <!-- Subcategoría 3 -->
                     <div class="subcategoria-item">
                         <div class="subcategoria-info">
                             <h4>
@@ -859,18 +780,12 @@
                             <div class="subcategoria-details">
                                 <span class="detail-tag rama">Rama: Masculino</span>
                                 <span class="detail-tag tipo">Tipo: Grupal</span>
-                                <span class="detail-tag cupo">Cupo: 6/8 equipos</span>
+                                <span class="detail-tag cupo">Alumnos inscritos: 6</span>
                             </div>
                             <div class="subcategoria-meta">
                                 <span class="meta-item">👥 10 jugadores por equipo</span>
                                 <span class="meta-item">⏱️ 2 tiempos de 20 min</span>
                                 <span class="meta-item">🏟️ Cancha cubierta</span>
-                            </div>
-                            <div class="cupo-indicator">
-                                <span class="cupo-text">75% disponible</span>
-                                <div class="cupo-bar">
-                                    <div class="cupo-fill medio"></div>
-                                </div>
                             </div>
                         </div>
                         <div class="subcategoria-actions">
@@ -880,38 +795,30 @@
                         </div>
                     </div>
 
-                    <!-- Subcategoría 4 - Cupo lleno -->
                     <div class="subcategoria-item subcategoria-disabled">
                         <div class="subcategoria-info">
                             <h4>
                                 Competencia de Penaltis
-                                <span class="estado-badge lleno">Cupo Lleno</span>
+                                <span class="estado-badge lleno">Límite por Institución</span>
                             </h4>
                             <div class="subcategoria-details">
                                 <span class="detail-tag rama">Rama: Mixto</span>
                                 <span class="detail-tag tipo">Tipo: Individual</span>
-                                <span class="detail-tag cupo">Cupo: 20/20 participantes</span>
+                                <span class="detail-tag cupo">Alumnos inscritos: 20</span>
                             </div>
                             <div class="subcategoria-meta">
                                 <span class="meta-item">👤 Prueba individual</span>
                                 <span class="meta-item">🎯 10 penaltis por participante</span>
                                 <span class="meta-item">📋 Máx. 2 por institución</span>
                             </div>
-                            <div class="cupo-indicator">
-                                <span class="cupo-text">0% disponible</span>
-                                <div class="cupo-bar">
-                                    <div class="cupo-fill lleno"></div>
-                                </div>
-                            </div>
                         </div>
                         <div class="subcategoria-actions">
                             <button class="btn-primary" disabled>
-                                Cupo Lleno
+                                Límite Alcanzado
                             </button>
                         </div>
                     </div>
 
-                    <!-- Subcategoría 5 - Próximamente -->
                     <div class="subcategoria-item subcategoria-disabled">
                         <div class="subcategoria-info">
                             <h4>
@@ -921,7 +828,7 @@
                             <div class="subcategoria-details">
                                 <span class="detail-tag rama">Rama: Mixto</span>
                                 <span class="detail-tag tipo">Tipo: Grupal</span>
-                                <span class="detail-tag cupo">Cupo: 0/12 equipos</span>
+                                <span class="detail-tag cupo">Alumnos inscritos: 0</span>
                             </div>
                             <div class="subcategoria-meta">
                                 <span class="meta-item">👥 5 jugadores por equipo</span>
@@ -930,12 +837,6 @@
                             </div>
                             <div class="requisitos-info">
                                 <strong>📅 Inicio de inscripciones:</strong> 01 de Diciembre 2024
-                            </div>
-                            <div class="cupo-indicator">
-                                <span class="cupo-text">Próximamente</span>
-                                <div class="cupo-bar">
-                                    <div class="cupo-fill lleno" style="width: 0%"></div>
-                                </div>
                             </div>
                         </div>
                         <div class="subcategoria-actions">
@@ -947,16 +848,7 @@
                 </div>
             </div>
 
-            <!-- Estado vacío (ejemplo comentado) -->
-            <!--
-        <div class="empty-state">
-            <div class="icon">⚽</div>
-            <h3>No hay subcategorías disponibles</h3>
-            <p>No se encontraron subcategorías para esta disciplina en la convocatoria actual.</p>
-            <a href="convocatoria-detalle.html" class="btn-secondary">Volver a Disciplinas</a>
-        </div>
-        -->
-        </div>
+            </div>
 
         <script>
             // Funciones de ejemplo para el prototipo
@@ -968,17 +860,14 @@
             // Filtrado de subcategorías
             document.getElementById('filterRama').addEventListener('change', aplicarFiltros);
             document.getElementById('filterTipo').addEventListener('change', aplicarFiltros);
-            document.getElementById('filterEstado').addEventListener('change', aplicarFiltros);
             document.getElementById('searchSubcategoria').addEventListener('input', aplicarFiltros);
 
             function aplicarFiltros() {
                 const rama = document.getElementById('filterRama').value;
                 const tipo = document.getElementById('filterTipo').value;
-                const estado = document.getElementById('filterEstado').value;
                 const busqueda = document.getElementById('searchSubcategoria').value.toLowerCase();
 
-                console.log('Aplicando filtros:', { rama, tipo, estado, busqueda });
-                // En un sistema real, aquí se filtrarían las subcategorías
+                console.log('Aplicando filtros:', { rama, tipo, busqueda });
             }
 
             // Ejemplo de interacción
