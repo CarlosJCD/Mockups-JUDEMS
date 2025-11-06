@@ -258,6 +258,48 @@
             font-weight: 500;
         }
 
+        /* Aviso importante */
+        .aviso-importante {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-left: 4px solid #ffc107;
+        }
+
+        .aviso-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .aviso-icon {
+            font-size: 20px;
+            color: #856404;
+        }
+
+        .aviso-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #856404;
+        }
+
+        .aviso-content {
+            font-size: 14px;
+            color: #856404;
+            line-height: 1.5;
+        }
+
+        .aviso-content ul {
+            margin: 10px 0 0 20px;
+        }
+
+        .aviso-content li {
+            margin-bottom: 5px;
+        }
+
         /* Botones */
         .form-actions {
             display: flex;
@@ -398,6 +440,25 @@
             <p>Suba el comprobante de pago en formato PDF para procesar su solicitud</p>
         </div>
 
+        <!-- Aviso importante -->
+        <div class="aviso-importante">
+            <div class="aviso-header">
+                <div class="aviso-icon">⚠️</div>
+                <div class="aviso-title">Aviso Importante</div>
+            </div>
+            <div class="aviso-content">
+                <p><strong>Antes de proceder con el pago, asegúrese de que:</strong></p>
+                <ul>
+                    <li>Ha inscrito a <strong>TODOS</strong> los estudiantes que participarán en las convocatorias</li>
+                    <li>Ha verificado que la información de cada inscripción sea correcta</li>
+                    <li>No podrá agregar más estudiantes después de realizar el pago</li>
+                </ul>
+                <p style="margin-top: 10px; font-weight: bold;">
+                    Una vez procesado el pago, el sistema bloqueará la inscripción de nuevos estudiantes para las convocatorias incluidas.
+                </p>
+            </div>
+        </div>
+
         <div class="pago-info">
             <div class="pago-header">
                 <div class="pago-icon">💰</div>
@@ -412,12 +473,12 @@
                     <span class="pago-value" id="pagoMonto">$3,000.00 MXN</span>
                 </div>
                 <div class="pago-item">
-                    <span class="pago-label">Fecha Límite</span>
-                    <span class="pago-value">15 de Diciembre 2024</span>
-                </div>
-                <div class="pago-item">
                     <span class="pago-label">Convocatorias Incluidas</span>
                     <span class="pago-value" id="pagoConvocatorias">2 convocatorias</span>
+                </div>
+                <div class="pago-item">
+                    <span class="pago-label">Estudiantes Inscritos</span>
+                    <span class="pago-value" id="pagoEstudiantes">12 estudiantes</span>
                 </div>
             </div>
         </div>
@@ -468,6 +529,45 @@
         const fileGroup = document.getElementById('fileGroup');
         const formAlert = document.getElementById('formAlert');
         const submitButton = document.getElementById('submitButton');
+
+        // Actualizar información según parámetros de URL
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const convocatoria = urlParams.get('convocatoria');
+            
+            if (convocatoria) {
+                actualizarInformacionPago(convocatoria);
+            }
+        });
+
+        function actualizarInformacionPago(convocatoria) {
+            const titulo = document.getElementById('pagoTitulo');
+            const referencia = document.getElementById('pagoReferencia');
+            const monto = document.getElementById('pagoMonto');
+            const convocatorias = document.getElementById('pagoConvocatorias');
+            const estudiantes = document.getElementById('pagoEstudiantes');
+
+            switch(convocatoria) {
+                case 'juegos-deportivos':
+                    titulo.textContent = 'Pago - Juegos Deportivos 2024';
+                    referencia.textContent = 'Referencia: PAGO-JD-2024-001';
+                    monto.textContent = '$2,250.00 MXN';
+                    convocatorias.textContent = '1 convocatoria';
+                    estudiantes.textContent = '9 estudiantes';
+                    break;
+                case 'torneo-futbol':
+                    titulo.textContent = 'Pago - Torneo de Fútbol Rapidez 2024';
+                    referencia.textContent = 'Referencia: PAGO-TF-2024-001';
+                    monto.textContent = '$750.00 MXN';
+                    convocatorias.textContent = '1 convocatoria';
+                    estudiantes.textContent = '3 estudiantes';
+                    break;
+                case 'general':
+                default:
+                    // Valores por defecto ya están establecidos
+                    break;
+            }
+        }
 
         uploadArea.addEventListener('click', (e) => {
             if (e.target.classList.contains('remove-file')) return;
@@ -539,20 +639,30 @@
                 return;
             }
             
+            // Confirmación adicional antes de enviar
+            if (!confirm('¿Está seguro de que desea enviar el comprobante? Una vez procesado el pago, no podrá agregar más estudiantes a las convocatorias incluidas.')) {
+                return;
+            }
+            
             submitButton.disabled = true;
             submitButton.textContent = 'Enviando...';
             
             setTimeout(() => {
-                mostrarAlerta('success', '¡Comprobante enviado exitosamente! Su pago será revisado.');
+                mostrarAlerta('success', '¡Comprobante enviado exitosamente! Su pago será revisado y procesado.');
                 submitButton.disabled = false;
                 submitButton.textContent = 'Enviar Comprobante';
                 removerArchivo();
+                
+                // Redirigir después de 3 segundos
+                setTimeout(() => {
+                    window.location.href = 'pagos-facturacion.html';
+                }, 3000);
             }, 1500);
         });
         
         function cancelarEnvio() {
-            if (confirm('¿Está seguro de que desea cancelar?')) {
-                window.location.href = 'pagos-facturacion.html'; // O la página anterior
+            if (confirm('¿Está seguro de que desea cancelar? Los datos no guardados se perderán.')) {
+                window.location.href = 'pagos-facturacion.html';
             }
         }
         
