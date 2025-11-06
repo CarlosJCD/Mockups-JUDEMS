@@ -164,7 +164,8 @@
             gap: 10px;
         }
 
-        .section-icon {
+        /* ESTILO CAMBIADO DE .section-icon A .section-number */
+        .section-number {
             background: #4a90e2;
             color: white;
             width: 30px;
@@ -614,7 +615,6 @@
 </head>
 <body>
     <div class="page-container">
-        <!-- Breadcrumb -->
         <div class="breadcrumb">
             <a href="dashboard.html">Dashboard</a> > 
             <a href="disciplinas.html">Disciplinas</a> > 
@@ -622,7 +622,6 @@
             <span>Editar Fútbol 7</span>
         </div>
 
-        <!-- Header -->
         <div class="page-header">
             <div class="header-info">
                 <h1>Editar Subcategoría: Fútbol 7</h1>
@@ -635,17 +634,14 @@
             </div>
         </div>
 
-        <!-- Información de la disciplina -->
         <div class="disciplina-info">
             <div class="disciplina-header">
-                <div class="disciplina-icon">⚽</div>
                 <div class="disciplina-title">
                     <h3>Fútbol</h3>
                     <p>Disciplina padre - Rama: Masculino, Femenino, Mixto</p>
                 </div>
             </div>
             
-            <!-- Estadísticas de la subcategoría -->
             <div class="stats-info">
                 <div class="stat-item">
                     <span class="stat-value">3</span>
@@ -655,23 +651,13 @@
                     <span class="stat-value">24</span>
                     <span class="stat-label">Participantes</span>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-value">6</span>
-                    <span class="stat-label">Equipos</span>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-value">85%</span>
-                    <span class="stat-label">Cupo Ocupado</span>
-                </div>
-            </div>
         </div>
 
-        <!-- Formulario de Edición -->
         <form class="subcategoria-form" id="editarSubcategoriaForm">
-            <!-- Sección 1: Información Básica -->
             <div class="form-section">
                 <h3>
-                    <div class="section-icon">✏️</div>
+                    <div class="section-number">1</div>
                     Información Básica
                 </h3>
                 
@@ -689,15 +675,15 @@
                     <div class="checkbox-group">
                         <div class="checkbox-item" onclick="toggleCheckbox(this)">
                             <input type="checkbox" id="editSubRamaMasculino" name="editSubRamas" value="masculino">
-                            <label for="editSubRamaMasculino">👨 Masculino</label>
+                            <label for="editSubRamaMasculino">Masculino</label>
                         </div>
                         <div class="checkbox-item" onclick="toggleCheckbox(this)">
                             <input type="checkbox" id="editSubRamaFemenino" name="editSubRamas" value="femenino">
-                            <label for="editSubRamaFemenino">👩 Femenino</label>
+                            <label for="editSubRamaFemenino">Femenino</label>
                         </div>
                         <div class="checkbox-item selected" onclick="toggleCheckbox(this)">
                             <input type="checkbox" id="editSubRamaMixto" name="editSubRamas" value="mixto" checked>
-                            <label for="editSubRamaMixto">👥 Mixto</label>
+                            <label for="editSubRamaMixto">Mixto</label>
                         </div>
                     </div>
                     <div class="error-message" id="ramasError">
@@ -711,7 +697,7 @@
                         <div class="radio-item" onclick="seleccionarRadio(this, 'individual')">
                             <input type="radio" id="editTipoIndividual" name="editTipoPrueba" value="individual">
                             <div class="radio-content">
-                                <label for="editTipoIndividual">🏃 Individual</label>
+                                <label for="editTipoIndividual">Individual</label>
                                 <div class="radio-description">
                                     Cada participante compite de forma individual
                                 </div>
@@ -720,7 +706,7 @@
                         <div class="radio-item selected" onclick="seleccionarRadio(this, 'grupal')">
                             <input type="radio" id="editTipoGrupal" name="editTipoPrueba" value="grupal" checked>
                             <div class="radio-content">
-                                <label for="editTipoGrupal">👥 Grupal</label>
+                                <label for="editTipoGrupal">Grupal</label>
                                 <div class="radio-description">
                                     Los participantes forman equipos o grupos
                                 </div>
@@ -732,60 +718,20 @@
                     </div>
                 </div>
 
-                <!-- Detalles según tipo de prueba -->
                 <div class="tipo-prueba-details" id="detallesGrupal">
-                    <h5>📋 Configuración para Prueba Grupal</h5>
-                    <ul>
-                        <li>Los estudiantes participan en equipos</li>
-                        <li>Se evalúa el trabajo en conjunto y la estrategia</li>
-                        <li>Requiere coordinación entre participantes</li>
-                        <li>Ideal para deportes de conjunto</li>
-                    </ul>
-                </div>
+                    <h5>Configuración para Prueba Grupal</h5>
+                    </div>
             </div>
 
-            <!-- Sección 2: Condiciones de Inscripción -->
             <div class="form-section">
                 <h3>
-                    <div class="section-icon">📋</div>
+                    <div class="section-number">2</div>
                     Condiciones de Inscripción
                 </h3>
                 
                 <div class="condiciones-group">
-                    <!-- Condición 1: Configuración de Participantes -->
-                    <div class="condicion-item">
-                        <div class="condicion-header">
-                            <div class="condicion-icon">👥</div>
-                            <div class="condicion-title">Configuración de Participantes</div>
-                        </div>
-                        <div class="participantes-config">
-                            <div class="form-group">
-                                <label for="editMinParticipantes">Mínimo por institución</label>
-                                <input type="number" id="editMinParticipantes" name="editMinParticipantes" 
-                                       min="1" max="50" value="7" required>
-                                <div class="error-message" id="minError">
-                                    Ingrese un número válido entre 1 y 50
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="editMaxParticipantes">Máximo por institución</label>
-                                <input type="number" id="editMaxParticipantes" name="editMaxParticipantes" 
-                                       min="1" max="100" value="14" required>
-                                <div class="error-message" id="maxError">
-                                    Ingrese un número válido entre 1 y 100
-                                </div>
-                            </div>
-                        </div>
-                        <div class="info-box">
-                            <span class="info-icon">💡</span>
-                            Estos límites definen cuántos participantes puede inscribir cada institución en esta subcategoría.
-                        </div>
-                    </div>
-
-                    <!-- Condición 2: Formación de Equipos -->
                     <div class="condicion-item" id="condicionEquipos">
                         <div class="condicion-header">
-                            <div class="condicion-icon">🏃</div>
                             <div class="condicion-title">Configuración de Equipos</div>
                         </div>
                         <div class="condicion-options">
@@ -793,10 +739,7 @@
                                 <label for="editTamanioEquipo">Tamaño del equipo</label>
                                 <input type="number" id="editTamanioEquipo" name="editTamanioEquipo" 
                                        min="2" max="20" value="7" required>
-                                <div class="info-box">
-                                    <small>Número de participantes por equipo (incluyendo suplentes)</small>
                                 </div>
-                            </div>
                             <div class="form-group">
                                 <label for="editMaxEquipos">Máximo de equipos por institución</label>
                                 <input type="number" id="editMaxEquipos" name="editMaxEquipos" 
@@ -805,10 +748,8 @@
                         </div>
                     </div>
 
-                    <!-- Condición 3: Requisitos Específicos -->
                     <div class="condicion-item">
                         <div class="condicion-header">
-                            <div class="condicion-icon">📋</div>
                             <div class="condicion-title">Requisitos Específicos</div>
                         </div>
                         <div class="form-group optional">
@@ -819,36 +760,6 @@
                 </div>
             </div>
 
-            <!-- Sección 3: Configuración Adicional -->
-            <div class="form-section">
-                <h3>
-                    <div class="section-icon">⚙️</div>
-                    Configuración Adicional
-                </h3>
-                
-                <div class="form-group optional">
-                    <label for="editDescripcionSubcategoria">Descripción</label>
-                    <textarea id="editDescripcionSubcategoria" name="editDescripcionSubcategoria">Modalidad de fútbol jugada con 7 jugadores por equipo en campo reducido. Dos tiempos de 25 minutos cada uno.</textarea>
-                    <div class="info-box">
-                        <small>Esta descripción será visible para las instituciones al momento de la inscripción.</small>
-                    </div>
-                </div>
-
-                <div class="form-group optional">
-                    <label for="editReglasEspeciales">Reglas Especiales</label>
-                    <textarea id="editReglasEspeciales" name="editReglasEspeciales">Cambios ilimitados, fuera de juego aplica desde la mitad del campo, saques de banda con las manos.</textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="editEstadoSubcategoria">Estado</label>
-                    <select id="editEstadoSubcategoria" name="editEstadoSubcategoria">
-                        <option value="activa" selected>Activa - Disponible para inscripciones</option>
-                        <option value="inactiva">Inactiva - No disponible temporalmente</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- Alertas -->
             <div class="alert success" id="successAlert">
                 ✅ Subcategoría actualizada exitosamente
             </div>
@@ -857,7 +768,6 @@
                 ❌ Error al actualizar la subcategoría. Verifique los datos e intente nuevamente.
             </div>
 
-            <!-- Acciones del Formulario -->
             <div class="form-actions">
                 <button type="button" class="btn-secondary" onclick="cancelarEdicion()">
                     Cancelar
@@ -871,10 +781,8 @@
     </div>
 
     <script>
-        // Variables globales
         let tipoPruebaActual = 'grupal';
 
-        // Toggle checkbox con estilo
         function toggleCheckbox(elemento) {
             const checkbox = elemento.querySelector('input[type="checkbox"]');
             checkbox.checked = !checkbox.checked;
@@ -885,11 +793,9 @@
                 elemento.classList.remove('selected');
             }
             
-            // Limpiar error de ramas
             document.getElementById('ramasError').style.display = 'none';
         }
 
-        // Seleccionar radio button con estilo y mostrar detalles
         function seleccionarRadio(elemento, tipo) {
             document.querySelectorAll('.radio-item').forEach(item => {
                 item.classList.remove('selected');
@@ -900,11 +806,8 @@
             
             tipoPruebaActual = tipo;
             
-            // Mostrar/ocultar detalles según tipo
-            document.getElementById('detallesIndividual').style.display = tipo === 'individual' ? 'block' : 'none';
             document.getElementById('detallesGrupal').style.display = tipo === 'grupal' ? 'block' : 'none';
             
-            // Habilitar/deshabilitar campos de equipos
             const camposEquipo = ['editTamanioEquipo', 'editMaxEquipos'];
             camposEquipo.forEach(campo => {
                 const input = document.getElementById(campo);
@@ -919,13 +822,11 @@
             });
         }
 
-        // Validación del formulario
         document.getElementById('editarSubcategoriaForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
             let isValid = true;
 
-            // Validar nombre
             const nombre = document.getElementById('editNombreSubcategoria').value.trim();
             if (!nombre) {
                 document.getElementById('nombreError').style.display = 'block';
@@ -934,7 +835,6 @@
                 document.getElementById('nombreError').style.display = 'none';
             }
 
-            // Validar ramas
             const ramasSeleccionadas = document.querySelectorAll('input[name="editSubRamas"]:checked').length;
             if (ramasSeleccionadas === 0) {
                 document.getElementById('ramasError').style.display = 'block';
@@ -943,32 +843,6 @@
                 document.getElementById('ramasError').style.display = 'none';
             }
 
-            // Validar participantes
-            const minPart = parseInt(document.getElementById('editMinParticipantes').value);
-            const maxPart = parseInt(document.getElementById('editMaxParticipantes').value);
-            
-            if (!minPart || minPart < 1 || minPart > 50) {
-                document.getElementById('minError').style.display = 'block';
-                isValid = false;
-            } else {
-                document.getElementById('minError').style.display = 'none';
-            }
-
-            if (!maxPart || maxPart < 1 || maxPart > 100) {
-                document.getElementById('maxError').style.display = 'block';
-                isValid = false;
-            } else {
-                document.getElementById('maxError').style.display = 'none';
-            }
-
-            // Validar que máximo sea mayor o igual que mínimo
-            if (minPart && maxPart && maxPart < minPart) {
-                document.getElementById('maxError').textContent = 'El máximo debe ser mayor o igual al mínimo';
-                document.getElementById('maxError').style.display = 'block';
-                isValid = false;
-            }
-
-            // Validar campos de equipo si es prueba grupal
             if (tipoPruebaActual === 'grupal') {
                 const tamanioEquipo = parseInt(document.getElementById('editTamanioEquipo').value);
                 const maxEquipos = parseInt(document.getElementById('editMaxEquipos').value);
@@ -988,7 +862,6 @@
                 document.getElementById('errorAlert').style.display = 'block';
                 document.getElementById('successAlert').style.display = 'none';
                 
-                // Scroll al primer error
                 const firstError = document.querySelector('.form-group.error');
                 if (firstError) {
                     firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -1000,13 +873,11 @@
                 return;
             }
 
-            // Simular envío
             const submitButton = document.getElementById('submitButton');
             submitButton.classList.add('loading');
             submitButton.disabled = true;
             submitButton.innerHTML = '<span class="loading"></span> Guardando...';
 
-            // Ocultar alertas anteriores
             document.getElementById('errorAlert').style.display = 'none';
 
             setTimeout(() => {
@@ -1014,20 +885,13 @@
                 submitButton.disabled = false;
                 submitButton.innerHTML = '<span>💾</span> Guardar Cambios';
                 
-                // Mostrar éxito
                 document.getElementById('successAlert').style.display = 'block';
                 
-                // Simular datos guardados
                 const subcategoriaData = {
                     nombre: nombre,
                     ramas: Array.from(document.querySelectorAll('input[name="editSubRamas"]:checked')).map(cb => cb.value),
                     tipoPrueba: tipoPruebaActual,
-                    minParticipantes: minPart,
-                    maxParticipantes: maxPart,
-                    descripcion: document.getElementById('editDescripcionSubcategoria').value,
-                    reglas: document.getElementById('editReglasEspeciales').value,
-                    requisitos: document.getElementById('editRequisitosEspecificos').value,
-                    estado: document.getElementById('editEstadoSubcategoria').value
+                    requisitos: document.getElementById('editRequisitosEspecificos').value
                 };
                 
                 if (tipoPruebaActual === 'grupal') {
@@ -1043,48 +907,37 @@
             }, 2000);
         });
 
-        // Cancelar edición
         function cancelarEdicion() {
             if (confirm('¿Está seguro de que desea cancelar? Los cambios no guardados se perderán.')) {
                 window.history.back();
             }
         }
 
-        // Eliminar subcategoría
         function eliminarSubcategoria() {
             if (confirm('¿Está seguro de que desea eliminar esta subcategoría? Esta acción no se puede deshacer y afectará a todas las inscripciones relacionadas.')) {
                 if (confirm('⚠️ ¡ADVERTENCIA! Se eliminarán todas las inscripciones asociadas a esta subcategoría. ¿Continuar con la eliminación?')) {
-                    // Simular eliminación
                     alert('🗑️ Subcategoría "Fútbol 7" eliminada - Prototipo');
                     window.location.href = 'editar-disciplina.html';
                 }
             }
         }
 
-        // Validación en tiempo real para participantes
-        document.getElementById('editMinParticipantes').addEventListener('input', function() {
-            const min = parseInt(this.value);
-            const maxInput = document.getElementById('editMaxParticipantes');
-            const max = parseInt(maxInput.value);
-            
-            if (min && max && min > max) {
-                maxInput.value = min;
-            }
-            
-            // Limpiar error
-            this.closest('.form-group').classList.remove('error');
+        document.querySelectorAll('input, select, textarea').forEach(element => {
+            element.addEventListener('input', function() {
+                const formGroup = this.closest('.form-group');
+                if (formGroup) {
+                     formGroup.classList.remove('error');
+                }
+                const errorAlert = document.getElementById('errorAlert');
+                if (errorAlert) {
+                    errorAlert.style.display = 'none';
+                }
+            });
         });
 
-        document.getElementById('editMaxParticipantes').addEventListener('input', function() {
-            const max = parseInt(this.value);
-            const minInput = document.getElementById('editMinParticipantes');
-            const min = parseInt(minInput.value);
-            
-            if (min && max && max <script min) {
-                minInput.value = max;
-            }
-            
-            // Limpiar error
-            this.closest('.form-group').classList.remove('error');
+        document.addEventListener('DOMContentLoaded', function() {
+            seleccionarRadio(document.querySelector('.radio-item.selected'), tipoPruebaActual);
         });
     </script>
+</body>
+</html>

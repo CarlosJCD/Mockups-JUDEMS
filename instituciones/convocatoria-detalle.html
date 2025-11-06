@@ -541,6 +541,7 @@
     <body>
         <div class="page-container">
             <div class="breadcrumb">
+                <a href="dashboard.html">Dashboard</a> >
                 <a href="convocatorias.html">Convocatorias</a> >
                 <span>Juegos Deportivos 2024</span>
             </div>
@@ -551,7 +552,7 @@
             </div>
 
             <div class="convocatoria-info">
-                <h4>📋 Información de la Convocatoria</h4>
+                <h4>Información de la Convocatoria</h4>
                 <div class="info-grid">
                     <div class="info-item">
                         <span class="info-label">Periodo de Registro</span>
@@ -593,7 +594,7 @@
             <div class="disciplinas-grid">
                 <div class="disciplina-card">
                     <div class="card-header">
-                        <h3>⚽ Fútbol</h3>
+                        <h3>Fútbol</h3>
                         <span class="cupo-badge high">Alumnos inscritos: 15</span>
                     </div>
 
@@ -622,7 +623,7 @@
 
                 <div class="disciplina-card">
                     <div class="card-header">
-                        <h3>🏀 Basquetbol</h3>
+                        <h3>Basquetbol</h3>
                         <span class="cupo-badge low">Alumnos inscritos: 0</span>
                     </div>
 
@@ -647,7 +648,7 @@
 
                 <div class="disciplina-card">
                     <div class="card-header">
-                        <h3>🏃 Atletismo</h3>
+                        <h3>Atletismo</h3>
                         <span class="cupo-badge high">Alumnos inscritos: 3</span>
                     </div>
 
@@ -678,7 +679,6 @@
             </div>
 
         <script>
-            // Funciones de ejemplo para el prototipo
             function viewSubcategorias(disciplina) {
 
                 window.location.href = "subcategorias.html"
@@ -690,7 +690,6 @@
                 // En un sistema real, abriría el modal de inscripción
             }
 
-            // Filtrado de disciplinas
             document.getElementById('filterTipo').addEventListener('change', function () {
                 aplicarFiltros();
             });
@@ -707,10 +706,8 @@
                 alert('Filtros aplicados - Prototipo');
             }
 
-            // Ejemplo de interacción con tarjetas
             document.querySelectorAll('.disciplina-card:not(.disciplina-disabled)').forEach(card => {
                 card.addEventListener('click', function (e) {
-                    // Solo si no se hizo clic en un botón
                     if (!e.target.closest('button')) {
                         const titulo = this.querySelector('h3').textContent;
                         alert(`Mostrando detalles de ${titulo} - Prototipo`);

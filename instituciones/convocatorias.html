@@ -27,6 +27,29 @@
                 padding: 20px;
             }
 
+            /* --- ESTILO AÑADIDO PARA BREADCRUMB --- */
+            .breadcrumb {
+                margin-bottom: 15px;
+                font-size: 14px;
+                color: #6c757d;
+            }
+
+            .breadcrumb a {
+                color: #4a90e2;
+                text-decoration: none;
+            }
+
+            .breadcrumb a:hover {
+                text-decoration: underline;
+            }
+
+            .breadcrumb span {
+                color: #495057;
+                font-weight: bold;
+            }
+            /* --- FIN DE ESTILO AÑADIDO --- */
+
+
             /* Header de página */
             .page-header {
                 background: white;
@@ -508,14 +531,17 @@
 
     <body>
         <div class="page-container">
-            <a href="dashboard.html" class="btn-primary"><- Regresar</a>
+            <div class="breadcrumb">
+                <a href="dashboard.html">Dashboard</a> > 
+                <span>Convocatorias</span>
+            </div>
+
             <div class="page-header">
                 <h1>Convocatorias Disponibles</h1>
                 <div class="header-actions">
                     <div class="search-box">
                         <input type="text" placeholder="Buscar convocatoria..." id="searchInput">
-                        <button>🔍</button>
-                    </div>
+                        <button>Buscar</button> </div>
                     <button class="btn-filter" id="filterToggle">
                         Filtros
                     </button>
@@ -547,8 +573,7 @@
             <div class="convocatorias-grid">
                 <div class="convocatoria-card">
                     <div class="card-header">
-                        <h3>🏆 Juegos Deportivos Interpreparatorias 2024</h3>
-                        <span class="status-badge active">Activa</span>
+                        <h3>Juegos Deportivos Interpreparatorias 2024</h3> <span class="status-badge active">Activa</span>
                     </div>
 
                     <div class="card-content">
@@ -578,8 +603,7 @@
 
                 <div class="convocatoria-card">
                     <div class="card-header">
-                        <h3>⚽ Torneo de Fútbol Rapidez 2024</h3>
-                        <span class="status-badge active">Activa</span>
+                        <h3>Torneo de Fútbol Rapidez 2024</h3> <span class="status-badge active">Activa</span>
                     </div>
 
                     <div class="card-content">
@@ -609,8 +633,7 @@
 
                 <div class="convocatoria-card">
                     <div class="card-header">
-                        <h3>🏀 Campeonato de Basquetbol Estudiantil</h3>
-                        <span class="status-badge upcoming">Próxima</span>
+                        <h3>Campeonato de Basquetbol Estudiantil</h3> <span class="status-badge upcoming">Próxima</span>
                     </div>
 
                     <div class="card-content">
@@ -647,28 +670,22 @@
         </div>
 
         <script>
-            // Toggle de filtros
             document.getElementById('filterToggle').addEventListener('click', function () {
                 const filtersSection = document.getElementById('filtersSection');
                 filtersSection.classList.toggle('active');
             });
 
-            // Aplicar filtros
             document.getElementById('applyFilters').addEventListener('click', function () {
                 alert('Filtros aplicados - Prototipo');
                 document.getElementById('filtersSection').classList.remove('active');
             });
 
-            // Limpiar filtros
             document.getElementById('clearFilters').addEventListener('click', function () {
                 document.getElementById('filterStatus').value = '';
                 document.getElementById('filterDate').value = '';
-                // Corregido: 'filterDiscipline' no existe en el HTML, lo comento o elimino
-                // document.getElementById('filterDiscipline').value = ''; 
                 alert('Filtros limpiados - Prototipo');
             });
 
-            // Búsqueda en tiempo real
             document.getElementById('searchInput').addEventListener('input', function (e) {
                 console.log('Buscando:', e.target.value);
             });
@@ -680,7 +697,6 @@
                     }
                 });
             });
-            // --- FIN DE LA CORRECCIÓN ---
             
         </script>
     </body>

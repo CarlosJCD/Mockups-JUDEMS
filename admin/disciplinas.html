@@ -24,6 +24,28 @@
             padding: 20px;
         }
 
+        /* ESTILO AÑADIDO PARA BREADCRUMB */
+        .breadcrumb {
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        .breadcrumb a {
+            color: #4a90e2;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb span {
+            color: #495057;
+            font-weight: bold;
+        }
+        /* FIN DE ESTILO AÑADIDO */
+
         .page-header {
             background: white;
             padding: 25px 30px;
@@ -496,14 +518,19 @@
 </head>
 <body>
     <div class="page-container">
-        <!-- Header -->
+        
+        <div class="breadcrumb">
+            <a href="dashboard.html">Dashboard</a> &gt; 
+            <span>Disciplinas</span>
+        </div>
+
         <div class="page-header">
             <h1>Disciplinas Registradas</h1>
             <p>Visualice y gestione todas las disciplinas deportivas del sistema</p>
             
             <div class="header-actions">
                 <a href="crear-disciplina.html" class="btn-success">
-                    ➕ Nueva Disciplina
+                    + Nueva Disciplina
                 </a>
                 <div class="search-box">
                     <input type="text" placeholder="Buscar disciplina..." id="searchInput">
@@ -512,7 +539,6 @@
             </div>
         </div>
 
-        <!-- Filtros -->
         <div class="filters-section">
             <div class="filter-group">
                 <div class="filter-item">
@@ -532,26 +558,15 @@
                         <option value="mixto">Mixto</option>
                     </select>
                 </div>
-                <div class="filter-item">
-                    <label for="filterEstado">Estado</label>
-                    <select id="filterEstado">
-                        <option value="">Todos los estados</option>
-                        <option value="activa">Activa</option>
-                        <option value="inactiva">Inactiva</option>
-                    </select>
-                </div>
             </div>
         </div>
 
-        <!-- Grid de Disciplinas -->
         <div class="disciplinas-grid">
-            <!-- Disciplina 1: Con Subcategorías -->
             <div class="disciplina-card">
                 <span class="stats-badge">5 subcategorías</span>
                 
                 <div class="card-header">
                     <div style="display: flex; align-items: flex-start;">
-                        <div class="disciplina-icon">⚽</div>
                         <div class="disciplina-info">
                             <h3>Fútbol</h3>
                             <div class="disciplina-meta">Creado: 15/Nov/2024</div>
@@ -562,20 +577,8 @@
                 <div class="card-content">
                     <div class="info-grid">
                         <div class="info-item">
-                            <span class="info-label">Participantes Mín</span>
-                            <span class="info-value">1</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">Participantes Máx</span>
-                            <span class="info-value">20</span>
-                        </div>
-                        <div class="info-item">
                             <span class="info-label">Tipo</span>
                             <span class="info-value">Con subcategorías</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">Estado</span>
-                            <span class="info-value" style="color: #28a745;">● Activa</span>
                         </div>
                     </div>
 
@@ -586,7 +589,7 @@
                     </div>
 
                     <div class="subcategorias-preview">
-                        <h4>📋 Subcategorías</h4>
+                        <h4>Subcategorías</h4>
                         <div class="subcategoria-mini">
                             <span class="subcategoria-name">Fútbol 7</span>
                             <span class="subcategoria-details">Mixto • Grupal</span>
@@ -604,22 +607,17 @@
 
                 <div class="card-actions">
                     <a href="editar-disciplina.html?id=1" class="btn-warning">
-                        ✏️ Editar
-                    </a>
-                    <a href="gestion-subcategorias.html?id=1" class="btn-primary">
-                        🎯 Subcategorías
+                        Editar
                     </a>
                     <button class="btn-danger" onclick="eliminarDisciplina(1)">
-                        🗑️ Eliminar
+                        Eliminar
                     </button>
                 </div>
             </div>
 
-            <!-- Disciplina 2: Sin Subcategorías -->
             <div class="disciplina-card">
                 <div class="card-header">
                     <div style="display: flex; align-items: flex-start;">
-                        <div class="disciplina-icon">🏀</div>
                         <div class="disciplina-info">
                             <h3>Basquetbol</h3>
                             <div class="disciplina-meta">Creado: 10/Nov/2024</div>
@@ -631,20 +629,8 @@
                 <div class="card-content">
                     <div class="info-grid">
                         <div class="info-item">
-                            <span class="info-label">Participantes Mín</span>
-                            <span class="info-value">5</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">Participantes Máx</span>
-                            <span class="info-value">12</span>
-                        </div>
-                        <div class="info-item">
                             <span class="info-label">Tipo</span>
                             <span class="info-value">Sin subcategorías</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">Estado</span>
-                            <span class="info-value" style="color: #28a745;">● Activa</span>
                         </div>
                     </div>
 
@@ -654,7 +640,7 @@
                     </div>
 
                     <div class="subcategorias-preview">
-                        <h4>📋 Subcategorías</h4>
+                        <h4>Subcategorías</h4>
                         <div style="text-align: center; color: #6c757d; font-size: 12px; padding: 10px;">
                             Esta disciplina no tiene subcategorías configuradas
                         </div>
@@ -663,24 +649,19 @@
 
                 <div class="card-actions">
                     <a href="editar-disciplina.html?id=2" class="btn-warning">
-                        ✏️ Editar
-                    </a>
-                    <a href="crear-subcategoria.html?disciplina=2" class="btn-primary">
-                        ➕ Agregar Subcategoría
+                        Editar
                     </a>
                     <button class="btn-danger" onclick="eliminarDisciplina(2)">
-                        🗑️ Eliminar
+                        Eliminar
                     </button>
                 </div>
             </div>
 
-            <!-- Disciplina 3: Atletismo -->
             <div class="disciplina-card">
                 <span class="stats-badge">8 subcategorías</span>
                 
                 <div class="card-header">
                     <div style="display: flex; align-items: flex-start;">
-                        <div class="disciplina-icon">🏃</div>
                         <div class="disciplina-info">
                             <h3>Atletismo</h3>
                             <div class="disciplina-meta">Creado: 05/Nov/2024</div>
@@ -691,20 +672,8 @@
                 <div class="card-content">
                     <div class="info-grid">
                         <div class="info-item">
-                            <span class="info-label">Participantes Mín</span>
-                            <span class="info-value">1</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">Participantes Máx</span>
-                            <span class="info-value">15</span>
-                        </div>
-                        <div class="info-item">
                             <span class="info-label">Tipo</span>
                             <span class="info-value">Con subcategorías</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">Estado</span>
-                            <span class="info-value" style="color: #6c757d;">● Inactiva</span>
                         </div>
                     </div>
 
@@ -714,7 +683,7 @@
                     </div>
 
                     <div class="subcategorias-preview">
-                        <h4>📋 Subcategorías (8)</h4>
+                        <h4>Subcategorías (8)</h4>
                         <div class="subcategoria-mini">
                             <span class="subcategoria-name">100m planos</span>
                             <span class="subcategoria-details">Individual</span>
@@ -732,48 +701,29 @@
 
                 <div class="card-actions">
                     <a href="editar-disciplina.html?id=3" class="btn-warning">
-                        ✏️ Editar
-                    </a>
-                    <a href="gestion-subcategorias.html?id=3" class="btn-primary">
-                        🎯 Subcategorías
+                        Editar
                     </a>
                     <button class="btn-danger" onclick="eliminarDisciplina(3)">
-                        🗑️ Eliminar
+                        Eliminar
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Estado vacío (ejemplo comentado) -->
-        <!--
-        <div class="empty-state">
-            <div class="icon">⚽</div>
-            <h3>No hay disciplinas registradas</h3>
-            <p>Comience creando la primera disciplina deportiva del sistema.</p>
-            <a href="crear-disciplina.html" class="btn-success" style="display: inline-flex; width: auto;">
-                ➕ Crear Primera Disciplina
-            </a>
-        </div>
-        -->
     </div>
 
     <script>
-        // Funciones de interacción
         function eliminarDisciplina(id) {
             if (confirm('¿Está seguro de que desea eliminar esta disciplina? Esta acción eliminará también todas sus subcategorías y no se puede deshacer.')) {
                 alert(`Disciplina ${id} eliminada - Prototipo`);
-                // Aquí iría la lógica para eliminar la disciplina
             }
         }
 
-        // Búsqueda en tiempo real
         document.getElementById('searchInput').addEventListener('input', function(e) {
             const searchTerm = e.target.value.toLowerCase();
             console.log('Buscando:', searchTerm);
-            // Aquí iría la lógica de filtrado
         });
 
-        // Filtrado
         document.querySelectorAll('select').forEach(select => {
             select.addEventListener('change', function() {
                 aplicarFiltros();
@@ -783,16 +733,12 @@
         function aplicarFiltros() {
             const tipo = document.getElementById('filterTipo').value;
             const rama = document.getElementById('filterRama').value;
-            const estado = document.getElementById('filterEstado').value;
             
-            console.log('Aplicando filtros:', { tipo, rama, estado });
-            // Aquí iría la lógica de filtrado real
+            console.log('Aplicando filtros:', { tipo, rama }); 
         }
 
-        // Ejemplo de interacción con tarjetas
         document.querySelectorAll('.disciplina-card').forEach(card => {
             card.addEventListener('click', function(e) {
-                // Solo si no se hizo clic en un botón o enlace
                 if (!e.target.closest('button') && !e.target.closest('a')) {
                     const titulo = this.querySelector('h3').textContent;
                     alert(`Mostrando detalles de: ${titulo} - Prototipo`);
@@ -800,7 +746,6 @@
             });
         });
 
-        // Inicialización
         document.addEventListener('DOMContentLoaded', function() {
             console.log('Pantalla de visualización de disciplinas cargada - Prototipo');
         });

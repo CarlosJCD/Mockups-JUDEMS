@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagos y Facturación - Prototipo</title>
+    <style>
+        /* Reset básico */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        /* Contenedor principal */
+        .page-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        .breadcrumb a {
+            color: #4a90e2;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb span {
+            color: #495057;
+            font-weight: bold;
+        }
+
+        /* Header de página */
+        .page-header {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .page-header h1 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .page-header p {
+            color: #6c757d;
+            font-size: 16px;
+            margin: 0;
+        }
+
+        /* Pestañas */
+        .tabs-container {
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .tabs-header {
+            display: flex;
+            border-bottom: 1px solid #dee2e6;
+            background: #f8f9fa;
+        }
+
+        .tab-btn {
+            padding: 15px 25px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            color: #6c757d;
+            transition: all 0.2s;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-btn:hover {
+            background: #e9ecef;
+            color: #495057;
+        }
+
+        .tab-btn.active {
+            color: #4a90e2;
+            border-bottom-color: #4a90e2;
+            background: white;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 30px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Sección de datos fiscales */
+        .datos-fiscales {
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .datos-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 25px;
+            border-bottom: 1px solid #e9ecef;
+            background: #f8f9fa;
+        }
+
+        .datos-header h3 {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 0;
+        }
+
+        .datos-body {
+            padding: 25px;
+        }
+
+        .datos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .dato-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dato-label {
+            font-size: 14px;
+            color: #6c757d;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .dato-value {
+            font-size: 16px;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        /* Botones */
+        .btn-primary {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background-color 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary:hover {
+            background: #218838;
+            color: white;
+            text-decoration: none;
+        }
+
+        .btn-secondary {
+            background: #4a90e2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background-color 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-secondary:hover {
+            background: #357abd;
+            color: white;
+            text-decoration: none;
+        }
+
+        .btn-outline {
+            background: white;
+            color: #4a90e2;
+            border: 1px solid #4a90e2;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-outline:hover {
+            background: #4a90e2;
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Secciones de convocatorias */
+        .convocatoria-section {
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .convocatoria-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 25px;
+            border-bottom: 1px solid #e9ecef;
+            background: #f8f9fa;
+        }
+
+        .convocatoria-title h3 {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 0 0 5px 0;
+        }
+
+        .convocatoria-title p {
+            color: #6c757d;
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .convocatoria-costo {
+            text-align: right;
+        }
+
+        .costo-total {
+            font-size: 24px;
+            font-weight: bold;
+            color: #28a745;
+            margin-bottom: 5px;
+        }
+
+        .costo-label {
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        /* Tabla de estudiantes */
+        .estudiantes-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .estudiantes-table th {
+            background: #f8f9fa;
+            padding: 12px 15px;
+            text-align: left;
+            font-size: 14px;
+            font-weight: bold;
+            color: #495057;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .estudiantes-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e9ecef;
+            font-size: 14px;
+            color: #495057;
+        }
+
+        .estudiantes-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .estudiantes-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        /* Pago general */
+        .pago-general {
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            padding: 25px;
+            margin-top: 30px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        .pago-general h3 {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .pago-total {
+            font-size: 32px;
+            font-weight: bold;
+            color: #28a745;
+            margin-bottom: 20px;
+        }
+
+        /* Tabla de pagos realizados */
+        .pagos-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .pagos-table th {
+            background: #f8f9fa;
+            padding: 12px 15px;
+            text-align: left;
+            font-size: 14px;
+            font-weight: bold;
+            color: #495057;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .pagos-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e9ecef;
+            font-size: 14px;
+            color: #495057;
+        }
+
+        .pagos-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .pagos-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        /* Estado de pago */
+        .estado-pago {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .estado-pago.pagado {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .estado-pago.pendiente {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .estado-pago.procesando {
+            background: #cce7ff;
+            color: #004085;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-container {
+                padding: 15px;
+            }
+
+            .page-header {
+                padding: 20px;
+            }
+
+            .tabs-header {
+                flex-direction: column;
+            }
+
+            .tab-btn {
+                width: 100%;
+                text-align: left;
+                border-bottom: 1px solid #dee2e6;
+                border-left: 3px solid transparent;
+            }
+
+            .tab-btn.active {
+                border-left-color: #4a90e2;
+                border-bottom-color: #dee2e6;
+            }
+
+            .tab-content {
+                padding: 20px;
+            }
+
+            .datos-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .datos-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .convocatoria-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .convocatoria-costo {
+                text-align: left;
+            }
+
+            .estudiantes-table,
+            .pagos-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-header h1 {
+                font-size: 20px;
+            }
+
+            .tab-content {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="breadcrumb">
+            <a href="dashboard.html">Dashboard</a> > 
+            <span>Pagos y Facturación</span>
+        </div>
+
+        <div class="page-header">
+            <h1>Pagos y Facturación</h1>
+            <p>Gestión de pagos de inscripciones y datos fiscales</p>
+        </div>
+
+        <div class="tabs-container">
+            <div class="tabs-header">
+                <button class="tab-btn active" data-tab="pagos">Pagos de Inscripciones</button>
+                <button class="tab-btn" data-tab="historial">Historial de Pagos</button>
+                <button class="tab-btn" data-tab="facturacion">Datos de Facturación</button>
+            </div>
+
+            <!-- Pestaña de Pagos -->
+            <div class="tab-content active" id="pagos-tab">
+                <!-- Convocatoria 1 -->
+                <div class="convocatoria-section">
+                    <div class="convocatoria-header">
+                        <div class="convocatoria-title">
+                            <h3>Juegos Deportivos Interpreparatorias 2024</h3>
+                            <p>Fecha límite de pago: 15 Dic 2024</p>
+                        </div>
+                        <div class="convocatoria-costo">
+                            <div class="costo-total">$2,250.00 MXN</div>
+                            <div class="costo-label">Total por 9 estudiantes</div>
+                            <a href="adjuntar-comprobante.html?convocatoria=juegos-deportivos" class="btn-primary" style="margin-top: 10px;">
+                                Pagar Convocatoria
+                            </a>
+                        </div>
+                    </div>
+                    <div class="datos-body">
+                        <table class="estudiantes-table">
+                            <thead>
+                                <tr>
+                                    <th>Estudiante</th>
+                                    <th>Matrícula</th>
+                                    <th>Disciplina</th>
+                                    <th>Subcategoría</th>
+                                    <th>Costo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>María González López</td>
+                                    <td>2024001</td>
+                                    <td>Fútbol</td>
+                                    <td>Fútbol Rápido - Femenino</td>
+                                    <td>$250.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Carlos Rodríguez Méndez</td>
+                                    <td>2024002</td>
+                                    <td>Fútbol</td>
+                                    <td>Fútbol 7 - Mixto</td>
+                                    <td>$250.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Ana Martínez Sánchez</td>
+                                    <td>2024003</td>
+                                    <td>Fútbol</td>
+                                    <td>Fútbol Rápido - Femenino</td>
+                                    <td>$250.00</td>
+                                </tr>
+                                <tr>
+                                    <td>José Hernández García</td>
+                                    <td>2024004</td>
+                                    <td>Fútbol</td>
+                                    <td>Fútbol Sala - Masculino</td>
+                                    <td>$250.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Laura Díaz Ramírez</td>
+                                    <td>2024005</td>
+                                    <td>Atletismo</td>
+                                    <td>Carrera 100m - Femenino</td>
+                                    <td>$250.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Miguel Ángel Torres</td>
+                                    <td>2024006</td>
+                                    <td>Atletismo</td>
+                                    <td>Salto de longitud - Masculino</td>
+                                    <td>$250.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Sofía Mendoza Cruz</td>
+                                    <td>2024007</td>
+                                    <td>Basquetbol</td>
+                                    <td>Basquetbol 5x5 - Femenino</td>
+                                    <td>$250.00</td>
+                                </tr>
+                                <tr>
+                                    <td>David Ortega Silva</td>
+                                    <td>2024008</td>
+                                    <td>Basquetbol</td>
+                                    <td>Basquetbol 5x5 - Masculino</td>
+                                    <td>$250.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Fernanda Vargas Luna</td>
+                                    <td>2024009</td>
+                                    <td>Fútbol</td>
+                                    <td>Competencia de Penaltis - Mixto</td>
+                                    <td>$250.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Convocatoria 2 -->
+                <div class="convocatoria-section">
+                    <div class="convocatoria-header">
+                        <div class="convocatoria-title">
+                            <h3>Torneo de Fútbol Rapidez 2024</h3>
+                            <p>Fecha límite de pago: 20 Dic 2024</p>
+                        </div>
+                        <div class="convocatoria-costo">
+                            <div class="costo-total">$750.00 MXN</div>
+                            <div class="costo-label">Total por 3 estudiantes</div>
+                            <a href="adjuntar-comprobante.html?convocatoria=torneo-futbol" class="btn-primary" style="margin-top: 10px;">
+                                Pagar Convocatoria
+                            </a>
+                        </div>
+                    </div>
+                    <div class="datos-body">
+                        <table class="estudiantes-table">
+                            <thead>
+                                <tr>
+                                    <th>Estudiante</th>
+                                    <th>Matrícula</th>
+                                    <th>Disciplina</th>
+                                    <th>Subcategoría</th>
+                                    <th>Costo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>María González López</td>
+                                    <td>2024001</td>
+                                    <td>Fútbol</td>
+                                    <td>Fútbol Rápido - Femenino</td>
+                                    <td>$250.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Carlos Rodríguez Méndez</td>
+                                    <td>2024002</td>
+                                    <td>Fútbol</td>
+                                    <td>Fútbol 7 - Mixto</td>
+                                    <td>$250.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Ana Martínez Sánchez</td>
+                                    <td>2024003</td>
+                                    <td>Fútbol</td>
+                                    <td>Fútbol Rápido - Femenino</td>
+                                    <td>$250.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Pago General -->
+                <div class="pago-general">
+                    <h3>Pago General de Todas las Convocatorias</h3>
+                    <div class="pago-total">$3,000.00 MXN</div>
+                    <p style="margin-bottom: 20px; color: #6c757d;">Incluye todos los estudiantes inscritos en todas las convocatorias</p>
+                    <a href="adjuntar-comprobante.html?convocatoria=general" class="btn-secondary">
+                        Pagar Todo
+                    </a>
+                </div>
+            </div>
+
+            <!-- Pestaña de Historial de Pagos -->
+            <div class="tab-content" id="historial-tab">
+                <div class="datos-fiscales">
+                    <div class="datos-header">
+                        <h3>Historial de Pagos Realizados</h3>
+                    </div>
+                    <div class="datos-body">
+                        <table class="pagos-table">
+                            <thead>
+                                <tr>
+                                    <th>Referencia</th>
+                                    <th>Fecha</th>
+                                    <th>Convocatoria</th>
+                                    <th>Monto</th>
+                                    <th>Estudiantes</th>
+                                    <th>Estado</th>
+                                    <th>Comprobante</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>PAGO-2024-001</td>
+                                    <td>10/Nov/2024</td>
+                                    <td>Juegos Deportivos Interpreparatorias 2024</td>
+                                    <td>$1,500.00</td>
+                                    <td>6</td>
+                                    <td><span class="estado-pago pagado">Pagado</span></td>
+                                    <td><a href="#" class="btn-outline">Descargar</a></td>
+                                </tr>
+                                <tr>
+                                    <td>PAGO-2024-002</td>
+                                    <td>15/Nov/2024</td>
+                                    <td>Torneo de Fútbol Rapidez 2024</td>
+                                    <td>$750.00</td>
+                                    <td>3</td>
+                                    <td><span class="estado-pago pagado">Pagado</span></td>
+                                    <td><a href="#" class="btn-outline">Descargar</a></td>
+                                </tr>
+                                <tr>
+                                    <td>PAGO-2024-003</td>
+                                    <td>20/Nov/2024</td>
+                                    <td>Pago General</td>
+                                    <td>$2,250.00</td>
+                                    <td>9</td>
+                                    <td><span class="estado-pago procesando">Procesando</span></td>
+                                    <td><a href="#" class="btn-outline">Descargar</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pestaña de Facturación -->
+            <div class="tab-content" id="facturacion-tab">
+                <div class="datos-fiscales">
+                    <div class="datos-header">
+                        <h3>Datos Fiscales de la Institución</h3>
+                        <a href="editar-facturacion.html" class="btn-outline">
+                            Editar Datos
+                        </a>
+                    </div>
+                    <div class="datos-body">
+                        <div class="datos-grid">
+                            <div class="dato-item">
+                                <span class="dato-label">Razón Social</span>
+                                <span class="dato-value">Instituto Juárez, A.C.</span>
+                            </div>
+                            <div class="dato-item">
+                                <span class="dato-label">RFC</span>
+                                <span class="dato-value">IJU240101ABC</span>
+                            </div>
+                            <div class="dato-item">
+                                <span class="dato-label">Régimen Fiscal</span>
+                                <span class="dato-value">Personas Morales con Fines no Lucrativos</span>
+                            </div>
+                            <div class="dato-item">
+                                <span class="dato-label">Código Postal</span>
+                                <span class="dato-value">97000</span>
+                            </div>
+                            <div class="dato-item">
+                                <span class="dato-label">Uso de CFDI</span>
+                                <span class="dato-value">G03 - Gastos en general</span>
+                            </div>
+                            <div class="dato-item">
+                                <span class="dato-label">Correo para Facturación</span>
+                                <span class="dato-value">facturacion@institutojuarez.edu.mx</span>
+                            </div>
+                            <div class="dato-item">
+                                <span class="dato-label">Constancia Fiscal</span>
+                                <span class="dato-value">constancia_fiscal_2024.pdf</span>
+                            </div>
+                            <div class="dato-item">
+                                <span class="dato-label">Fecha de Actualización</span>
+                                <span class="dato-value">15 de Noviembre 2024</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Funcionalidad de pestañas
+        document.querySelectorAll('.tab-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                // Remover clase activa de todos los botones y contenidos
+                document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                
+                // Agregar clase activa al botón clickeado
+                this.classList.add('active');
+                
+                // Mostrar el contenido correspondiente
+                const tabId = this.getAttribute('data-tab');
+                document.getElementById(`${tabId}-tab`).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -515,7 +515,6 @@
 
             <div class="convocatoria-info">
                 <div class="info-header">
-                    <div class="info-icon">⚽</div>
                     <div class="info-title">
                         <h3>Fútbol Rápido - Rama Femenino</h3>
                         <p>Subcategoría: Competencia individual de habilidades</p>
@@ -603,12 +602,9 @@
                     </div>
 
                     <div class="requisitos-info">
-                        <h4>📋 Información Importante</h4>
+                        <h4>Información Importante</h4>
                         <ul class="requisitos-list">
                             <li>Esta subcategoría es exclusiva para participantes femeninas</li>
-                            <li>La prueba es individual y consta de 5 ejercicios de habilidad</li>
-                            <li>Cada institución puede inscribir máximo 3 participantes</li>
-                            <li>El horario de competencia será asignado posteriormente</li>
                         </ul>
                     </div>
                 </div>
@@ -693,13 +689,11 @@
                     submitButton.disabled = false;
                     document.getElementById('successAlert').style.display = 'block';
 
-                    // Limpiar formulario después de éxito
                     setTimeout(() => {
                         document.getElementById('inscripcionForm').reset();
                         document.getElementById('estudianteSelected').classList.remove('show');
                         estudianteSeleccionado = null;
                         
-                        // JAVASCRIPT DE LIMPIEZA DE PREVIEW DE ARCHIVOS ELIMINADO
                         
                         document.getElementById('successAlert').style.display = 'none';
                         alert('Inscripción completada exitosamente - Prototipo');

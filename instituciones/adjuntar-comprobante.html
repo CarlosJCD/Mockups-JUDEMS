@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adjuntar Comprobante - Prototipo</title>
+    <style>
+        /* Reset básico */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        /* Contenedor principal */
+        .page-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        .breadcrumb a {
+            color: #4a90e2;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb span {
+            color: #495057;
+            font-weight: bold;
+        }
+
+        /* Header de página */
+        .page-header {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .page-header h1 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .page-header p {
+            color: #6c757d;
+            font-size: 16px;
+            margin: 0;
+        }
+
+        /* Formulario */
+        .comprobante-form {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 8px;
+        }
+
+        .form-group label::after {
+            content: " *";
+            color: #dc3545;
+        }
+
+        /* Upload de archivo */
+        .upload-area {
+            position: relative;
+            border: 2px dashed #dee2e6;
+            border-radius: 8px;
+            padding: 40px 25px;
+            text-align: center;
+            background: #f8f9fa;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        
+        .upload-area.dragover { /* Estilo al arrastrar sobre la zona */
+             border-color: #4a90e2;
+             background: #f1f7ff;
+        }
+
+        .upload-area input[type="file"] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .upload-placeholder span {
+            display: block;
+            font-size: 16px;
+            color: #495057;
+            margin-bottom: 5px;
+        }
+
+        .upload-placeholder small {
+            color: #6c757d;
+            font-size: 12px;
+        }
+
+        .file-preview {
+            display: none;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+
+        .file-preview.show {
+            display: flex;
+        }
+        
+        .file-preview-placeholder { /* Contenedor para el texto cuando no hay archivo */
+            display: block;
+        }
+        
+        .file-preview.show .file-preview-placeholder {
+            display: none;
+        }
+        
+        .file-preview-info { /* Contenedor para el archivo cargado */
+             display: none; /* Oculto por defecto */
+        }
+        
+        .file-preview.show .file-preview-info {
+             display: flex; /* Visible cuando se carga el archivo */
+             align-items: center;
+             gap: 10px;
+             width: 100%;
+        }
+
+        .file-info {
+            flex: 1;
+            text-align: left; /* Alinear texto a la izquierda */
+        }
+
+        .file-name {
+            font-size: 14px;
+            font-weight: bold;
+            color: #155724;
+            margin-bottom: 2px;
+        }
+
+        .file-size {
+            font-size: 12px;
+            color: #28a745;
+        }
+
+        .remove-file {
+            background: none;
+            border: none;
+            color: #dc3545;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 5px;
+        }
+
+        /* Información de pago */
+        .pago-info {
+            background: #e7f3ff;
+            border: 1px solid #b3d7ff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .pago-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .pago-icon {
+            font-size: 24px;
+            background: #4a90e2;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pago-title h3 {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 0 0 5px 0;
+        }
+
+        .pago-title p {
+            color: #6c757d;
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .pago-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .pago-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pago-label {
+            font-size: 12px;
+            color: #6c757d;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .pago-value {
+            font-size: 14px;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        /* Botones */
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            padding-top: 25px;
+            border-top: 1px solid #e9ecef;
+            margin-top: 30px;
+        }
+
+        .btn-primary {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.2s;
+            min-width: 140px;
+        }
+
+        .btn-primary:hover {
+            background: #218838;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.2s;
+            min-width: 140px;
+        }
+
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+
+        /* Estados de validación */
+        .form-group.error .upload-area {
+            border-color: #dc3545;
+            background: #fdf2f2;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .form-group.error .error-message {
+            display: block;
+        }
+
+        /* Alertas */
+        .alert {
+            padding: 15px 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .alert.success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            display: block;
+        }
+
+        .alert.error {
+            background: #f8d7da;
+            border: 1px solid #f1b0b7;
+            color: #721c24;
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-container {
+                padding: 15px;
+            }
+
+            .page-header {
+                padding: 20px;
+            }
+
+            .comprobante-form {
+                padding: 20px;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .btn-primary,
+            .btn-secondary {
+                min-width: auto;
+                width: 100%;
+            }
+
+            .pago-details {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-header h1 {
+                font-size: 20px;
+            }
+
+            .upload-area {
+                padding: 30px 15px;
+            }
+
+            .upload-placeholder span {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="breadcrumb">
+            <a href="dashboard.html">Dashboard</a> > 
+            <a href="pagos-facturacion.html">Pagos y Facturación</a> > 
+            <span>Adjuntar Comprobante</span>
+        </div>
+
+        <div class="page-header">
+            <h1>Adjuntar Comprobante de Pago</h1>
+            <p>Suba el comprobante de pago en formato PDF para procesar su solicitud</p>
+        </div>
+
+        <div class="pago-info">
+            <div class="pago-header">
+                <div class="pago-icon">💰</div>
+                <div class="pago-title">
+                    <h3 id="pagoTitulo">Pago General - Todas las Convocatorias</h3>
+                    <p id="pagoReferencia">Referencia: PAGO-INST-2024-001</p>
+                </div>
+            </div>
+            <div class="pago-details">
+                <div class="pago-item">
+                    <span class="pago-label">Monto Total</span>
+                    <span class="pago-value" id="pagoMonto">$3,000.00 MXN</span>
+                </div>
+                <div class="pago-item">
+                    <span class="pago-label">Fecha Límite</span>
+                    <span class="pago-value">15 de Diciembre 2024</span>
+                </div>
+                <div class="pago-item">
+                    <span class="pago-label">Convocatorias Incluidas</span>
+                    <span class="pago-value" id="pagoConvocatorias">2 convocatorias</span>
+                </div>
+            </div>
+        </div>
+        
+        <form class="comprobante-form" id="comprobanteForm">
+            
+            <div class="alert" id="formAlert" style="display: none;"></div>
+
+            <div class="form-group" id="fileGroup">
+                <label for="comprobanteFile">Comprobante de Pago (PDF)</label>
+                
+                <div class="upload-area" id="uploadArea">
+                    <input type="file" id="comprobanteFile" accept="application/pdf" style="display: none;">
+                    
+                    <div class="upload-placeholder" id="uploadPlaceholder">
+                        <span>📄 Arrastra o selecciona el archivo</span>
+                        <small>Formato aceptado: PDF (Máx. 5MB)</small>
+                    </div>
+                    
+                    <div class="file-preview" id="filePreview">
+                         <div class="file-preview-info">
+                             <div class="file-info">
+                                 <span class="file-name" id="fileName"></span>
+                                 <span class="file-size" id="fileSize"></span>
+                             </div>
+                             <button type="button" class="remove-file" onclick="removerArchivo()">×</button>
+                         </div>
+                    </div>
+                </div>
+                <div class="error-message" id="fileError">Debe seleccionar un archivo PDF válido.</div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn-secondary" onclick="cancelarEnvio()">Cancelar</button>
+                <button type="submit" class="btn-primary" id="submitButton">Enviar Comprobante</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('comprobanteFile');
+        const filePreview = document.getElementById('filePreview');
+        const uploadPlaceholder = document.getElementById('uploadPlaceholder');
+        const filePreviewInfo = filePreview.querySelector('.file-preview-info');
+        const fileNameEl = document.getElementById('fileName');
+        const fileSizeEl = document.getElementById('fileSize');
+        const fileGroup = document.getElementById('fileGroup');
+        const formAlert = document.getElementById('formAlert');
+        const submitButton = document.getElementById('submitButton');
+
+        uploadArea.addEventListener('click', (e) => {
+            if (e.target.classList.contains('remove-file')) return;
+            fileInput.click();
+        });
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            
+            if (e.dataTransfer.files.length > 0) {
+                fileInput.files = e.dataTransfer.files;
+                handleFiles(fileInput.files);
+            }
+        });
+
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length > 0) {
+                handleFiles(fileInput.files);
+            }
+        });
+
+        function handleFiles(files) {
+            const file = files[0];
+            
+            if (file.type !== 'application/pdf') {
+                mostrarError('Solo se permiten archivos PDF.');
+                removerArchivo();
+                return;
+            }
+            
+            if (file.size > 5 * 1024 * 1024) {
+                 mostrarError('El archivo es demasiado grande (Máx. 5MB).');
+                 removerArchivo();
+                return;
+            }
+
+            fileNameEl.textContent = file.name;
+            fileSizeEl.textContent = (file.size / 1024 / 1024).toFixed(2) + ' MB';
+            filePreview.classList.add('show');
+            uploadPlaceholder.style.display = 'none'; // Ocultar placeholder
+            
+            fileGroup.classList.remove('error');
+            formAlert.style.display = 'none';
+        }
+
+        function removerArchivo() {
+            fileInput.value = ''; // Limpiar el input
+            filePreview.classList.remove('show');
+            uploadPlaceholder.style.display = 'block'; // Mostrar placeholder
+            fileNameEl.textContent = '';
+            fileSizeEl.textContent = '';
+        }
+
+        document.getElementById('comprobanteForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (fileInput.files.length === 0) {
+                mostrarError('Debe adjuntar un comprobante de pago.');
+                return;
+            }
+            
+            submitButton.disabled = true;
+            submitButton.textContent = 'Enviando...';
+            
+            setTimeout(() => {
+                mostrarAlerta('success', '¡Comprobante enviado exitosamente! Su pago será revisado.');
+                submitButton.disabled = false;
+                submitButton.textContent = 'Enviar Comprobante';
+                removerArchivo();
+            }, 1500);
+        });
+        
+        function cancelarEnvio() {
+            if (confirm('¿Está seguro de que desea cancelar?')) {
+                window.location.href = 'pagos-facturacion.html'; // O la página anterior
+            }
+        }
+        
+        function mostrarError(mensaje) {
+            formAlert.className = 'alert error';
+            formAlert.textContent = mensaje;
+            formAlert.style.display = 'block';
+            fileGroup.classList.add('error');
+        }
+        
+        function mostrarAlerta(tipo, mensaje) {
+             formAlert.className = `alert ${tipo}`;
+             formAlert.textContent = mensaje;
+             formAlert.style.display = 'block';
+        }
+
+    </script>
+</body>
+</html>

@@ -5,7 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Instituciones - Prototipo</title>
     <style>
-        /* Estilos para Gestión de Instituciones */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.4;
+        }
+
         .page-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -28,6 +40,27 @@
             margin-bottom: 10px;
         }
 
+        .breadcrumb {
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        .breadcrumb a {
+            color: #4a90e2;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb span {
+            color: #495057;
+            font-weight: bold;
+        }
+        
+        /* Estilos de Pestañas (Tabs) */
         .tabs {
             display: flex;
             gap: 10px;
@@ -60,18 +93,64 @@
             display: block;
         }
 
+        /* Estilos de Filtros */
+        .filters-section {
+            background: white;
+            padding: 20px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: end;
+        }
+
+        .filter-item {
+            flex: 1;
+            min-width: 180px;
+        }
+
+        .filter-item label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 5px;
+        }
+
+        .filter-item select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        /* Grid de Tarjetas */
         .instituciones-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 20px;
         }
 
+        /* Estilo de tarjeta */
         .institucion-card {
             background: white;
             border: 1px solid #dee2e6;
             border-radius: 8px;
             padding: 25px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: all 0.2s;
+        }
+
+        .institucion-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-color: #4a90e2;
         }
 
         .card-header {
@@ -107,6 +186,11 @@
             background: #d4edda;
             color: #155724;
         }
+        
+        .status-badge.rechazada {
+            background: #f8d7da;
+            color: #721c24;
+        }
 
         .card-content {
             margin-bottom: 20px;
@@ -116,7 +200,11 @@
             display: flex;
             justify-content: space-between;
             margin-bottom: 8px;
-            padding: 5px 0;
+            padding: 8px 0;
+        }
+        
+        .info-row:not(:last-child) {
+            border-bottom: 1px solid #f8f9fa;
         }
 
         .label {
@@ -140,49 +228,54 @@
             border-top: 1px solid #e9ecef;
         }
 
+        /* Estilos de botones */
         .btn-primary {
             background: #28a745;
             color: white;
             border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
+            padding: 10px 20px;
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 14px;
             font-weight: bold;
             transition: background-color 0.2s;
             flex: 1;
+            text-align: center;
         }
 
         .btn-secondary {
             background: #4a90e2;
             color: white;
             border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
+            padding: 10px 20px;
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 14px;
             font-weight: bold;
             transition: background-color 0.2s;
             flex: 1;
+            text-align: center;
         }
 
         .btn-danger {
             background: #dc3545;
             color: white;
             border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
+            padding: 10px 20px;
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 14px;
             font-weight: bold;
             transition: background-color 0.2s;
             flex: 1;
+            text-align: center;
         }
 
         .btn-primary:hover { background: #218838; }
         .btn-secondary:hover { background: #357abd; }
         .btn-danger:hover { background: #c82333; }
 
+        /* Estilo de Empty State */
         .empty-state {
             text-align: center;
             padding: 60px 20px;
@@ -198,6 +291,17 @@
             margin-bottom: 20px;
             opacity: 0.5;
         }
+        
+        .empty-state h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #495057;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
 
         @media (max-width: 768px) {
             .instituciones-grid {
@@ -207,24 +311,62 @@
             .card-actions {
                 flex-direction: column;
             }
+
+            .info-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+
+            .value {
+                text-align: left;
+            }
         }
     </style>
 </head>
 <body>
     <div class="page-container">
+        <div class="breadcrumb">
+            <a href="dashboard.html">Dashboard</a> > 
+            <span>Instituciones</span>
+        </div>
+
         <div class="page-header">
             <h1>Gestión de Instituciones</h1>
             <p>Administre las instituciones registradas en el sistema</p>
         </div>
 
         <div class="tabs">
-            <button class="tab active" onclick="cambiarTab('porAceptar')">⏳ Por Aceptar (3)</button>
-            <button class="tab" onclick="cambiarTab('aceptadas')">✅ Aceptadas (5)</button>
-            <button class="tab" onclick="cambiarTab('rechazadas')">❌ Rechazadas (2)</button>
+            <button class="tab active" onclick="cambiarTab('porAceptar')">Por Aceptar (3)</button>
+            <button class="tab" onclick="cambiarTab('aceptadas')">Aceptadas (5)</button>
+            <button class="tab" onclick="cambiarTab('rechazadas')">Rechazadas (2)</button>
         </div>
 
         <!-- Tab: Instituciones por Aceptar -->
         <div class="tab-content active" id="porAceptar">
+            <div class="filters-section">
+                <div class="filter-group">
+                    <div class="filter-item">
+                        <label for="filterSistema">Sistema</label>
+                        <select id="filterSistema">
+                            <option value="">Todos los sistemas</option>
+                            <option value="SEGEY">SEGEY</option>
+                            <option value="UADY">UADY</option>
+                            <option value="Federal">Federal</option>
+                        </select>
+                    </div>
+                    <div class="filter-item">
+                        <label for="filterFecha">Fecha de Solicitud</label>
+                        <select id="filterFecha">
+                            <option value="">Todas las fechas</option>
+                            <option value="hoy">Hoy</option>
+                            <option value="semana">Esta semana</option>
+                            <option value="mes">Este mes</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
             <div class="instituciones-grid">
                 <!-- Institución 1 -->
                 <div class="institucion-card">
@@ -256,7 +398,6 @@
                     </div>
                     <div class="card-actions">
                         <button class="btn-primary" onclick="aprobarInstitucion(1)">Aprobar</button>
-                        <button class="btn-secondary" onclick="verDetalles(1)">Ver Detalles</button>
                         <button class="btn-danger" onclick="rechazarInstitucion(1)">Rechazar</button>
                     </div>
                 </div>
@@ -291,8 +432,41 @@
                     </div>
                     <div class="card-actions">
                         <button class="btn-primary" onclick="aprobarInstitucion(2)">Aprobar</button>
-                        <button class="btn-secondary" onclick="verDetalles(2)">Ver Detalles</button>
                         <button class="btn-danger" onclick="rechazarInstitucion(2)">Rechazar</button>
+                    </div>
+                </div>
+
+                <!-- Institución 3 -->
+                <div class="institucion-card">
+                    <div class="card-header">
+                        <h3>Escuela Secundaria Federal</h3>
+                        <span class="status-badge pendiente">Pendiente</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="info-row">
+                            <span class="label">Sistema:</span>
+                            <span class="value">Federal</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Encargado:</span>
+                            <span class="value">Laura Hernández</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Teléfono:</span>
+                            <span class="value">999 555 8899</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Email:</span>
+                            <span class="value">laura@esfederal.edu.mx</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Solicitud:</span>
+                            <span class="value">13/Nov/2024</span>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn-primary" onclick="aprobarInstitucion(3)">Aprobar</button>
+                        <button class="btn-danger" onclick="rechazarInstitucion(3)">Rechazar</button>
                     </div>
                 </div>
             </div>
@@ -300,6 +474,28 @@
 
         <!-- Tab: Instituciones Aceptadas -->
         <div class="tab-content" id="aceptadas">
+            <div class="filters-section">
+                <div class="filter-group">
+                    <div class="filter-item">
+                        <label for="filterSistemaAceptadas">Sistema</label>
+                        <select id="filterSistemaAceptadas">
+                            <option value="">Todos los sistemas</option>
+                            <option value="SEGEY">SEGEY</option>
+                            <option value="UADY">UADY</option>
+                            <option value="Federal">Federal</option>
+                        </select>
+                    </div>
+                    <div class="filter-item">
+                        <label for="filterEstadoAceptadas">Estado</label>
+                        <select id="filterEstadoAceptadas">
+                            <option value="">Todos los estados</option>
+                            <option value="activa">Activa</option>
+                            <option value="suspendida">Suspendida</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
             <div class="instituciones-grid">
                 <!-- Institución Aceptada 1 -->
                 <div class="institucion-card">
@@ -328,10 +524,52 @@
                             <span class="label">Código Acceso:</span>
                             <span class="value">INST-2024-ABC123</span>
                         </div>
+                        <div class="info-row">
+                            <span class="label">Aprobación:</span>
+                            <span class="value">10/Nov/2024</span>
+                        </div>
                     </div>
                     <div class="card-actions">
-                        <button class="btn-secondary" onclick="verDetalles(3)">Ver Detalles</button>
+                        <button class="btn-secondary" onclick="editarInstitucion(3)">Reconsiderar</button>
                         <button class="btn-danger" onclick="eliminarInstitucion(3)">Eliminar</button>
+                    </div>
+                </div>
+
+                <!-- Institución Aceptada 2 -->
+                <div class="institucion-card">
+                    <div class="card-header">
+                        <h3>Colegio México</h3>
+                        <span class="status-badge activa">Activa</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="info-row">
+                            <span class="label">Sistema:</span>
+                            <span class="value">SEGEY</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Encargado:</span>
+                            <span class="value">Roberto Silva</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Teléfono:</span>
+                            <span class="value">999 444 5566</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Email:</span>
+                            <span class="value">roberto@colegiomexico.edu.mx</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Código Acceso:</span>
+                            <span class="value">COL-2024-XYZ789</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Aprobación:</span>
+                            <span class="value">08/Nov/2024</span>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn-secondary" onclick="editarInstitucion(4)">Reconsiderar</button>
+                        <button class="btn-danger" onclick="eliminarInstitucion(4)">Eliminar</button>
                     </div>
                 </div>
             </div>
@@ -339,10 +577,105 @@
 
         <!-- Tab: Instituciones Rechazadas -->
         <div class="tab-content" id="rechazadas">
-            <div class="empty-state">
-                <div class="icon">🏫</div>
-                <h3>No hay instituciones rechazadas</h3>
-                <p>Las instituciones rechazadas aparecerán aquí.</p>
+            <div class="filters-section">
+                <div class="filter-group">
+                    <div class="filter-item">
+                        <label for="filterSistemaRechazadas">Sistema</label>
+                        <select id="filterSistemaRechazadas">
+                            <option value="">Todos los sistemas</option>
+                            <option value="SEGEY">SEGEY</option>
+                            <option value="UADY">UADY</option>
+                            <option value="Federal">Federal</option>
+                        </select>
+                    </div>
+                    <div class="filter-item">
+                        <label for="filterRazonRechazo">Razón de Rechazo</label>
+                        <select id="filterRazonRechazo">
+                            <option value="">Todas las razones</option>
+                            <option value="documentacion">Documentación incompleta</option>
+                            <option value="verificacion">No pasa verificación</option>
+                            <option value="duplicado">Solicitud duplicada</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="instituciones-grid">
+                <!-- Institución Rechazada 1 -->
+                <div class="institucion-card">
+                    <div class="card-header">
+                        <h3>Centro Educativo Maya</h3>
+                        <span class="status-badge rechazada">Rechazada</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="info-row">
+                            <span class="label">Sistema:</span>
+                            <span class="value">SEGEY</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Encargado:</span>
+                            <span class="value">Fernando López</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Teléfono:</span>
+                            <span class="value">999 777 8888</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Email:</span>
+                            <span class="value">fernando@colegiomaya.edu.mx</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Solicitud:</span>
+                            <span class="value">12/Nov/2024</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Razón:</span>
+                            <span class="value">Documentación incompleta</span>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn-secondary" onclick="reconsiderarInstitucion(5)">Reconsiderar</button>
+                        <button class="btn-danger" onclick="eliminarInstitucion(5)">Eliminar</button>
+                    </div>
+                </div>
+
+                <!-- Institución Rechazada 2 -->
+                <div class="institucion-card">
+                    <div class="card-header">
+                        <h3>Preparatoria del Norte</h3>
+                        <span class="status-badge rechazada">Rechazada</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="info-row">
+                            <span class="label">Sistema:</span>
+                            <span class="value">UADY</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Encargado:</span>
+                            <span class="value">Sofía Martínez</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Teléfono:</span>
+                            <span class="value">999 333 2211</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Email:</span>
+                            <span class="value">sofia@prepanorte.edu.mx</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Solicitud:</span>
+                            <span class="value">11/Nov/2024</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Razón:</span>
+                            <span class="value">No pasa verificación</span>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn-secondary" onclick="reconsiderarInstitucion(6)">Reconsiderar</button>
+                        <button class="btn-danger" onclick="eliminarInstitucion(6)">Eliminar</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -383,10 +716,25 @@
             }
         }
 
-        function verDetalles(id) {
-            alert(`Mostrando detalles de la institución ${id} - Prototipo`);
-            // Aquí iría la lógica para mostrar detalles completos
+        function editarInstitucion(id) {
+            alert(`Editando institución ${id} - Prototipo`);
+            // Aquí iría la lógica para editar la institución
         }
+
+        function reconsiderarInstitucion(id) {
+            if (confirm('¿Está seguro de que desea reconsiderar esta institución?')) {
+                alert(`Institución ${id} enviada para reconsideración - Prototipo`);
+                // Aquí iría la lógica para reconsiderar la institución
+            }
+        }
+
+        // Filtrado
+        document.querySelectorAll('select').forEach(select => {
+            select.addEventListener('change', function() {
+                console.log('Aplicando filtros - Prototipo');
+                // Aquí iría la lógica de filtrado
+            });
+        });
     </script>
 </body>
 </html>
