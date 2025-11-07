@@ -325,7 +325,7 @@
             background: white;
             border-radius: 8px;
             width: 90%;
-            max-width: 500px;
+            max-width: 700px;
             max-height: 90vh;
             overflow-y: auto;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
@@ -427,10 +427,62 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            margin-bottom: 20px;
         }
 
         .btn-download:hover {
             background: #218838;
+        }
+
+        /* Estilos para la tabla de convocatorias inscritas */
+        .convocatorias-container {
+            margin-top: 20px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .convocatorias-header {
+            background: #f8f9fa;
+            padding: 15px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .convocatorias-header h3 {
+            font-size: 16px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 0;
+        }
+
+        .convocatorias-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .convocatorias-table th {
+            background: #e9ecef;
+            padding: 12px 15px;
+            text-align: left;
+            font-size: 14px;
+            font-weight: bold;
+            color: #495057;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .convocatorias-table td {
+            padding: 12px 15px;
+            font-size: 14px;
+            color: #2c3e50;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .convocatorias-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .convocatorias-table tr:hover {
+            background-color: #f8f9fa;
         }
 
         @media (max-width: 768px) {
@@ -464,6 +516,11 @@
 
             .modal-value {
                 text-align: left;
+            }
+            
+            .convocatorias-table {
+                display: block;
+                overflow-x: auto;
             }
         }
     </style>
@@ -654,6 +711,25 @@
                 <button class="btn-download" onclick="descargarConstancia()">
                     📥 Descargar Constancia de Inscripción
                 </button>
+                
+                <!-- Tabla con convocatorias inscritas -->
+                <div class="convocatorias-container">
+                    <div class="convocatorias-header">
+                        <h3>Convocatorias Inscritas</h3>
+                    </div>
+                    <table class="convocatorias-table">
+                        <thead>
+                            <tr>
+                                <th>Convocatoria</th>
+                                <th>Categoría</th>
+                                <th>Subcategoría</th>
+                            </tr>
+                        </thead>
+                        <tbody id="modalConvocatoriasBody">
+                            <!-- Las filas se llenarán dinámicamente con JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -669,7 +745,24 @@
                 disciplina: "Fútbol Rápido",
                 subcategoria: "Individual Femenino",
                 fecha: "20/Nov/2024",
-                estado: "pendiente"
+                estado: "pendiente",
+                convocatoriasInscritas: [
+                    {
+                        convocatoria: "Juegos Deportivos Interprepas 2024",
+                        categoria: "Secundaria A",
+                        subcategoria: "Fútbol 7 (Mixto)"
+                    },
+                    {
+                        convocatoria: "Juegos Deportivos Interprepas 2024",
+                        categoria: "Secundaria A",
+                        subcategoria: "100m Planos (Femenil)"
+                    },
+                    {
+                        convocatoria: "Torneo de Verano 2024",
+                        categoria: "Secundaria A",
+                        subcategoria: "Natación 50m Libre"
+                    }
+                ]
             },
             2: {
                 estudiante: "Carlos Rodríguez Méndez",
@@ -679,7 +772,19 @@
                 disciplina: "Basquetbol",
                 subcategoria: "5x5 Masculino",
                 fecha: "18/Nov/2024",
-                estado: "activa"
+                estado: "activa",
+                convocatoriasInscritas: [
+                    {
+                        convocatoria: "Juegos Deportivos Interprepas 2024",
+                        categoria: "Secundaria B",
+                        subcategoria: "Basquetbol 5x5 (Masculino)"
+                    },
+                    {
+                        convocatoria: "Juegos Deportivos Interprepas 2024",
+                        categoria: "Secundaria B",
+                        subcategoria: "Salto de Longitud"
+                    }
+                ]
             }
         };
 
@@ -734,6 +839,20 @@
                 const estadoElement = document.getElementById('modalEstado');
                 estadoElement.textContent = estudiante.estado === 'pendiente' ? 'Pendiente' : 'Aprobada';
                 estadoElement.className = 'status-badge ' + (estudiante.estado === 'pendiente' ? 'pendiente' : 'activa');
+                
+                // Llenar la tabla de convocatorias inscritas
+                const convocatoriasBody = document.getElementById('modalConvocatoriasBody');
+                convocatoriasBody.innerHTML = '';
+                
+                estudiante.convocatoriasInscritas.forEach(convocatoria => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${convocatoria.convocatoria}</td>
+                        <td>${convocatoria.categoria}</td>
+                        <td>${convocatoria.subcategoria}</td>
+                    `;
+                    convocatoriasBody.appendChild(row);
+                });
                 
                 // Mostrar el modal
                 document.getElementById('studentModal').classList.add('active');
