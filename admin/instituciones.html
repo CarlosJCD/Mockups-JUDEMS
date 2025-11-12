@@ -337,7 +337,7 @@
         </div>
 
         <div class="tabs">
-            <button class="tab active" onclick="cambiarTab('porAceptar')">Por Aceptar (3)</button>
+            <button class="tab active" onclick="cambiarTab('porAceptar')">Pendiente (3)</button>
             <button class="tab" onclick="cambiarTab('aceptadas')">Aceptadas (5)</button>
             <button class="tab" onclick="cambiarTab('rechazadas')">Rechazadas (2)</button>
         </div>
@@ -352,7 +352,6 @@
                             <option value="">Todos los sistemas</option>
                             <option value="SEGEY">SEGEY</option>
                             <option value="UADY">UADY</option>
-                            <option value="Federal">Federal</option>
                         </select>
                     </div>
                     <div class="filter-item">
@@ -531,7 +530,7 @@
                         </div>
                     </div>
                     <div class="card-actions">
-                        <button class="btn-secondary" onclick="editarInstitucion(3)">Reconsiderar</button>
+                        <button class="btn-secondary" onclick="editarInstitucion(3)">Regresar a Pendiente</button>
                         <button class="btn-danger" onclick="eliminarInstitucion(3)">Eliminar</button>
                     </div>
                 </div>
@@ -569,7 +568,7 @@
                         </div>
                     </div>
                     <div class="card-actions">
-                        <button class="btn-secondary" onclick="editarInstitucion(4)">Reconsiderar</button>
+                        <button class="btn-secondary" onclick="editarInstitucion(4)">Regresar a Pendiente</button>
                         <button class="btn-danger" onclick="eliminarInstitucion(4)">Eliminar</button>
                     </div>
                 </div>
@@ -635,7 +634,7 @@
                         </div>
                     </div>
                     <div class="card-actions">
-                        <button class="btn-secondary" onclick="reconsiderarInstitucion(5)">Reconsiderar</button>
+                        <button class="btn-secondary" onclick="reconsiderarInstitucion(5)">Regresar a Pendiente</button>
                         <button class="btn-danger" onclick="eliminarInstitucion(5)">Eliminar</button>
                     </div>
                 </div>
@@ -673,7 +672,7 @@
                         </div>
                     </div>
                     <div class="card-actions">
-                        <button class="btn-secondary" onclick="reconsiderarInstitucion(6)">Reconsiderar</button>
+                        <button class="btn-secondary" onclick="reconsiderarInstitucion(6)">Regresar a Pendiente</button>
                         <button class="btn-danger" onclick="eliminarInstitucion(6)">Eliminar</button>
                     </div>
                 </div>
@@ -723,8 +722,8 @@
         }
 
         function reconsiderarInstitucion(id) {
-            if (confirm('¿Está seguro de que desea reconsiderar esta institución?')) {
-                alert(`Institución ${id} enviada para reconsideración - Prototipo`);
+            if (confirm('¿Está seguro de que desea regresar a pendiente esta institución?')) {
+                alert(`Institución ${id} enviada para regresar a pendiente - Prototipo`);
                 // Aquí iría la lógica para reconsiderar la institución
             }
         }
