@@ -246,23 +246,6 @@
                 cursor: not-allowed;
             }
 
-            /* Indicador de subcategorías */
-            .subcategorias-indicator {
-                position: absolute;
-                top: 15px;
-                right: 15px;
-                background: #4a90e2;
-                color: white;
-                border-radius: 50%;
-                width: 24px;
-                height: 24px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 12px;
-                font-weight: bold;
-            }
-
             /* Estados de disciplina */
             .disciplina-disabled {
                 opacity: 0.6;
@@ -468,41 +451,6 @@
                 }
             }
 
-            /* Indicadores visuales */
-            .cupo-indicator {
-                height: 4px;
-                background: #e9ecef;
-                border-radius: 2px;
-                margin-top: 8px;
-                overflow: hidden;
-            }
-
-            .cupo-fill {
-                height: 100%;
-                border-radius: 2px;
-                transition: width 0.3s ease;
-            }
-
-            .cupo-fill.high {
-                background: #28a745;
-                width: 80%;
-            }
-
-            .cupo-fill.medium {
-                background: #ffc107;
-                width: 50%;
-            }
-
-            .cupo-fill.low {
-                background: #dc3545;
-                width: 20%;
-            }
-
-            .cupo-fill.full {
-                background: #6c757d;
-                width: 100%;
-            }
-
             /* Estados de carga */
             .loading-skeleton {
                 animation: pulse 1.5s ease-in-out infinite;
@@ -592,21 +540,19 @@
 
     <body>
         <div class="page-container">
-            <!-- Breadcrumb -->
             <div class="breadcrumb">
+                <a href="dashboard.html">Dashboard</a> >
                 <a href="convocatorias.html">Convocatorias</a> >
                 <span>Juegos Deportivos 2024</span>
             </div>
 
-            <!-- Header -->
             <div class="page-header">
                 <h1>Disciplinas Disponibles</h1>
                 <p>Convocatoria: Juegos Deportivos Interpreparatorias 2024</p>
             </div>
 
-            <!-- Información de la convocatoria -->
             <div class="convocatoria-info">
-                <h4>📋 Información de la Convocatoria</h4>
+                <h4>Información de la Convocatoria</h4>
                 <div class="info-grid">
                     <div class="info-item">
                         <span class="info-label">Periodo de Registro</span>
@@ -617,8 +563,8 @@
                         <span class="info-value">8 disciplinas</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">Cupo General</span>
-                        <span class="info-value">120/150 participantes</span>
+                        <span class="info-label">Alumnos Inscritos</span>
+                        <span class="info-value">120 participantes</span>
                     </div>
                     <div class="info-item">
                         <span class="info-label">Estado</span>
@@ -627,7 +573,6 @@
                 </div>
             </div>
 
-            <!-- Filtros y búsqueda -->
             <div class="filters-section">
                 <div class="filter-group">
                     <div class="filter-item">
@@ -638,14 +583,7 @@
                             <option value="sin-subcategorias">Sin subcategorías</option>
                         </select>
                     </div>
-                    <div class="filter-item">
-                        <label for="filterCupo">Disponibilidad</label>
-                        <select id="filterCupo">
-                            <option value="">Todas</option>
-                            <option value="disponible">Con cupo disponible</option>
-                            <option value="lleno">Cupo lleno</option>
-                        </select>
-                    </div>
+
                     <div class="search-box">
                         <input type="text" placeholder="Buscar disciplina..." id="searchDisciplina">
                         <button>🔍</button>
@@ -653,14 +591,11 @@
                 </div>
             </div>
 
-            <!-- Grid de disciplinas -->
             <div class="disciplinas-grid">
-                <!-- Disciplina 1 - Con subcategorías -->
                 <div class="disciplina-card">
-                    <div class="subcategorias-indicator" title="Tiene subcategorías">3</div>
                     <div class="card-header">
-                        <h3>⚽ Fútbol</h3>
-                        <span class="cupo-badge high">Cupo: 15/20</span>
+                        <h3>Fútbol</h3>
+                        <span class="cupo-badge high">Alumnos inscritos: 15</span>
                     </div>
 
                     <div class="card-content">
@@ -674,10 +609,6 @@
                             <span class="info-tag rama">Mixto</span>
                             <span class="info-tag tipo">Con subcategorías</span>
                         </div>
-
-                        <div class="cupo-indicator">
-                            <div class="cupo-fill high"></div>
-                        </div>
                     </div>
 
                     <div class="card-actions">
@@ -690,11 +621,10 @@
                     </div>
                 </div>
 
-                <!-- Disciplina 2 - Sin subcategorías -->
                 <div class="disciplina-card">
                     <div class="card-header">
-                        <h3>🏀 Basquetbol</h3>
-                        <span class="cupo-badge medium">Cupo: 10/12</span>
+                        <h3>Basquetbol</h3>
+                        <span class="cupo-badge low">Alumnos inscritos: 0</span>
                     </div>
 
                     <div class="card-content">
@@ -707,10 +637,6 @@
                             <span class="info-tag rama">Femenino</span>
                             <span class="info-tag tipo">Sin subcategorías</span>
                         </div>
-
-                        <div class="cupo-indicator">
-                            <div class="cupo-fill medium"></div>
-                        </div>
                     </div>
 
                     <div class="card-actions">
@@ -720,12 +646,10 @@
                     </div>
                 </div>
 
-                <!-- Disciplina 3 - Atletismo -->
                 <div class="disciplina-card">
-                    <div class="subcategorias-indicator" title="Tiene subcategorías">5</div>
                     <div class="card-header">
-                        <h3>🏃 Atletismo</h3>
-                        <span class="cupo-badge low">Cupo: 3/15</span>
+                        <h3>Atletismo</h3>
+                        <span class="cupo-badge high">Alumnos inscritos: 3</span>
                     </div>
 
                     <div class="card-content">
@@ -737,10 +661,6 @@
                             <span class="info-tag rama">Masculino</span>
                             <span class="info-tag rama">Femenino</span>
                             <span class="info-tag tipo">Con subcategorías</span>
-                        </div>
-
-                        <div class="cupo-indicator">
-                            <div class="cupo-fill low"></div>
                         </div>
                     </div>
 
@@ -754,49 +674,11 @@
                     </div>
                 </div>
 
-                <!-- Disciplina 4 - Cupo lleno -->
-                <div class="disciplina-card disciplina-disabled">
-                    <div class="card-header">
-                        <h3>🎾 Tenis</h3>
-                        <span class="cupo-badge full">Cupo: 8/8</span>
-                    </div>
-
-                    <div class="card-content">
-                        <p><strong>Ramas:</strong> Masculino, Femenino</p>
-                        <p><strong>Tipo:</strong> Disciplina sin subcategorías</p>
-                        <p><strong>Descripción:</strong> Tenis individual y dobles.</p>
-
-                        <div class="info-tags">
-                            <span class="info-tag rama">Masculino</span>
-                            <span class="info-tag rama">Femenino</span>
-                            <span class="info-tag tipo">Sin subcategorías</span>
-                        </div>
-
-                        <div class="cupo-indicator">
-                            <div class="cupo-fill full"></div>
-                        </div>
-                    </div>
-
-                    <div class="card-actions">
-                        <button class="btn-primary" disabled>
-                            Cupo Lleno
-                        </button>
-                    </div>
                 </div>
+
             </div>
 
-            <!-- Estado vacío (ejemplo comentado) -->
-            <!--
-        <div class="empty-state">
-            <div class="icon">⚽</div>
-            <h3>No hay disciplinas disponibles</h3>
-            <p>No se encontraron disciplinas para esta convocatoria.</p>
-        </div>
-        -->
-        </div>
-
         <script>
-            // Funciones de ejemplo para el prototipo
             function viewSubcategorias(disciplina) {
 
                 window.location.href = "subcategorias.html"
@@ -808,12 +690,7 @@
                 // En un sistema real, abriría el modal de inscripción
             }
 
-            // Filtrado de disciplinas
             document.getElementById('filterTipo').addEventListener('change', function () {
-                aplicarFiltros();
-            });
-
-            document.getElementById('filterCupo').addEventListener('change', function () {
                 aplicarFiltros();
             });
 
@@ -823,17 +700,14 @@
 
             function aplicarFiltros() {
                 const tipoFiltro = document.getElementById('filterTipo').value;
-                const cupoFiltro = document.getElementById('filterCupo').value;
                 const busqueda = document.getElementById('searchDisciplina').value.toLowerCase();
 
-                console.log('Aplicando filtros:', { tipoFiltro, cupoFiltro, busqueda });
+                console.log('Aplicando filtros:', { tipoFiltro, busqueda });
                 alert('Filtros aplicados - Prototipo');
             }
 
-            // Ejemplo de interacción con tarjetas
             document.querySelectorAll('.disciplina-card:not(.disciplina-disabled)').forEach(card => {
                 card.addEventListener('click', function (e) {
-                    // Solo si no se hizo clic en un botón
                     if (!e.target.closest('button')) {
                         const titulo = this.querySelector('h3').textContent;
                         alert(`Mostrando detalles de ${titulo} - Prototipo`);

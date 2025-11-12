@@ -415,98 +415,7 @@
             font-size: 14px;
             margin-bottom: 20px;
         }
-
-        /* Modal de detalles */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 8px;
-            width: 90%;
-            max-width: 600px;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-
-        .modal-header {
-            padding: 20px 25px;
-            border-bottom: 1px solid #dee2e6;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .modal-header h3 {
-            font-size: 18px;
-            font-weight: bold;
-            color: #2c3e50;
-            margin: 0;
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: #6c757d;
-        }
-
-        .modal-close:hover {
-            color: #495057;
-        }
-
-        .modal-body {
-            padding: 25px;
-        }
-
-        .alumno-details {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        .detail-group {
-            margin-bottom: 15px;
-        }
-
-        .detail-group label {
-            display: block;
-            font-size: 12px;
-            font-weight: bold;
-            color: #6c757d;
-            margin-bottom: 5px;
-        }
-
-        .detail-group .value {
-            font-size: 14px;
-            color: #495057;
-        }
-
-        .modal-footer {
-            padding: 15px 25px;
-            border-top: 1px solid #dee2e6;
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-        }
-
+        
         @media (max-width: 768px) {
             .page-container {
                 padding: 15px;
@@ -549,14 +458,12 @@
 </head>
 <body>
     <div class="page-container">
-        <!-- Breadcrumb -->
         <div class="breadcrumb">
             <a href="dashboard.html">Dashboard</a> > 
             <a href="convocatorias.html">Convocatorias</a> > 
             <span>Alumnos Inscritos - Juegos Deportivos 2024</span>
         </div>
 
-        <!-- Header -->
         <div class="page-header">
             <div class="header-info">
                 <h1>Alumnos Inscritos - Juegos Deportivos 2024</h1>
@@ -584,16 +491,9 @@
                 </div>
             </div>
             <div class="header-actions">
-                <button class="btn-secondary" onclick="exportarDatos()">
-                    📊 Exportar Reporte
-                </button>
-                <button class="btn-primary" onclick="imprimirLista()">
-                    🖨️ Imprimir Lista
-                </button>
-            </div>
+                </div>
         </div>
 
-        <!-- Estadísticas -->
         <div class="stats-section">
             <div class="stat-card primary">
                 <div class="stat-number">24</div>
@@ -613,11 +513,9 @@
             </div>
         </div>
 
-        <!-- Filtros -->
         <div class="filters-section">
             <div class="filters-header">
                 <h3>
-                    <div class="section-icon">🔍</div>
                     Filtros de Búsqueda
                 </h3>
             </div>
@@ -643,26 +541,15 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="filtroGrado">Grado/Grupo</label>
-                    <select id="filtroGrado" onchange="filtrarAlumnos()">
-                        <option value="">Todos los grados</option>
-                        <option value="1ro">1ro Secundaria</option>
-                        <option value="2do">2do Secundaria</option>
-                        <option value="3ro">3ro Secundaria</option>
-                    </select>
-                </div>
-                <div class="form-group">
                     <label for="filtroBusqueda">Buscar Alumno</label>
                     <input type="text" id="filtroBusqueda" placeholder="Nombre o matrícula..." onkeyup="filtrarAlumnos()">
                 </div>
             </div>
         </div>
 
-        <!-- Tabla de Alumnos -->
         <div class="alumnos-table">
             <div class="table-header">
                 <h3>
-                    <div class="section-icon">👥</div>
                     Lista de Alumnos Inscritos
                 </h3>
                 <div class="table-actions">
@@ -678,20 +565,16 @@
                         <tr>
                             <th>Matrícula</th>
                             <th>Nombre Completo</th>
-                            <th>Grado/Grupo</th>
                             <th>Disciplinas</th>
                             <th>Fecha Inscripción</th>
                             <th>Estado</th>
-                            <th>Acciones</th>
-                        </tr>
+                            </tr>
                     </thead>
                     <tbody id="tablaAlumnos">
-                        <!-- Los alumnos se cargarán dinámicamente -->
-                    </tbody>
+                        </tbody>
                 </table>
             </div>
 
-            <!-- Estado vacío -->
             <div class="empty-state" id="emptyState" style="display: none;">
                 <div class="icon">👥</div>
                 <h4>No se encontraron alumnos</h4>
@@ -699,23 +582,6 @@
                 <button class="btn-primary" onclick="mostrarTodos()">
                     🔄 Mostrar Todos
                 </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal de Detalles del Alumno -->
-    <div class="modal" id="modalDetalles">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Detalles del Alumno</h3>
-                <button class="modal-close" onclick="cerrarModal()">&times;</button>
-            </div>
-            <div class="modal-body" id="modalBody">
-                <!-- Contenido dinámico -->
-            </div>
-            <div class="modal-footer">
-                <button class="btn-secondary" onclick="cerrarModal()">Cerrar</button>
-                <button class="btn-primary" onclick="imprimirComprobante()">🖨️ Imprimir Comprobante</button>
             </div>
         </div>
     </div>
@@ -835,7 +701,6 @@
                 <tr>
                     <td>${alumno.matricula}</td>
                     <td>${alumno.nombre}</td>
-                    <td>${alumno.grado} - ${alumno.grupo}</td>
                     <td>
                         <div class="disciplinas-list">
                             ${alumno.disciplinas.map(dis => 
@@ -849,14 +714,7 @@
                             ${alumno.estado.charAt(0).toUpperCase() + alumno.estado.slice(1)}
                         </span>
                     </td>
-                    <td>
-                        <div class="table-actions">
-                            <button class="btn-info" onclick="verDetalles(${alumno.id})">
-                                👁️ Ver
-                            </button>
-                        </div>
-                    </td>
-                </tr>
+                    </tr>
             `).join('');
         }
 
@@ -870,7 +728,7 @@
         function filtrarAlumnos() {
             const filtroDisciplina = document.getElementById('filtroDisciplina').value.toLowerCase();
             const filtroEstado = document.getElementById('filtroEstado').value.toLowerCase();
-            const filtroGrado = document.getElementById('filtroGrado').value.toLowerCase();
+            // Variable filtroGrado eliminada
             const filtroBusqueda = document.getElementById('filtroBusqueda').value.toLowerCase();
             
             const filtrados = alumnos.filter(alumno => {
@@ -885,10 +743,7 @@
                     return false;
                 }
                 
-                // Filtro por grado
-                if (filtroGrado && !alumno.grado.toLowerCase().includes(filtroGrado)) {
-                    return false;
-                }
+                // Filtro por grado (eliminado)
                 
                 // Filtro por búsqueda general
                 if (filtroBusqueda && 
@@ -921,111 +776,13 @@
         function mostrarTodos() {
             document.getElementById('filtroDisciplina').value = '';
             document.getElementById('filtroEstado').value = '';
-            document.getElementById('filtroGrado').value = '';
             document.getElementById('filtroBusqueda').value = '';
             
             cargarAlumnos();
             actualizarEstadisticas(alumnos);
         }
 
-        // Ver detalles del alumno
-        function verDetalles(id) {
-            const alumno = alumnos.find(a => a.id === id);
-            if (!alumno) return;
-            
-            const modalBody = document.getElementById('modalBody');
-            modalBody.innerHTML = `
-                <div class="alumno-details">
-                    <div class="detail-group">
-                        <label>Matrícula</label>
-                        <div class="value">${alumno.matricula}</div>
-                    </div>
-                    <div class="detail-group">
-                        <label>Nombre Completo</label>
-                        <div class="value">${alumno.nombre}</div>
-                    </div>
-                    <div class="detail-group">
-                        <label>Grado y Grupo</label>
-                        <div class="value">${alumno.grado} - ${alumno.grupo}</div>
-                    </div>
-                    <div class="detail-group">
-                        <label>Fecha de Nacimiento</label>
-                        <div class="value">${formatearFecha(alumno.fechaNacimiento)}</div>
-                    </div>
-                    <div class="detail-group">
-                        <label>CURP</label>
-                        <div class="value">${alumno.curp}</div>
-                    </div>
-                    <div class="detail-group">
-                        <label>Teléfono</label>
-                        <div class="value">${alumno.telefono}</div>
-                    </div>
-                    <div class="detail-group">
-                        <label>Email</label>
-                        <div class="value">${alumno.email}</div>
-                    </div>
-                    <div class="detail-group">
-                        <label>Estado de Inscripción</label>
-                        <div class="value">
-                            <span class="estado-badge ${alumno.estado}">
-                                ${alumno.estado.charAt(0).toUpperCase() + alumno.estado.slice(1)}
-                            </span>
-                        </div>
-                    </div>
-                    <div class="detail-group">
-                        <label>Seguro Médico</label>
-                        <div class="value">${alumno.seguro}</div>
-                    </div>
-                </div>
-                
-                <div class="detail-group">
-                    <label>Disciplinas Inscritas</label>
-                    <div class="disciplinas-list">
-                        ${alumno.disciplinas.map(dis => 
-                            `<span class="disciplina-tag">${dis.nombre} (${dis.categoria})</span>`
-                        ).join('')}
-                    </div>
-                </div>
-                
-                <div class="detail-group">
-                    <label>Fecha de Inscripción</label>
-                    <div class="value">${formatearFecha(alumno.fechaInscripcion)}</div>
-                </div>
-            `;
-            
-            document.getElementById('modalDetalles').classList.add('active');
-        }
 
-        // Cerrar modal
-        function cerrarModal() {
-            document.getElementById('modalDetalles').classList.remove('active');
-        }
-
-        // Exportar datos
-        function exportarDatos() {
-            alert('📊 Exportando reporte de alumnos inscritos...');
-            // En una implementación real, aquí se generaría un archivo Excel o PDF
-        }
-
-        // Imprimir lista
-        function imprimirLista() {
-            alert('🖨️ Preparando lista para impresión...');
-            // En una implementación real, aquí se abriría el diálogo de impresión
-        }
-
-        // Imprimir comprobante individual
-        function imprimirComprobante() {
-            alert('🖨️ Imprimiendo comprobante individual...');
-            // En una implementación real, aquí se imprimiría el comprobante del alumno seleccionado
-        }
-
-        // Cerrar modal al hacer clic fuera
-        window.addEventListener('click', function(event) {
-            const modal = document.getElementById('modalDetalles');
-            if (event.target === modal) {
-                cerrarModal();
-            }
-        });
     </script>
 </body>
 </html>

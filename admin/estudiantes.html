@@ -5,6 +5,95 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Inscripciones - Prototipo</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        .page-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .page-header {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .page-header h1 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .breadcrumb {
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        .breadcrumb a {
+            color: #4a90e2;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb span {
+            color: #495057;
+            font-weight: bold;
+        }
+        
+        /* Estilos de Pestañas (Tabs) */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            color: #6c757d;
+            transition: all 0.2s;
+        }
+
+        .tab.active {
+            color: #4a90e2;
+            border-bottom-color: #4a90e2;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Estilos de Filtros */
         .filters-section {
             background: white;
             padding: 20px;
@@ -41,21 +130,30 @@
             font-size: 14px;
         }
 
+        /* Grid de Tarjetas */
         .estudiantes-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 20px;
         }
 
+        /* Estilo de tarjeta */
         .estudiante-card {
             background: white;
             border: 1px solid #dee2e6;
             border-radius: 8px;
-            padding: 20px;
+            padding: 25px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: all 0.2s;
         }
 
-        .estudiante-header {
+        .estudiante-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-color: #4a90e2;
+        }
+
+        .card-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
@@ -64,109 +162,374 @@
             border-bottom: 1px solid #e9ecef;
         }
 
-        .estudiante-info h4 {
-            font-size: 16px;
+        .card-header h3 {
+            font-size: 18px;
             font-weight: bold;
             color: #2c3e50;
-            margin-bottom: 5px;
+            margin-right: 15px;
         }
 
-        .estudiante-meta {
-            font-size: 13px;
-            color: #6c757d;
-        }
-
-        .inscripcion-details {
-            margin-bottom: 15px;
-        }
-
-        .detail-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 13px;
-        }
-
-        .detail-label {
-            color: #6c757d;
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
             font-weight: bold;
+            text-transform: uppercase;
         }
 
-        .detail-value {
-            color: #2c3e50;
-            text-align: right;
-        }
-
-        .documentos {
-            background: #f8f9fa;
-            padding: 12px;
-            border-radius: 6px;
-            margin-bottom: 15px;
-        }
-
-        .documento-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-            font-size: 12px;
-        }
-
-        .doc-status {
-            padding: 2px 6px;
-            border-radius: 8px;
-            font-size: 10px;
-            font-weight: bold;
-        }
-
-        .doc-status.completo {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .doc-status.pendiente {
+        .status-badge.pendiente {
             background: #fff3cd;
             color: #856404;
         }
 
-        .inscripcion-actions {
-            display: flex;
-            gap: 8px;
+        .status-badge.activa {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-badge.rechazada {
+            background: #f8d7da;
+            color: #721c24;
         }
 
-        .btn-sm {
-            padding: 6px 12px;
-            font-size: 11px;
+        .card-content {
+            margin-bottom: 20px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding: 8px 0;
+        }
+        
+        .info-row:not(:last-child) {
+            border-bottom: 1px solid #f8f9fa;
+        }
+
+        .label {
+            color: #6c757d;
+            font-size: 14px;
+            font-weight: bold;
+            min-width: 120px;
+        }
+
+        .value {
+            color: #2c3e50;
+            font-size: 14px;
+            text-align: right;
             flex: 1;
         }
 
-        .breadcrumb {
-            margin-bottom: 15px;
+        .card-actions {
+            display: flex;
+            gap: 10px;
+            padding-top: 15px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        /* Estilos de botones */
+        .btn-primary {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
             font-size: 14px;
-            color: #6c757d;
-        }
-
-        .breadcrumb a {
-            color: #4a90e2;
-            text-decoration: none;
-        }
-
-        .breadcrumb a:hover {
-            text-decoration: underline;
-        }
-
-        .breadcrumb span {
-            color: #495057;
             font-weight: bold;
+            transition: background-color 0.2s;
+            flex: 1;
+            text-align: center;
         }
 
+        .btn-secondary {
+            background: #4a90e2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background-color 0.2s;
+            flex: 1;
+            text-align: center;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background-color 0.2s;
+            flex: 1;
+            text-align: center;
+        }
+
+        .btn-primary:hover { background: #218838; }
+        .btn-secondary:hover { background: #357abd; }
+        .btn-danger:hover { background: #c82333; }
+
+        /* Estilo de Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border: 2px dashed #dee2e6;
+            border-radius: 8px;
+            color: #6c757d;
+            grid-column: 1 / -1;
+        }
+
+        .empty-state .icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+        
+        .empty-state h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #495057;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        /* Estilos del Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: modalAppear 0.3s ease-out;
+        }
+
+        @keyframes modalAppear {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: 20px 25px;
+            border-bottom: 1px solid #e9ecef;
+            background: #f8f9fa;
+            border-radius: 8px 8px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 0;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #6c757d;
+            transition: color 0.2s;
+        }
+
+        .close-modal:hover {
+            color: #dc3545;
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .modal-info {
+            margin-bottom: 25px;
+        }
+
+        .modal-info-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding: 10px 0;
+        }
+
+        .modal-info-item:not(:last-child) {
+            border-bottom: 1px solid #f8f9fa;
+        }
+
+        .modal-label {
+            color: #6c757d;
+            font-size: 14px;
+            font-weight: bold;
+            min-width: 140px;
+        }
+
+        .modal-value {
+            color: #2c3e50;
+            font-size: 14px;
+            text-align: right;
+            flex: 1;
+        }
+
+        .modal-footer {
+            padding: 20px 25px;
+            border-top: 1px solid #e9ecef;
+            background: #f8f9fa;
+            border-radius: 0 0 8px 8px;
+            text-align: center;
+        }
+
+        .btn-download {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .btn-download:hover {
+            background: #218838;
+        }
+
+        /* Estilos para la tabla de convocatorias inscritas */
+        .convocatorias-container {
+            margin-top: 20px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .convocatorias-header {
+            background: #f8f9fa;
+            padding: 15px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .convocatorias-header h3 {
+            font-size: 16px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 0;
+        }
+
+        .convocatorias-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .convocatorias-table th {
+            background: #e9ecef;
+            padding: 12px 15px;
+            text-align: left;
+            font-size: 14px;
+            font-weight: bold;
+            color: #495057;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .convocatorias-table td {
+            padding: 12px 15px;
+            font-size: 14px;
+            color: #2c3e50;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .convocatorias-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .convocatorias-table tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        @media (max-width: 768px) {
+            .estudiantes-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .card-actions {
+                flex-direction: column;
+            }
+
+            .info-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+
+            .value {
+                text-align: left;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 20px;
+            }
+
+            .modal-info-item {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .modal-value {
+                text-align: left;
+            }
+            
+            .convocatorias-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="page-container">
          <div class="breadcrumb">
             <a href="dashboard.html">Dashboard</a> > 
-            <span>Esudiantes</span>
+            <span>Estudiantes</span>
         </div>
 
         <div class="page-header">
@@ -174,122 +537,271 @@
             <p>Administre las inscripciones de estudiantes a convocatorias</p>
         </div>
 
-        <div class="filters-section">
-            <div class="filter-group">
-                <div class="filter-item">
-                    <label for="filterConvocatoria">Convocatoria</label>
-                    <select id="filterConvocatoria">
-                        <option value="">Todas las convocatorias</option>
-                        <option value="1">Juegos Deportivos 2024</option>
-                        <option value="2">Torneo de Verano</option>
-                    </select>
+        <div class="tabs">
+            <button class="tab active" onclick="cambiarTab('porAceptar')">Por Aceptar (1)</button>
+            <button class="tab" onclick="cambiarTab('aceptadas')">Aceptadas (1)</button>
+            <button class="tab" onclick="cambiarTab('rechazadas')">Rechazadas (0)</button>
+        </div>
+
+        <div class="tab-content active" id="porAceptar">
+            <div class="filters-section">
+                <div class="filter-group">
+                    <div class="filter-item">
+                        <label for="filterConvocatoria">Convocatoria</label>
+                        <select id="filterConvocatoria">
+                            <option value="">Todas las convocatorias</option>
+                            <option value="1">Juegos Deportivos 2024</option>
+                            <option value="2">Torneo de Verano</option>
+                        </select>
+                    </div>
+                    <div class="filter-item">
+                        <label for="filterInstitucion">Institución</label>
+                        <select id="filterInstitucion">
+                            <option value="">Todas las instituciones</option>
+                            <option value="1">Instituto Juárez</option>
+                            <option value="2">Colegio Benito Juárez</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="filter-item">
-                    <label for="filterEstado">Estado</label>
-                    <select id="filterEstado">
-                        <option value="">Todos los estados</option>
-                        <option value="pendiente">Pendientes</option>
-                        <option value="aprobada">Aprobadas</option>
-                        <option value="rechazada">Rechazadas</option>
-                    </select>
-                </div>
-                <div class="filter-item">
-                    <label for="filterInstitucion">Institución</label>
-                    <select id="filterInstitucion">
-                        <option value="">Todas las instituciones</option>
-                        <option value="1">Instituto Juárez</option>
-                        <option value="2">Colegio Benito Juárez</option>
-                    </select>
+            </div>
+
+            <div class="estudiantes-grid">
+                <div class="estudiante-card">
+                    <div class="card-header">
+                        <h3>María González López</h3>
+                        <span class="status-badge pendiente">Pendiente</span>
+                    </div>
+                    
+                    <div class="card-content">
+                        <div class="info-row">
+                            <span class="label">Matrícula:</span>
+                            <span class="value">2024001</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Institución:</span>
+                            <span class="value">Instituto Juárez</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Convocatoria:</span>
+                            <span class="value">Juegos Deportivos 2024</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Disciplina:</span>
+                            <span class="value">Fútbol Rápido</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Subcategoría:</span>
+                            <span class="value">Individual Femenino</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Fecha:</span>
+                            <span class="value">20/Nov/2024</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Constancia:</span>
+                            <span class="value"><span class="status-badge activa">Completo</span></span>
+                        </div>
+                    </div>
+
+                    <div class="card-actions">
+                        <button class="btn-primary" onclick="aprobarInscripcion(1)">Aprobar</button>
+                        <button class="btn-secondary" onclick="verDetallesInscripcion(1)">Ver más</button>
+                        <button class="btn-danger" onclick="rechazarInscripcion(1)">Rechazar</button>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="estudiantes-grid">
-            <!-- Inscripción Pendiente -->
-            <div class="estudiante-card">
-                <div class="estudiante-header">
-                    <div class="estudiante-info">
-                        <h4>María González López</h4>
-                        <div class="estudiante-meta">Matrícula: 2024001 | Instituto Juárez</div>
+        <div class="tab-content" id="aceptadas">
+             <div class="estudiantes-grid">
+                <div class="estudiante-card">
+                    <div class="card-header">
+                        <h3>Carlos Rodríguez Méndez</h3>
+                        <span class="status-badge activa">Aprobada</span>
                     </div>
-                    <span class="status-badge pendiente">Pendiente</span>
-                </div>
-                
-                <div class="inscripcion-details">
-                    <div class="detail-item">
-                        <span class="detail-label">Convocatoria:</span>
-                        <span class="detail-value">Juegos Deportivos 2024</span>
+                    
+                    <div class="card-content">
+                        <div class="info-row">
+                            <span class="label">Matrícula:</span>
+                            <span class="value">2024002</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Institución:</span>
+                            <span class="value">Instituto Juárez</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Convocatoria:</span>
+                            <span class="value">Juegos Deportivos 2024</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Disciplina:</span>
+                            <span class="value">Basquetbol</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Subcategoría:</span>
+                            <span class="value">5x5 Masculino</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Fecha Aprobación:</span>
+                            <span class="value">18/Nov/2024</span>
+                        </div>
                     </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Disciplina:</span>
-                        <span class="detail-value">Fútbol Rápido</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Subcategoría:</span>
-                        <span class="detail-value">Individual Femenino</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Fecha:</span>
-                        <span class="detail-value">20/Nov/2024</span>
-                    </div>
-                </div>
 
-                <div class="documentos">
-                    <div class="documento-item">
-                        <span>Constancia de Estudios</span>
-                        <span class="doc-status completo">Completo</span>
+                    <div class="card-actions">
+                        <button class="btn-secondary" onclick="verDetallesInscripcion(2)">Ver más</button>
+                        <button class="btn-danger" onclick="eliminarInscripcion(2)">Eliminar</button>
                     </div>
-                    <div class="documento-item">
-                        <span>Comprobante de Pago</span>
-                        <span class="doc-status completo">Completo</span>
-                    </div>
-                </div>
-
-                <div class="inscripcion-actions">
-                    <button class="btn-primary btn-sm" onclick="aprobarInscripcion(1)">✅ Aprobar</button>
-                    <button class="btn-secondary btn-sm" onclick="verDetallesInscripcion(1)">👁️ Ver</button>
-                    <button class="btn-danger btn-sm" onclick="rechazarInscripcion(1)">❌ Rechazar</button>
                 </div>
             </div>
+        </div>
 
-            <!-- Inscripción Aprobada -->
-            <div class="estudiante-card">
-                <div class="estudiante-header">
-                    <div class="estudiante-info">
-                        <h4>Carlos Rodríguez Méndez</h4>
-                        <div class="estudiante-meta">Matrícula: 2024002 | Instituto Juárez</div>
+        <div class="tab-content" id="rechazadas">
+            <div class="empty-state">
+                <div class="icon">❌</div>
+                <h3>No hay inscripciones rechazadas</h3>
+                <p>Las inscripciones que sean rechazadas aparecerán aquí.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Detalles del Estudiante -->
+    <div class="modal" id="studentModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Detalles de la Inscripción</h2>
+                <button class="close-modal" onclick="cerrarModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-info">
+                    <div class="modal-info-item">
+                        <span class="modal-label">Estudiante:</span>
+                        <span class="modal-value" id="modalEstudiante">María González López</span>
                     </div>
-                    <span class="status-badge activa">Aprobada</span>
+                    <div class="modal-info-item">
+                        <span class="modal-label">Matrícula:</span>
+                        <span class="modal-value" id="modalMatricula">2024001</span>
+                    </div>
+                    <div class="modal-info-item">
+                        <span class="modal-label">Institución:</span>
+                        <span class="modal-value" id="modalInstitucion">Instituto Juárez</span>
+                    </div>
+                    <div class="modal-info-item">
+                        <span class="modal-label">Convocatoria:</span>
+                        <span class="modal-value" id="modalConvocatoria">Juegos Deportivos 2024</span>
+                    </div>
+                    <div class="modal-info-item">
+                        <span class="modal-label">Disciplina:</span>
+                        <span class="modal-value" id="modalDisciplina">Fútbol Rápido</span>
+                    </div>
+                    <div class="modal-info-item">
+                        <span class="modal-label">Subcategoría:</span>
+                        <span class="modal-value" id="modalSubcategoria">Individual Femenino</span>
+                    </div>
+                    <div class="modal-info-item">
+                        <span class="modal-label">Fecha de inscripción:</span>
+                        <span class="modal-value" id="modalFecha">20/Nov/2024</span>
+                    </div>
+                    <div class="modal-info-item">
+                        <span class="modal-label">Estado:</span>
+                        <span class="modal-value"><span class="status-badge pendiente" id="modalEstado">Pendiente</span></span>
+                    </div>
                 </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-download" onclick="descargarConstancia()">
+                    📥 Descargar Constancia de Inscripción
+                </button>
                 
-                <div class="inscripcion-details">
-                    <div class="detail-item">
-                        <span class="detail-label">Convocatoria:</span>
-                        <span class="detail-value">Juegos Deportivos 2024</span>
+                <!-- Tabla con convocatorias inscritas -->
+                <div class="convocatorias-container">
+                    <div class="convocatorias-header">
+                        <h3>Convocatorias Inscritas</h3>
                     </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Disciplina:</span>
-                        <span class="detail-value">Basquetbol</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Subcategoría:</span>
-                        <span class="detail-value">5x5 Masculino</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Fecha Aprobación:</span>
-                        <span class="detail-value">18/Nov/2024</span>
-                    </div>
-                </div>
-
-                <div class="inscripcion-actions">
-                    <button class="btn-secondary btn-sm" onclick="verDetallesInscripcion(2)">👁️ Ver</button>
-                    <button class="btn-danger btn-sm" onclick="eliminarInscripcion(2)">🗑️ Eliminar</button>
+                    <table class="convocatorias-table">
+                        <thead>
+                            <tr>
+                                <th>Convocatoria</th>
+                                <th>Categoría</th>
+                                <th>Subcategoría</th>
+                            </tr>
+                        </thead>
+                        <tbody id="modalConvocatoriasBody">
+                            <!-- Las filas se llenarán dinámicamente con JavaScript -->
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
+        // Datos de ejemplo para los estudiantes
+        const estudiantesData = {
+            1: {
+                estudiante: "María González López",
+                matricula: "2024001",
+                institucion: "Instituto Juárez",
+                convocatoria: "Juegos Deportivos 2024",
+                disciplina: "Fútbol Rápido",
+                subcategoria: "Individual Femenino",
+                fecha: "20/Nov/2024",
+                estado: "pendiente",
+                convocatoriasInscritas: [
+                    {
+                        convocatoria: "Juegos Deportivos Interprepas 2024",
+                        categoria: "Secundaria A",
+                        subcategoria: "Fútbol 7 (Mixto)"
+                    },
+                    {
+                        convocatoria: "Juegos Deportivos Interprepas 2024",
+                        categoria: "Secundaria A",
+                        subcategoria: "100m Planos (Femenil)"
+                    },
+                    {
+                        convocatoria: "Torneo de Verano 2024",
+                        categoria: "Secundaria A",
+                        subcategoria: "Natación 50m Libre"
+                    }
+                ]
+            },
+            2: {
+                estudiante: "Carlos Rodríguez Méndez",
+                matricula: "2024002",
+                institucion: "Instituto Juárez",
+                convocatoria: "Juegos Deportivos 2024",
+                disciplina: "Basquetbol",
+                subcategoria: "5x5 Masculino",
+                fecha: "18/Nov/2024",
+                estado: "activa",
+                convocatoriasInscritas: [
+                    {
+                        convocatoria: "Juegos Deportivos Interprepas 2024",
+                        categoria: "Secundaria B",
+                        subcategoria: "Basquetbol 5x5 (Masculino)"
+                    },
+                    {
+                        convocatoria: "Juegos Deportivos Interprepas 2024",
+                        categoria: "Secundaria B",
+                        subcategoria: "Salto de Longitud"
+                    }
+                ]
+            }
+        };
+
+        function cambiarTab(tabId) {
+            // Ocultar todos los tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Mostrar tab seleccionado
+            document.getElementById(tabId).classList.add('active');
+            event.target.classList.add('active');
+        }
+
         function aprobarInscripcion(id) {
             if (confirm('¿Está seguro de que desea aprobar esta inscripción?')) {
                 alert(`Inscripción ${id} aprobada - Prototipo`);
@@ -312,14 +824,69 @@
         }
 
         function verDetallesInscripcion(id) {
-            alert(`Mostrando detalles de inscripción ${id} - Prototipo`);
-            // Aquí iría la lógica para mostrar detalles completos
+            const estudiante = estudiantesData[id];
+            if (estudiante) {
+                // Llenar el modal con los datos del estudiante
+                document.getElementById('modalEstudiante').textContent = estudiante.estudiante;
+                document.getElementById('modalMatricula').textContent = estudiante.matricula;
+                document.getElementById('modalInstitucion').textContent = estudiante.institucion;
+                document.getElementById('modalConvocatoria').textContent = estudiante.convocatoria;
+                document.getElementById('modalDisciplina').textContent = estudiante.disciplina;
+                document.getElementById('modalSubcategoria').textContent = estudiante.subcategoria;
+                document.getElementById('modalFecha').textContent = estudiante.fecha;
+                
+                // Actualizar el estado
+                const estadoElement = document.getElementById('modalEstado');
+                estadoElement.textContent = estudiante.estado === 'pendiente' ? 'Pendiente' : 'Aprobada';
+                estadoElement.className = 'status-badge ' + (estudiante.estado === 'pendiente' ? 'pendiente' : 'activa');
+                
+                // Llenar la tabla de convocatorias inscritas
+                const convocatoriasBody = document.getElementById('modalConvocatoriasBody');
+                convocatoriasBody.innerHTML = '';
+                
+                estudiante.convocatoriasInscritas.forEach(convocatoria => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${convocatoria.convocatoria}</td>
+                        <td>${convocatoria.categoria}</td>
+                        <td>${convocatoria.subcategoria}</td>
+                    `;
+                    convocatoriasBody.appendChild(row);
+                });
+                
+                // Mostrar el modal
+                document.getElementById('studentModal').classList.add('active');
+            }
         }
+
+        function cerrarModal() {
+            document.getElementById('studentModal').classList.remove('active');
+        }
+
+        function descargarConstancia() {
+            const estudiante = document.getElementById('modalEstudiante').textContent;
+            alert(`Descargando constancia de inscripción para: ${estudiante} - Prototipo`);
+            // Aquí iría la lógica para descargar el PDF
+        }
+
+        // Cerrar modal al hacer clic fuera del contenido
+        document.getElementById('studentModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                cerrarModal();
+            }
+        });
+
+        // Cerrar modal con tecla Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                cerrarModal();
+            }
+        });
 
         // Filtrado
         document.querySelectorAll('select').forEach(select => {
             select.addEventListener('change', function() {
-                alert('Aplicando filtros - Prototipo');
+                console.log('Aplicando filtros - Prototipo');
                 // Aquí iría la lógica de filtrado
             });
         });

@@ -422,58 +422,22 @@
                 flex-direction: column;
             }
         }
-
-        .icon-preview {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 8px;
-        }
-
-        .icon-option {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #f8f9fa;
-            border: 2px solid #e9ecef;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 18px;
-        }
-
-        .icon-option:hover {
-            border-color: #4a90e2;
-            background: #f1f7ff;
-        }
-
-        .icon-option.selected {
-            border-color: #4a90e2;
-            background: #e7f3ff;
-            transform: scale(1.1);
-        }
     </style>
 </head>
 <body>
     <div class="page-container">
-        <!-- Breadcrumb -->
         <div class="breadcrumb">
             <a href="dashboard.html">Dashboard</a> > 
             <a href="disciplinas.html">Disciplinas</a> > 
             <span>Nueva Disciplina</span>
         </div>
 
-        <!-- Header -->
         <div class="page-header">
             <h1>Crear Nueva Disciplina</h1>
             <p>Complete la información para registrar una nueva disciplina deportiva en el sistema</p>
         </div>
 
-        <!-- Formulario -->
         <form class="disciplina-form" id="disciplinaForm">
-            <!-- Sección 1: Información Básica -->
             <div class="form-section">
                 <h3>
                     <div class="section-number">1</div>
@@ -490,45 +454,20 @@
                     </div>
                 </div>
 
-                <div class="form-group optional">
-                    <label for="iconoDisciplina">Icono de la Disciplina</label>
-                    <div class="icon-preview">
-                        <div class="icon-option selected" data-icon="⚽" onclick="seleccionarIcono(this)">
-                            ⚽
-                        </div>
-                        <div class="icon-option" data-icon="🏀" onclick="seleccionarIcono(this)">
-                            🏀
-                        </div>
-                        <div class="icon-option" data-icon="🏃" onclick="seleccionarIcono(this)">
-                            🏃
-                        </div>
-                        <div class="icon-option" data-icon="🏊" onclick="seleccionarIcono(this)">
-                            🏊
-                        </div>
-                        <div class="icon-option" data-icon="🎾" onclick="seleccionarIcono(this)">
-                            🎾
-                        </div>
-                        <div class="icon-option" data-icon="🤸" onclick="seleccionarIcono(this)">
-                            🤸
-                        </div>
-                    </div>
-                    <input type="hidden" id="iconoDisciplina" name="iconoDisciplina" value="⚽">
-                </div>
-
                 <div class="form-group">
                     <label>Ramas Disponibles</label>
                     <div class="checkbox-group">
                         <div class="checkbox-item selected" onclick="toggleCheckbox(this)">
                             <input type="checkbox" id="ramaMasculino" name="ramas" value="masculino" checked>
-                            <label for="ramaMasculino">👨 Masculino</label>
+                            <label for="ramaMasculino">Masculino</label>
                         </div>
                         <div class="checkbox-item selected" onclick="toggleCheckbox(this)">
                             <input type="checkbox" id="ramaFemenino" name="ramas" value="femenino" checked>
-                            <label for="ramaFemenino">👩 Femenino</label>
+                            <label for="ramaFemenino">Femenino</label>
                         </div>
                         <div class="checkbox-item" onclick="toggleCheckbox(this)">
                             <input type="checkbox" id="ramaMixto" name="ramas" value="mixto">
-                            <label for="ramaMixto">👥 Mixto</label>
+                            <label for="ramaMixto">Mixto</label>
                         </div>
                     </div>
                     <div class="error-message" id="ramasError">
@@ -537,45 +476,9 @@
                 </div>
             </div>
 
-            <!-- Sección 2: Configuración de Participantes -->
             <div class="form-section">
                 <h3>
                     <div class="section-number">2</div>
-                    Configuración de Participantes
-                </h3>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="minParticipantes">Mínimo de Participantes</label>
-                        <input type="number" id="minParticipantes" name="minParticipantes" 
-                               min="1" max="100" placeholder="Ej: 1" value="1" required>
-                        <div class="error-message" id="minError">
-                            Ingrese un número válido entre 1 y 100
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="maxParticipantes">Máximo de Participantes</label>
-                        <input type="number" id="maxParticipantes" name="maxParticipantes" 
-                               min="1" max="1000" placeholder="Ej: 20" value="20" required>
-                        <div class="error-message" id="maxError">
-                            Ingrese un número válido entre 1 y 1000
-                        </div>
-                    </div>
-                </div>
-
-                <div class="info-box">
-                    <span class="info-icon">💡</span>
-                    <strong>Información importante:</strong> Estos límites se aplican por institución para esta disciplina.
-                    El mínimo define el número necesario para formar un equipo/grupo, y el máximo limita
-                    la cantidad de participantes que una institución puede inscribir.
-                </div>
-            </div>
-
-            <!-- Sección 3: Estructura de la Disciplina -->
-            <div class="form-section">
-                <h3>
-                    <div class="section-number">3</div>
                     Estructura de la Disciplina
                 </h3>
                 
@@ -611,10 +514,9 @@
                 </div>
             </div>
 
-            <!-- Sección 4: Información Adicional -->
             <div class="form-section">
                 <h3>
-                    <div class="section-number">4</div>
+                    <div class="section-number">3</div>
                     Información Adicional
                 </h3>
                 
@@ -628,23 +530,8 @@
                     </div>
                 </div>
 
-                <div class="form-group optional">
-                    <label for="requisitos">Requisitos Generales</label>
-                    <textarea id="requisitos" name="requisitos" 
-                              placeholder="Indique los requisitos generales que aplican para esta disciplina (equipamiento, certificados médicos, etc.)..."
-                              maxlength="300"></textarea>
                 </div>
 
-                <div class="form-group">
-                    <label for="estadoDisciplina">Estado Inicial</label>
-                    <select id="estadoDisciplina" name="estadoDisciplina">
-                        <option value="activa">Activa - Disponible para inscripciones</option>
-                        <option value="inactiva">Inactiva - No disponible temporalmente</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- Alertas -->
             <div class="alert success" id="successAlert">
                 ✅ Disciplina creada exitosamente
             </div>
@@ -653,13 +540,11 @@
                 ❌ Error al crear la disciplina. Verifique los datos e intente nuevamente.
             </div>
 
-            <!-- Acciones del Formulario -->
             <div class="form-actions">
                 <button type="button" class="btn-secondary" onclick="cancelarCreacion()">
                     Cancelar
                 </button>
                 <button type="submit" class="btn-primary" id="submitButton">
-                    <span>🏆</span>
                     Crear Disciplina
                 </button>
             </div>
@@ -667,20 +552,6 @@
     </div>
 
     <script>
-        // Variables globales
-        let iconoSeleccionado = '⚽';
-
-        // Seleccionar icono
-        function seleccionarIcono(elemento) {
-            document.querySelectorAll('.icon-option').forEach(icon => {
-                icon.classList.remove('selected');
-            });
-            elemento.classList.add('selected');
-            iconoSeleccionado = elemento.getAttribute('data-icon');
-            document.getElementById('iconoDisciplina').value = iconoSeleccionado;
-        }
-
-        // Toggle checkbox con estilo
         function toggleCheckbox(elemento) {
             const checkbox = elemento.querySelector('input[type="checkbox"]');
             checkbox.checked = !checkbox.checked;
@@ -691,11 +562,9 @@
                 elemento.classList.remove('selected');
             }
             
-            // Limpiar error de ramas
             document.getElementById('ramasError').style.display = 'none';
         }
 
-        // Seleccionar radio button con estilo
         function seleccionarRadio(elemento) {
             document.querySelectorAll('.radio-item').forEach(item => {
                 item.classList.remove('selected');
@@ -704,7 +573,6 @@
             const radio = elemento.querySelector('input[type="radio"]');
             radio.checked = true;
             
-            // Mostrar/ocultar info de subcategorías
             const infoSubcategorias = document.getElementById('infoSubcategorias');
             if (radio.value === 'compleja') {
                 infoSubcategorias.style.display = 'block';
@@ -713,13 +581,11 @@
             }
         }
 
-        // Validación del formulario
         document.getElementById('disciplinaForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
             let isValid = true;
 
-            // Validar nombre
             const nombre = document.getElementById('nombreDisciplina').value.trim();
             if (!nombre || nombre.length > 50) {
                 document.getElementById('nombreError').style.display = 'block';
@@ -728,7 +594,6 @@
                 document.getElementById('nombreError').style.display = 'none';
             }
 
-            // Validar ramas
             const ramasSeleccionadas = document.querySelectorAll('input[name="ramas"]:checked').length;
             if (ramasSeleccionadas === 0) {
                 document.getElementById('ramasError').style.display = 'block';
@@ -737,36 +602,10 @@
                 document.getElementById('ramasError').style.display = 'none';
             }
 
-            // Validar participantes
-            const minPart = parseInt(document.getElementById('minParticipantes').value);
-            const maxPart = parseInt(document.getElementById('maxParticipantes').value);
-            
-            if (!minPart || minPart < 1 || minPart > 100) {
-                document.getElementById('minError').style.display = 'block';
-                isValid = false;
-            } else {
-                document.getElementById('minError').style.display = 'none';
-            }
-
-            if (!maxPart || maxPart < 1 || maxPart > 1000) {
-                document.getElementById('maxError').style.display = 'block';
-                isValid = false;
-            } else {
-                document.getElementById('maxError').style.display = 'none';
-            }
-
-            // Validar que máximo sea mayor o igual que mínimo
-            if (minPart && maxPart && maxPart < minPart) {
-                document.getElementById('maxError').textContent = 'El máximo debe ser mayor o igual al mínimo';
-                document.getElementById('maxError').style.display = 'block';
-                isValid = false;
-            }
-
             if (!isValid) {
                 document.getElementById('errorAlert').style.display = 'block';
                 document.getElementById('successAlert').style.display = 'none';
                 
-                // Scroll al primer error
                 const firstError = document.querySelector('.form-group.error');
                 if (firstError) {
                     firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -778,13 +617,11 @@
                 return;
             }
 
-            // Simular envío
             const submitButton = document.getElementById('submitButton');
             submitButton.classList.add('loading');
             submitButton.disabled = true;
             submitButton.innerHTML = '<span class="loading"></span> Creando...';
 
-            // Ocultar alertas anteriores
             document.getElementById('errorAlert').style.display = 'none';
 
             setTimeout(() => {
@@ -792,78 +629,46 @@
                 submitButton.disabled = false;
                 submitButton.innerHTML = '<span>🏆</span> Crear Disciplina';
                 
-                // Mostrar éxito
                 document.getElementById('successAlert').style.display = 'block';
                 
-                // Simular redirección después de éxito
                 setTimeout(() => {
                     const disciplinaData = {
                         nombre: nombre,
-                        icono: iconoSeleccionado,
                         ramas: Array.from(document.querySelectorAll('input[name="ramas"]:checked')).map(cb => cb.value),
-                        minParticipantes: minPart,
-                        maxParticipantes: maxPart,
                         tipo: document.querySelector('input[name="tipoDisciplina"]:checked').value,
-                        descripcion: document.getElementById('descripcion').value,
-                        estado: document.getElementById('estadoDisciplina').value
+                        descripcion: document.getElementById('descripcion').value
                     };
                     
                     console.log('Disciplina creada:', disciplinaData);
                     alert('✅ Disciplina "' + nombre + '" creada exitosamente - Prototipo');
                     
-                    // Redirigir a la lista de disciplinas
                     window.location.href = 'admin-disciplinas.html';
                 }, 1500);
             }, 2000);
         });
 
-        // Cancelar creación
         function cancelarCreacion() {
             if (confirm('¿Está seguro de que desea cancelar? Los datos no guardados se perderán.')) {
                 window.location.href = 'admin-disciplinas.html';
             }
         }
 
-        // Validación en tiempo real para participantes
-        document.getElementById('minParticipantes').addEventListener('input', function() {
-            const min = parseInt(this.value);
-            const maxInput = document.getElementById('maxParticipantes');
-            const max = parseInt(maxInput.value);
-            
-            if (min && max && min > max) {
-                maxInput.value = min;
-            }
-            
-            // Limpiar error
-            this.closest('.form-group').classList.remove('error');
-        });
-
-        document.getElementById('maxParticipantes').addEventListener('input', function() {
-            const max = parseInt(this.value);
-            const minInput = document.getElementById('minParticipantes');
-            const min = parseInt(minInput.value);
-            
-            if (min && max && max < min) {
-                minInput.value = max;
-            }
-            
-            // Limpiar error
-            this.closest('.form-group').classList.remove('error');
-        });
-
-        // Limpiar errores al escribir
         document.querySelectorAll('input, select, textarea').forEach(element => {
             element.addEventListener('input', function() {
-                this.closest('.form-group').classList.remove('error');
-                document.getElementById('errorAlert').style.display = 'none';
+                const formGroup = this.closest('.form-group');
+                if (formGroup) {
+                    formGroup.classList.remove('error');
+                }
+                const errorAlert = document.getElementById('errorAlert');
+                if (errorAlert) {
+                    errorAlert.style.display = 'none';
+                }
             });
         });
 
-        // Inicialización
         document.addEventListener('DOMContentLoaded', function() {
             console.log('Formulario de creación de disciplina cargado - Prototipo');
             
-            // Configurar evento para el tipo de disciplina
             document.querySelectorAll('input[name="tipoDisciplina"]').forEach(radio => {
                 radio.addEventListener('change', function() {
                     const infoSubcategorias = document.getElementById('infoSubcategorias');

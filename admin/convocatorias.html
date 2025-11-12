@@ -506,6 +506,28 @@
             color: white;
             text-decoration: none;
         }
+        
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+            color: white;
+            text-decoration: none;
+        }
 
         .empty-state {
             text-align: center;
@@ -597,15 +619,12 @@
 </head>
 <body>
     <div class="page-container">
-        <!-- Pantalla de Lista de Convocatorias -->
         <div id="lista-convocatorias" class="screen active">
-            <!-- Breadcrumb -->
             <div class="breadcrumb">
                 <a href="dashboard.html">Dashboard</a> > 
                 <span>Convocatorias</span>
             </div>
 
-            <!-- Header -->
             <div class="page-header">
                 <div class="header-info">
                     <h1>Convocatorias JUDEMS</h1>
@@ -613,16 +632,14 @@
                 </div>
                 <div class="header-actions">
                     <button class="btn-primary" onclick="mostrarCrearConvocatoria()">
-                        ➕ Nueva Convocatoria
+                        + Nueva Convocatoria
                     </button>
                 </div>
             </div>
 
-            <!-- Tabla de Convocatorias -->
             <div class="convocatorias-table">
                 <div class="table-header">
                     <h3>
-                        <div class="section-icon">📋</div>
                         Convocatorias Registradas
                     </h3>
                 </div>
@@ -635,7 +652,7 @@
                                 <th>Fecha Inicio</th>
                                 <th>Fecha Fin</th>
                                 <th>Disciplinas</th>
-                                <th>Cuota</th>
+                                <th>Cuota por alumno</th>
                                 <th>Estado</th>
                                 <th>Acciones</th>
                             </tr>
@@ -659,11 +676,11 @@
                                 </td>
                                 <td>
                                     <div class="table-actions">
-                                        <button class="btn-info" onclick="verConvocatoria(1)">
-                                            👁️ Ver
-                                        </button>
                                         <button class="btn-warning" onclick="editarConvocatoria(1)">
-                                            ✏️ Editar
+                                            Editar
+                                        </button>
+                                        <button class="btn-danger" onclick="eliminarConvocatoria(1)">
+                                            Eliminar
                                         </button>
                                     </div>
                                 </td>
@@ -685,11 +702,11 @@
                                 </td>
                                 <td>
                                     <div class="table-actions">
-                                        <button class="btn-info" onclick="verConvocatoria(2)">
-                                            👁️ Ver
-                                        </button>
                                         <button class="btn-warning" onclick="editarConvocatoria(2)">
-                                            ✏️ Editar
+                                            Editar
+                                        </button>
+                                        <button class="btn-danger" onclick="eliminarConvocatoria(2)">
+                                            Eliminar
                                         </button>
                                     </div>
                                 </td>
@@ -712,11 +729,11 @@
                                 </td>
                                 <td>
                                     <div class="table-actions">
-                                        <button class="btn-info" onclick="verConvocatoria(3)">
-                                            👁️ Ver
-                                        </button>
                                         <button class="btn-warning" onclick="editarConvocatoria(3)">
-                                            ✏️ Editar
+                                            Editar
+                                        </button>
+                                        <button class="btn-danger" onclick="eliminarConvocatoria(3)">
+                                            Eliminar
                                         </button>
                                     </div>
                                 </td>
@@ -725,30 +742,15 @@
                     </table>
                 </div>
             </div>
-
-            <!-- Estado vacío (ejemplo comentado) -->
-            <!--
-            <div class="empty-state">
-                <div class="icon">📋</div>
-                <h4>No hay convocatorias registradas</h4>
-                <p>No se han creado convocatorias en el sistema.</p>
-                <button class="btn-primary" onclick="mostrarCrearConvocatoria()">
-                    ➕ Crear Primera Convocatoria
-                </button>
-            </div>
-            -->
         </div>
 
-        <!-- Pantalla de Crear Convocatoria -->
         <div id="crear-convocatoria" class="screen">
-            <!-- Breadcrumb -->
             <div class="breadcrumb">
                 <a href="dashboard.html">Dashboard</a> > 
                 <a href="#" onclick="mostrarListaConvocatorias()">Convocatorias</a> > 
                 <span>Nueva Convocatoria</span>
             </div>
 
-            <!-- Header -->
             <div class="page-header">
                 <div class="header-info">
                     <h1>Crear Nueva Convocatoria</h1>
@@ -756,12 +758,10 @@
                 </div>
             </div>
 
-            <!-- Formulario de Convocatoria -->
             <form class="convocatoria-form" id="crearConvocatoriaForm">
-                <!-- Sección 1: Información Básica -->
                 <div class="form-section">
                     <h3>
-                        <div class="section-icon">📝</div>
+                        <div class="section-icon">1</div>
                         Información Básica
                     </h3>
                     
@@ -802,45 +802,39 @@
                     </div>
                 </div>
 
-                <!-- Sección 2: Disciplinas -->
                 <div class="form-section">
                     <h3>
-                        <div class="section-icon">⚽</div>
+                        <div class="section-icon">2</div>
                         Disciplinas y Subcategorías
                     </h3>
                     
                     <div class="form-group">
                         <label>Seleccione las Disciplinas</label>
                         <div class="checkbox-group" id="disciplinasContainer">
-                            <!-- Las disciplinas se cargarán dinámicamente -->
-                        </div>
+                            </div>
                         <div class="error-message" id="disciplinasError">
                             Debe seleccionar al menos una disciplina
                         </div>
                     </div>
 
                     <div class="info-box">
-                        <span class="info-icon">💡</span>
                         <strong>Información importante:</strong> Las disciplinas marcadas con subcategorías permiten seleccionar específicamente qué subcategorías estarán disponibles en esta convocatoria.
                     </div>
                 </div>
 
-                <!-- Alertas -->
                 <div class="alert success" id="successAlert">
-                    ✅ Convocatoria creada exitosamente
+                    Convocatoria creada exitosamente
                 </div>
 
                 <div class="alert error" id="errorAlert">
-                    ❌ Error al crear la convocatoria. Verifique los datos e intente nuevamente.
+                    Error al crear la convocatoria. Verifique los datos e intente nuevamente.
                 </div>
 
-                <!-- Acciones del Formulario -->
                 <div class="form-actions">
                     <button type="button" class="btn-secondary" onclick="mostrarListaConvocatorias()">
                         Cancelar
                     </button>
                     <button type="submit" class="btn-primary" id="submitButton">
-                        <span>💾</span>
                         Crear Convocatoria
                     </button>
                 </div>
@@ -849,12 +843,10 @@
     </div>
 
     <script>
-        // Datos de ejemplo para disciplinas y subcategorías
         const disciplinas = [
             {
                 id: 1,
                 nombre: "Fútbol",
-                icono: "⚽",
                 subcategorias: [
                     { id: 1, nombre: "Fútbol 11" },
                     { id: 2, nombre: "Fútbol 7" },
@@ -864,7 +856,6 @@
             {
                 id: 2,
                 nombre: "Baloncesto",
-                icono: "🏀",
                 subcategorias: [
                     { id: 4, nombre: "Baloncesto 5x5" },
                     { id: 5, nombre: "Baloncesto 3x3" }
@@ -873,7 +864,6 @@
             {
                 id: 3,
                 nombre: "Atletismo",
-                icono: "🏃",
                 subcategorias: [
                     { id: 6, nombre: "100m planos" },
                     { id: 7, nombre: "Salto largo" },
@@ -883,7 +873,6 @@
             {
                 id: 4,
                 nombre: "Voleibol",
-                icono: "🏐",
                 subcategorias: [
                     { id: 9, nombre: "Voleibol sala" },
                     { id: 10, nombre: "Voleibol playa" }
@@ -892,7 +881,6 @@
             {
                 id: 5,
                 nombre: "Natación",
-                icono: "🏊",
                 subcategorias: [
                     { id: 11, nombre: "25m libre" },
                     { id: 12, nombre: "50m pecho" }
@@ -900,16 +888,13 @@
             }
         ];
 
-        // Variables globales
         let disciplinasSeleccionadas = [];
 
-        // Inicializar la página
         document.addEventListener('DOMContentLoaded', function() {
             cargarDisciplinas();
             establecerFechasPorDefecto();
         });
 
-        // Cargar disciplinas en el formulario
         function cargarDisciplinas() {
             const container = document.getElementById('disciplinasContainer');
             container.innerHTML = '';
@@ -921,10 +906,9 @@
                 checkboxItem.className = 'checkbox-item';
                 checkboxItem.innerHTML = `
                     <input type="checkbox" id="${checkboxId}" name="disciplinas" value="${disciplina.id}">
-                    <label for="${checkboxId}">${disciplina.icono} ${disciplina.nombre}</label>
+                    <label for="${checkboxId}">${disciplina.nombre}</label>
                 `;
 
-                // Agregar subcategorías si existen
                 if (disciplina.subcategorias && disciplina.subcategorias.length > 0) {
                     const subcategoriasContainer = document.createElement('div');
                     subcategoriasContainer.className = 'subcategorias-container';
@@ -946,7 +930,6 @@
                     checkboxItem.appendChild(subcategoriasContainer);
                 }
 
-                // Evento para mostrar/ocultar subcategorías
                 const checkbox = checkboxItem.querySelector('input[type="checkbox"]');
                 checkbox.addEventListener('change', function() {
                     if (this.checked) {
@@ -960,7 +943,6 @@
                         const subContainer = checkboxItem.querySelector('.subcategorias-container');
                         if (subContainer) {
                             subContainer.style.display = 'none';
-                            // Desmarcar todas las subcategorías
                             subContainer.querySelectorAll('input[type="checkbox"]').forEach(subCheckbox => {
                                 subCheckbox.checked = false;
                                 subCheckbox.closest('.checkbox-item').classList.remove('selected');
@@ -969,7 +951,6 @@
                     }
                 });
 
-                // Evento para subcategorías
                 checkboxItem.querySelectorAll('input[name^="subcategorias"]').forEach(subCheckbox => {
                     subCheckbox.addEventListener('change', function() {
                         if (this.checked) {
@@ -984,17 +965,15 @@
             });
         }
 
-        // Establecer fechas por defecto
         function establecerFechasPorDefecto() {
             const ahora = new Date();
-            const fechaInicio = new Date(ahora.getTime() + 24 * 60 * 60 * 1000); // Mañana
-            const fechaFin = new Date(ahora.getTime() + 30 * 24 * 60 * 60 * 1000); // En 30 días
+            const fechaInicio = new Date(ahora.getTime() + 24 * 60 * 60 * 1000); 
+            const fechaFin = new Date(ahora.getTime() + 30 * 24 * 60 * 60 * 1000); 
             
             document.getElementById('fechaInicio').value = formatearFechaParaInput(fechaInicio);
             document.getElementById('fechaFin').value = formatearFechaParaInput(fechaFin);
         }
 
-        // Formatear fecha para input datetime-local
         function formatearFechaParaInput(fecha) {
             const año = fecha.getFullYear();
             const mes = String(fecha.getMonth() + 1).padStart(2, '0');
@@ -1005,7 +984,6 @@
             return `${año}-${mes}-${dia}T${horas}:${minutos}`;
         }
 
-        // Navegación entre pantallas
         function mostrarListaConvocatorias() {
             document.getElementById('lista-convocatorias').classList.add('active');
             document.getElementById('crear-convocatoria').classList.remove('active');
@@ -1016,13 +994,11 @@
             document.getElementById('crear-convocatoria').classList.add('active');
         }
 
-        // Validación del formulario
         document.getElementById('crearConvocatoriaForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
             let isValid = true;
 
-            // Validar nombre
             const nombre = document.getElementById('nombreConvocatoria').value.trim();
             if (!nombre) {
                 document.getElementById('nombreError').style.display = 'block';
@@ -1031,7 +1007,6 @@
                 document.getElementById('nombreError').style.display = 'none';
             }
 
-            // Validar fechas
             const fechaInicio = new Date(document.getElementById('fechaInicio').value);
             const fechaFin = new Date(document.getElementById('fechaFin').value);
             
@@ -1049,14 +1024,12 @@
                 document.getElementById('fechaFinError').style.display = 'none';
             }
 
-            // Validar que fecha fin sea posterior a fecha inicio
             if (fechaInicio && fechaFin && fechaFin <= fechaInicio) {
                 document.getElementById('fechaFinError').textContent = 'La fecha de fin debe ser posterior a la fecha de inicio';
                 document.getElementById('fechaFinError').style.display = 'block';
                 isValid = false;
             }
 
-            // Validar cuota
             const cuota = parseFloat(document.getElementById('cuotaParticipante').value);
             if (isNaN(cuota) || cuota < 0) {
                 document.getElementById('cuotaError').style.display = 'block';
@@ -1065,7 +1038,6 @@
                 document.getElementById('cuotaError').style.display = 'none';
             }
 
-            // Validar disciplinas
             const disciplinasSeleccionadas = document.querySelectorAll('input[name="disciplinas"]:checked').length;
             if (disciplinasSeleccionadas === 0) {
                 document.getElementById('disciplinasError').style.display = 'block';
@@ -1078,7 +1050,6 @@
                 document.getElementById('errorAlert').style.display = 'block';
                 document.getElementById('successAlert').style.display = 'none';
                 
-                // Scroll al primer error
                 const firstError = document.querySelector('.form-group.error');
                 if (firstError) {
                     firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -1090,24 +1061,19 @@
                 return;
             }
 
-            // Simular envío
             const submitButton = document.getElementById('submitButton');
             submitButton.classList.add('loading');
             submitButton.disabled = true;
             submitButton.innerHTML = '<span class="loading"></span> Creando...';
 
-            // Ocultar alertas anteriores
             document.getElementById('errorAlert').style.display = 'none';
 
             setTimeout(() => {
                 submitButton.classList.remove('loading');
                 submitButton.disabled = false;
-                submitButton.innerHTML = '<span>💾</span> Crear Convocatoria';
-                
-                // Mostrar éxito
+                submitButton.innerHTML = 'Crear Convocatoria';
                 document.getElementById('successAlert').style.display = 'block';
                 
-                // Recopilar datos del formulario
                 const convocatoriaData = {
                     nombre: nombre,
                     fechaInicio: fechaInicio,
@@ -1119,14 +1085,12 @@
                 console.log('Convocatoria creada:', convocatoriaData);
                 
                 setTimeout(() => {
-                    alert('✅ Convocatoria "' + nombre + '" creada exitosamente - Prototipo');
+                    alert('Convocatoria "' + nombre + '" creada exitosamente - Prototipo');
                     mostrarListaConvocatorias();
-                    // Aquí iría la lógica para agregar la convocatoria a la tabla
                 }, 1000);
             }, 2000);
         });
 
-        // Recopilar disciplinas y subcategorías seleccionadas
         function recopilarDisciplinasSeleccionadas() {
             const disciplinasData = [];
             
@@ -1141,7 +1105,6 @@
                         subcategorias: []
                     };
                     
-                    // Recopilar subcategorías seleccionadas para esta disciplina
                     const subcategoriasCheckboxes = document.querySelectorAll(`input[name="subcategorias-${disciplinaId}"]:checked`);
                     subcategoriasCheckboxes.forEach(subCheckbox => {
                         const subcategoriaId = parseInt(subCheckbox.value);
@@ -1162,7 +1125,6 @@
             return disciplinasData;
         }
 
-        // Funciones para acciones de la tabla
         function verConvocatoria(id) {
             alert(`Mostrando detalles de convocatoria ${id} - Prototipo`);
         }
@@ -1170,8 +1132,13 @@
         function editarConvocatoria(id) {
             alert(`Editando convocatoria ${id} - Prototipo`);
         }
+        
+        function eliminarConvocatoria(id) {
+            if (confirm('¿Está seguro de que desea eliminar esta convocatoria? Esta acción no se puede deshacer.')) {
+                alert(`Eliminando convocatoria ${id} - Prototipo`);
+            }
+        }
 
-        // Limpiar errores al escribir
         document.querySelectorAll('input, select, textarea').forEach(element => {
             element.addEventListener('input', function() {
                 this.closest('.form-group').classList.remove('error');
